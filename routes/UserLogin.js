@@ -27,13 +27,13 @@ module.exports = function(app, passport) {
     app.get('/google',
   passport.authenticate('google', { scope: ['profile','email'] }));
 
-    app.get('/google/callback', 
+    app.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/failed' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/success');
   });
-  
+
   app.get('/failed',(req,res)=>res.send("you failed to log in"));
   app.get('/success',isLoggedIn, (req,res)=>res.send("welcome ${req.user.email}"));
 
@@ -53,15 +53,16 @@ app.get('/signup',(req,res)=>{
         if(err) {res.status(500).send('error occured')}
         else {
             if(doc) {
-                res.status(500).send('Username already exists') 
+                res.status(500).send('Username already exists')
             }
             else {
                 var record = new User()
                 record.username = username;
-                record.password = record.hashPassword(password)
+                record.emailId = req.body.email;
+                record.password = record.generateHash(password)
                 record.save(function(err,user){
                     if(err) {
-                        res.status(500).send('db error')
+                        res.status(500).send(err)
                     } else{
                         res.send(user)
                     }
@@ -72,7 +73,7 @@ app.get('/signup',(req,res)=>{
 });
 
   app.get('/login',(req,res)=>{res.render('login')})
-  app.post('/login', 
+  app.post('/login',
   passport.authenticate('local', { failureRedirect: '/failed' }),
   function(req, res) {
     res.redirect('/success');
@@ -90,4 +91,3 @@ app.get('/signup',(req,res)=>{
 });
 
 };
-

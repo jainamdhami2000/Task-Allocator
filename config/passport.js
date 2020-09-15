@@ -1,5 +1,5 @@
 //jshint esversion:6
-const passport=require('passport');
+const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 // const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -19,7 +19,7 @@ module.exports = function(passport) {
   passport.serializeUser(function(user, done) {
     done(null, user.id);
   });
-  
+
   passport.deserializeUser(function(id, done) {
     User.findById(id, function(err, user) {
       done(err, user);
@@ -29,12 +29,21 @@ module.exports = function(passport) {
 
 
   //PASSPORT LOCAL
-  passport.use(new localStrategy(
+  passport.use('local', new localStrategy(
     function(username, password, done) {
-      User.findOne({ username: username }, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (!user.verifyPassword(password)) { return done(null, false); }
+      User.findOne({
+        username: username
+      }, function(err, user) {
+        console.log(user)
+        if (err) {
+          return done(err);
+        }
+        if (!user) {
+          return done(null, false);
+        }
+        if (!user.validPassword(password)) {
+          return done(null, false);
+        }
         return done(null, user);
       });
     }
@@ -45,19 +54,19 @@ module.exports = function(passport) {
 
 
   //PASSPORT GOOGLE STRATEGY
-  
-  passport.use(new GoogleStrategy({
-    clientID: configAuth.googleAuth.clientID,
-    clientSecret: configAuth.googleAuth.clientID,
-    callbackURL:configAuth.googleAuth.callbackURL
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    //User.findOrCreate({ googleId: profile.id }, function (err, user) {
-     // return cb(err, user);
-     return(null,profile);
-   // });
-  }
-));
+
+  passport.use('google', new GoogleStrategy({
+      clientID: configAuth.googleAuth.clientID,
+      clientSecret: configAuth.googleAuth.clientID,
+      callbackURL: configAuth.googleAuth.callbackURL
+    },
+    function(accessToken, refreshToken, profile, cb) {
+      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      // return cb(err, user);
+      return (null, profile);
+      // });
+    }
+  ));
 
 
   //PASSPORT GITHUB STRATEGY
@@ -66,5 +75,5 @@ module.exports = function(passport) {
 
   //PASSPORT LINKEDIN STRATEGY
 
-  
+
 };
