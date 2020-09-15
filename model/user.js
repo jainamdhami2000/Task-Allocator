@@ -3,61 +3,20 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 const userSchema = new mongoose.Schema({
-  local: {
-    password: String,
+  username:{
+    type:String,
+    required:true
   },
-  facebook: {
-    id: String,
-    token: String,
+
+  emailId:{
+    type:String,
+    required:true
   },
-  linkedin: {
-    id: String,
-    token: String
-  },
-  github: {
-    id: String,
-    token: String
-  },
-  google: {
-    id: String,
-    token: String,
-  },
-  username: String,
-  FirstName: String,
-  LastName: String,
-  image: Object,
-  CollegeName: String,
-  City: String,
-  YearOfStudy: Date,
-  BasicSkills: String,
-  Email: String,
-  loginType: {
-    type: String
-  },
-  CompanyName: String,
-  MainOfficeLocation: String,
-  isStudent: {
-    default: false,
-    type: Boolean
-  },
-  isEmployer: {
-    default: false,
-    type: Boolean
-  },
-  isTrainer: {
-    default: false,
-    type: Boolean
-  },
-  isVerified: {
-    default: false,
-    type: Boolean
-  },
-  DateofBirth:Date,
-  phoneNumber: Number,
-  admin_accept: Boolean,
-  admin_reject: Boolean,
-  CompanyDescription: String,
-  resume:Object
+
+  password:{
+    type:String,
+    required:true
+  }
 });
 
 userSchema.methods.generateHash = function(password) {
