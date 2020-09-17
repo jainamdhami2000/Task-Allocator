@@ -36,6 +36,7 @@ module.exports = function(passport) {
       }, function(err, user) {
         console.log(user)
         if (err) {
+
           return done(err);
         }
         if (!user) {
@@ -57,14 +58,15 @@ module.exports = function(passport) {
 
   passport.use('google', new GoogleStrategy({
       clientID: configAuth.googleAuth.clientID,
-      clientSecret: configAuth.googleAuth.clientID,
+      clientSecret: configAuth.googleAuth.clientSecret,
       callbackURL: configAuth.googleAuth.callbackURL
     },
     function(accessToken, refreshToken, profile, cb) {
-      //User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      // return cb(err, user);
-      return (null, profile);
-      // });
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+       return cb(err, user);
+       //return (null, profile);
+       });
+       
     }
   ));
 

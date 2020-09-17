@@ -1,9 +1,10 @@
 //jshint esversion:6
-var express=require('express')
+var express=require('express');
 require("dotenv").config();
 const sanitize = require('mongo-sanitize');
 const User = require('../model/user');
 const multer = require('multer');
+//const mail=require('../utils/mailer');
 
 var isLoggedIn = function(req,res,next){
     if(req.isAuthenticated()){
@@ -30,6 +31,7 @@ module.exports = function(app, passport) {
     app.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/failed' }),
   function(req, res) {
+    console.log('one');
     // Successful authentication, redirect home.
     res.redirect('/success');
   });
@@ -64,7 +66,9 @@ app.get('/signup',(req,res)=>{
                     if(err) {
                         res.status(500).send(err)
                     } else{
-                        res.send(user)
+                        console.log(record);
+                        //mail.send();
+                        res.redirect('/login')
                     }
                 })
             }

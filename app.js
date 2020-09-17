@@ -16,6 +16,10 @@ const http = require('http');
 const sanitize = require('mongo-sanitize');
 const configDB = require('./config/database');
 
+var app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 mongoose.connect(configDB.url, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -23,11 +27,14 @@ mongoose.connect(configDB.url, {
 
 require('./config/passport')(passport);
 
-var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+ app.use(bodyParser.json());
+ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(logger('dev'));
 app.use(express.json());
