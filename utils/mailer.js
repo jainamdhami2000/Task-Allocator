@@ -5,19 +5,19 @@ var transporter = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
   port: 2525,
   auth: {
-    user: "0a28e8fe0fd01b",
-    pass: "3d5b9c0dbbe6e3"
+    user: process.env.email,
+    pass: process.env.password
   }
 });
-//module.exports = function(email, content) {
+module.exports = function(email, content) {
 
   var mailOptions = {
-    from:'"Task Allocator" <TaskAllocaator@gmail.com>',
-    to: "a0606kp@gmail.com",
-    subject: 'message sent by task allocator.',
-    text:"the first mail sent my nodemailer",
+    from:process.env.email,
+    to: email,
+    subject: 'Verify Mail',
+    text:content,
   };
-  
+
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       console.log(error);
@@ -25,4 +25,4 @@ var transporter = nodemailer.createTransport({
       console.log('Email sent: ' + info.response);
     }
   });
-//};
+};

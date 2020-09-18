@@ -15,6 +15,7 @@ const session = require('express-session');
 const http = require('http');
 const sanitize = require('mongo-sanitize');
 const configDB = require('./config/database');
+const verifymail = require('./routes/verifymail');
 
 var app = express();
 
@@ -57,7 +58,7 @@ require('./routes/UserLogin')(app, passport);
 
 // Routes
 //DEMO
-// app.use('/verify', verifymail);
+app.use('/verify', verifymail);
 
 app.listen(3000, function(err) {
   console.log('Server started on 3000');

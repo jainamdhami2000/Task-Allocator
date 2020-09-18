@@ -4,20 +4,25 @@ const mongoose = require('mongoose');
 const findOrCreate = require ('mongoose-findorcreate');
 const bcrypt = require('bcrypt-nodejs');
 const userSchema = new mongoose.Schema({
-  username:{
-    type:String,
-    //required:true
+  local: {
+    password: String,
   },
-
-  emailId:{
-    type:String,
-    //required:true
+  google: {
+    id: String,
+    token: String,
   },
-
-  password:{
-    type:String,
-    //required:true
-  }
+  username: String,
+  FirstName: String,
+  LastName: String,
+  image: String,
+  Email: String,
+  loginType: {
+    type: String
+  },
+  isVerified: {
+    default: false,
+    type: Boolean
+  },
 });
 
 userSchema.plugin(findOrCreate);

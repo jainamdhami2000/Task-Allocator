@@ -1,97 +1,106 @@
 //jshint esversion:6
-var express=require('express');
+var express = require('express');
 require("dotenv").config();
 const sanitize = require('mongo-sanitize');
 const User = require('../model/user');
 const multer = require('multer');
 //const mail=require('../utils/mailer');
 
-var isLoggedIn = function(req,res,next){
-    if(req.isAuthenticated()){
-      next()
-    }
-    else{
-      res.redirect('/login')
-    }
+var isLoggedIn = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    next()
+  } else {
+    res.redirect('/login')
+  }
 }
 
 
 module.exports = function(app, passport) {
-//===============================passport-google-oauth20=========================================
-  app.get('/',(req,res)=>{
-      res.render('firstpage',{
-        user:req.user
-      });
+  //===============================passport-google-oauth20=========================================
+  app.get('/', (req, res) => {
+    res.render('firstpage', {
+      user: req.user
+    });
   });
 
 
-    app.get('/google',
-  passport.authenticate('google', { scope: ['profile','email'] }));
+  app.get('/google',
+    passport.authenticate('google', {
+      scope: ['profile', 'email']
+    }));
 
-    app.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/failed' }),
-  function(req, res) {
-    console.log('one');
-    // Successful authentication, redirect home.
-    res.redirect('/success');
-  });
+  app.get('/google/callback',
+    passport.authenticate('google', {
+      failureRedirect: '/failed'
+    }),
+    function(req, res) {
+      console.log('one');
+      // Successful authentication, redirect home.
+      res.redirect('/success');
+    });
 
-  app.get('/failed',(req,res)=>res.send("you failed to log in"));
-  app.get('/success',isLoggedIn, (req,res)=>res.send("welcome ${req.user.email}"));
+  app.get('/failed', (req, res) => res.send("you failed to log in"));
+  app.get('/success', isLoggedIn, (req, res) => res.send("welcome " + req.user.Email));
 
 
-//=============================passport-local=================================================
+  //=============================passport-local=================================================
 
-app.get('/signup',(req,res)=>{
-  res.render('register');
-})
+  app.get('/signup', (req, res) => {
+    res.render('register');
+  })
 
 
   app.post('/signup', function(req, res, next) {
     var body = req.body,
-        username = body.username,
-        password = body.password;
-    User.findOne({username:username},function(err,doc){
-        if(err) {res.status(500).send('error occured')}
-        else {
-            if(doc) {
-                res.status(500).send('Username already exists')
+      username = body.username,
+      password = body.password;
+    User.findOne({
+      username: username
+    }, function(err, doc) {
+      if (err) {
+        res.status(500).send('error occured')
+      } else {
+        if (doc) {
+          res.status(500).send('Username already exists')
+        } else {
+          var record = new User()
+          record.username = username;
+          record.Email = req.body.email;
+          record.password = record.generateHash(password)
+          record.save(function(err, user) {
+            if (err) {
+              res.status(500).send(err)
+            } else {
+              console.log(record);
+              //mail.send();
+              res.redirect('/login')
             }
-            else {
-                var record = new User()
-                record.username = username;
-                record.emailId = req.body.email;
-                record.password = record.generateHash(password)
-                record.save(function(err,user){
-                    if(err) {
-                        res.status(500).send(err)
-                    } else{
-                        console.log(record);
-                        //mail.send();
-                        res.redirect('/login')
-                    }
-                })
-            }
+          })
         }
+      }
     })
-});
-
-  app.get('/login',(req,res)=>{res.render('login')})
-  app.post('/login',
-  passport.authenticate('local', { failureRedirect: '/failed' }),
-  function(req, res) {
-    res.redirect('/success');
   });
 
+  app.get('/login', (req, res) => {
+    res.render('login')
+  })
+  app.post('/login',
+    passport.authenticate('local', {
+      failureRedirect: '/failed'
+    }),
+    function(req, res) {
+      res.redirect('/success');
+    });
 
 
-//========================after signing/loginpage===============================================================================
-  app.get('/failed',(req,res)=>res.send("you failed to log in"));
-  app.get('/success',isLoggedIn, (req,res)=>res.send("welcome ${req.user.email}"));
-  app.get('/logout',(req,res)=>{
-    req.session=null;
+
+  //========================after signing/loginpage===============================================================================
+  app.get('/failed', (req, res) => res.send("you failed to log in"));
+  app.get('/success', isLoggedIn, (req, res) => res.send("welcome ${req.user.email}"));
+  app.get('/logout', (req, res) => {
+    req.session = null;
     req.logout();
     res.redirect('/');
-});
+  });
 
 };
