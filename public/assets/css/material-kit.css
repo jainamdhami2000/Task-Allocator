@@ -15461,6 +15461,7 @@ select.selectpicker {
     padding-top: 30px; }
 
 .signup-page .page-header {
+	background-color: gray;
   min-height: 100vh;
   height: auto;
   display: inherit; }
@@ -15572,6 +15573,7 @@ select.selectpicker {
   margin: 27px 0 0 0; }
 
 .login-page .page-header {
+	background-color: gray;
   min-height: 100vh;
   height: auto;
   display: inherit; }
