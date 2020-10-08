@@ -1,20 +1,228 @@
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-
-<body>
-  <form action="/signup" method="post">
-    <input type="text" name="username" placeholder="username" id="username">
-    <input type="text" name="fname" placeholder="fname" id="fname">
-    <input type="text" name="lname" placeholder="lname" id="lname">
-    <input type="email" name="email" placeholder="email" id="email">
-    <input type="password" name="password" placeholder="password" id="password">
-    <input type="submit" name="submit" id="submit">
-  </form>
-</body>
-
-</html>
+<%- include('partials/header'); %>
+<body class="signup-page sidebar-collapse">
+  <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit-pro/index.html">
+          Project Manager </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="dropdown nav-item">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="material-icons">apps</i> Components
+            </a>
+            <div class="dropdown-menu dropdown-with-icons">
+              <a href="presentation.html" class="dropdown-item">
+                <i class="material-icons">line_style</i> Presentation
+              </a>
+              <a href="index.html" class="dropdown-item">
+                <i class="material-icons">layers</i> All Components
+              </a>
+              <a href="http://demos.creative-tim.com/material-kit-pro/docs/2.1/getting-started/introduction.html" class="dropdown-item">
+                <i class="material-icons">content_paste</i> Documentation
+              </a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="material-icons">view_day</i> Sections
+            </a>
+            <div class="dropdown-menu dropdown-with-icons">
+              <a href="sections.html#headers" class="dropdown-item">
+                <i class="material-icons">dns</i> Headers
+              </a>
+              <a href="sections.html#features" class="dropdown-item">
+                <i class="material-icons">build</i> Features
+              </a>
+              <a href="sections.html#blogs" class="dropdown-item">
+                <i class="material-icons">list</i> Blogs
+              </a>
+              <a href="sections.html#teams" class="dropdown-item">
+                <i class="material-icons">people</i> Teams
+              </a>
+              <a href="sections.html#projects" class="dropdown-item">
+                <i class="material-icons">assignment</i> Projects
+              </a>
+              <a href="sections.html#pricing" class="dropdown-item">
+                <i class="material-icons">monetization_on</i> Pricing
+              </a>
+              <a href="sections.html#testimonials" class="dropdown-item">
+                <i class="material-icons">chat</i> Testimonials
+              </a>
+              <a href="sections.html#contactus" class="dropdown-item">
+                <i class="material-icons">call</i> Contacts
+              </a>
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+              <i class="material-icons">view_carousel</i> Examples
+            </a>
+            <div class="dropdown-menu dropdown-with-icons">
+              <a href="examples/about-us.html" class="dropdown-item">
+                <i class="material-icons">account_balance</i> About Us
+              </a>
+              <a href="examples/blog-post.html" class="dropdown-item">
+                <i class="material-icons">art_track</i> Blog Post
+              </a>
+              <a href="examples/blog-posts.html" class="dropdown-item">
+                <i class="material-icons">view_quilt</i> Blog Posts
+              </a>
+              <a href="examples/contact-us.html" class="dropdown-item">
+                <i class="material-icons">location_on</i> Contact Us
+              </a>
+              <a href="examples/landing-page.html" class="dropdown-item">
+                <i class="material-icons">view_day</i> Landing Page
+              </a>
+              <a href="examples/login-page.html" class="dropdown-item">
+                <i class="material-icons">fingerprint</i> Login Page
+              </a>
+              <a href="examples/pricing.html" class="dropdown-item">
+                <i class="material-icons">attach_money</i> Pricing Page
+              </a>
+              <a href="examples/shopping-cart.html" class="dropdown-item">
+                <i class="material-icons">shopping_basket</i> Shopping Cart
+              </a>
+              <a href="examples/ecommerce.html" class="dropdown-item">
+                <i class="material-icons">store</i> Ecommerce Page
+              </a>
+              <a href="examples/product-page.html" class="dropdown-item">
+                <i class="material-icons">shopping_cart</i> Product Page
+              </a>
+              <a href="examples/profile-page.html" class="dropdown-item">
+                <i class="material-icons">account_circle</i> Profile Page
+              </a>
+              <a href="examples/signup-page.html" class="dropdown-item">
+                <i class="material-icons">person_add</i> Signup Page
+              </a>
+            </div>
+          </li>
+          <li class="button-container nav-item iframe-extern">
+            <a href="/login" target="_blank" class="btn  btn-rose   btn-round btn-block">
+              Login
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="page-header header-filter">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 ml-auto mr-auto">
+          <div class="card card-signup">
+            <h2 class="card-title text-center">Register</h2>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-5 ml-auto">
+                  <div class="info info-horizontal">
+                    <div class="icon icon-rose">
+                      <i class="material-icons">timeline</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Marketing</h4>
+                      <p class="description">
+                        We've created the marketing campaign of the website. It was a very interesting collaboration.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-primary">
+                      <i class="material-icons">code</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Fully Coded in HTML5</h4>
+                      <p class="description">
+                        We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-info">
+                      <i class="material-icons">group</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Built Audience</h4>
+                      <p class="description">
+                        There is also a Fully Customizable CMS Admin Dashboard for this product.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 mr-auto">
+                  <div class="social text-center">
+                    <button class="btn btn-just-icon btn-round btn-twitter">
+                      <i class="fa fa-google"></i>
+                    </button>
+                    <h4> or be classical </h4>
+                  </div>
+                  <form action="/signup" method="post">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" name="fname" class="form-control" placeholder="First Name...">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" name="lname" class="form-control" placeholder="Last Name...">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" name="username" class="form-control" placeholder="Username...">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">mail</i>
+                          </span>
+                        </div>
+                        <input type="email" name='email' class="form-control" placeholder="Email...">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">lock_outline</i>
+                          </span>
+                        </div>
+                        <input type="password" placeholder="Password..." class="form-control" />
+                      </div>
+                    </div>
+                    <div class="text-center">
+                      <input type="submit" value="Get Started" class="btn btn-primary btn-round">
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
