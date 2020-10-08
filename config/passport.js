@@ -1,17 +1,13 @@
 //jshint esversion:6
 const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
-// const FacebookStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const GitHubStrategy = require('passport-github2').Strategy;
-// const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const sanitize = require('mongo-sanitize');
 const User = require('../model/user');
 const configAuth = require('./auth');
 const multer = require('multer');
 
 //MULTER IMPLEMENTATION
-
 
 module.exports = function(passport) {
 
@@ -26,17 +22,48 @@ module.exports = function(passport) {
     });
   });
 
+  passport.use('local-signup', new localStrategy({
+      usernameField: 'email',
+      passwordField: 'password',
+      passReqToCallback: true
+    },
+    function(req, email, password, done) {
+      process.nextTick(function() {
+        User.findOne({
+          'Email': email,
+        }, function(err, user) {
+          if (err)
+            return done(err);
+          if (user) {
+            return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
+          } else {
+            var newUser = new User();
+            newUser.Email = email;
+            newUser.FirstName = sanitize(req.body.fname);
+            newUser.LastName = sanitize(req.body.lname);
+            newUser.username = sanitize(req.body.username);
+            newUser.local.password = newUser.generateHash(password);
+            newUser.loginType = 'local';
+            newUser.image = null;
+            newUser.isVerified = false;
+            newUser.save(function(err) {
+              if (err)
+                throw err;
+              return done(null, newUser);
+            });
+          }
+        });
+      });
+    }));
 
 
   //PASSPORT LOCAL
-  passport.use('local', new localStrategy(
+  passport.use('local-login', new localStrategy(
     function(username, password, done) {
       User.findOne({
         username: username
       }, function(err, user) {
-        console.log(user)
         if (err) {
-
           return done(err);
         }
         if (!user) {
@@ -49,10 +76,6 @@ module.exports = function(passport) {
       });
     }
   ));
-
-  //PASSPORT FACEBOOK STRATEGY
-
-
 
   //PASSPORT GOOGLE STRATEGY
   passport.use(new GoogleStrategy({
@@ -87,7 +110,7 @@ module.exports = function(passport) {
             newUser.username = profile.emails[0].value.substr(0, profile.emails[0].value.indexOf('@'));
             newUser.loginType = 'google';
             newUser.image = profile.photos[0].value;
-            console.log(profile);
+            newUser.isVerified = true;
             // save the user
             newUser.save(function(err) {
               if (err)
@@ -98,13 +121,4 @@ module.exports = function(passport) {
         });
       });
     }));
-
-
-  //PASSPORT GITHUB STRATEGY
-
-
-
-  //PASSPORT LINKEDIN STRATEGY
-
-
 };
