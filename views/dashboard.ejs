@@ -1,6 +1,55 @@
 <%- include('partials/header'); %>
+<style>
+.navbar{
+  margin-bottom: 0px;
+   margin-right: 0px;
+  width: 100%; 
+  padding: 0px;
+}
+.nav-brand .nav-item{
+  align-self: center;
+  padding-top: 10px;
+  padding-bottom: 0px;
+}
+</style>
+<script>
+  console.log('entering ajax run');
+  // var xhttp=new XMLHttpRequest();
+  // xhttp.onreadystatechange=()=>{
+  //     if(xhttp.readyState===XMLHttpRequest.DONE && xhttp.status===200){
+  //        console.log(xhttp.responseText);
+          
+  //         var data=JSON.parse(xhttp.responseText);
+  //         data.users.forEach((user)=> {
+  //           $('#teammates').append('<option value="' + user._id+ '">' + user.FirstName+" "+user.LastName+ '</option>');
+  //           // var a=document.createElement("option");
+  //           // a.value=user._id;
+  //           // //a.innerHTML=user.FirstName+" "+user.LastName;
+  //           // a.text=user.FirstName+" "+user.LastName;
+  //           // document.getElementById("teammates").add(a);
+  //         });
+  //     }
+  // };
+
+  // xhttp.open("GET","/project/users",true);
+  // xhttp.send();
+  const URL = "/project/users"
+var resArray = []
+$.ajax({
+  url: URL,
+  method: "GET"
+}).done(function(data) {
+  console.log(data);
+  window.resArray = data;
+  data.users.forEach((item) => {
+    $('#teammates').append('<option value="' + item._id+ '">' + item.FirstName+" "+item.LastName+ '</option>');
+  });
+});
+  console.log('leaving ajax run');
+</script>
+</head>
 <body>
-    <nav class="navbar navbar-inverse navbar-expand-lg bg-dark"  style="margin-bottom: 0px; margin-right: 0px; width: 100%;" role="navigation-demo">
+    <nav class="navbar navbar-inverse navbar-expand-lg bg-dark"   role="navigation-demo">
         <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-translate">
@@ -114,8 +163,8 @@
                                 </span>
                               </div>
                               <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                              <select class="selectpicker" name="teammates" data-style="select-with-transition" multiple title="Select Teamates" data-size="7">
-                                <option value="1">blabla</option>
+                              <select class="selectpicker" name="teammates" id="teammates" data-style="select-with-transition" multiple title="Select Teammates">
+                                <!-- <option value="1">blabla</option> -->
                                 <option value="2">Foobar</option>
                                 <option value="3">Is great</option>
                               </select>
@@ -136,22 +185,9 @@
             </div>
             <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
                 <div class="card-body">
-                  <h5 class="card-category card-category-social">
-                    <i class="fa fa-twitter"></i> Twitter
-                  </h5>
-                  <h4 class="card-title">
-                    <a href="#pablo">&quot;You Don&apos;t Have to Sacrifice Joy to Build a Fabulous Business and Life&quot;</a>
-                  </h4>
-                  <div class="card-stats">
-                    <div class="author">
-                      <a href="#pablo">
-                        <img src="./assets/img/faces/avatar.jpg" alt="..." class="avatar img-raised">
-                        <span>Tania Andrew</span>
-                      </a>
+                    <div class="checkbox">
+                      <input type="checkbox" name="" id="">
                     </div>
-                    <div class="stats ml-auto">
-                      <i class="material-icons">favorite</i> 2.4K &#xB7;
-                      <i class="material-icons">share</i> 45
                     </div>
                   </div>
                 </div>
@@ -159,11 +195,6 @@
            </div>
         </div>
     </div>
-<script>
-  $(document).ready(function(){
-   $("#createTeamBtn").click(function(){
-          $("#createTeamModal").modal("toggle");
-        });
-      });
-</script>
+
+    
 <%- include('partials/footer'); %>
