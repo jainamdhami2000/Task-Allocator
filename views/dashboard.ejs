@@ -1,0 +1,99 @@
+<%- include('partials/header'); %>
+<body>
+    <nav class="navbar navbar-inverse navbar-expand-lg" style="background-color: rgb(7, 47, 95)!important; color: #D4DEED;" role="navigation-demo">;
+        <div class="container">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-translate">
+            <a class="navbar-brand" href="#0">Navbar with notification</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a href="#pablo" class="nav-link">
+                  Discover
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#pablo" class="nav-link">
+                  Wishlist
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#pablo" class="btn btn-rose btn-raised btn-fab btn-round" data-toggle="dropdown">
+                  <i class="material-icons">email</i>
+                </a>
+              </li>
+              <li class="dropdown nav-item">
+                <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+                  <div class="profile-photo-small">
+                    <img src="./assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
+                  </div>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <h6 class="dropdown-header">Dropdown header</h6>
+                  <a href="#pablo" class="dropdown-item">Me</a>
+                  <a href="#pablo" class="dropdown-item">Settings and other stuff</a>
+                  <a href="#pablo" class="dropdown-item">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-->
+      </nav>
+    
+    <div class="row">
+        <div class="col-md-3">
+            <div class="wrapper d-flex">
+                <div class="sidebar"> <small class="text-muted pl-3">WIDR PAY</small>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i>Dashboard</a></li>
+                        <li><a href="#"><i class="far fa-credit-card"></i>Payment Page <img src="https://img.icons8.com/material-outlined/24/000000/new.png" /></a></li>
+                        <li><a href="#"><i class="fas fa-file-invoice"></i>Invoices <img src="https://img.icons8.com/material-outlined/24/000000/2.png" /></a></li>
+                    </ul> <small class="text-muted px-3">PRODUCTIVITY TOOLS</small>
+                    <ul>
+                        <li><a href="#"><i class="far fa-calendar-alt"></i>Online Scheduler</a></li>
+                        <li><a href="#"><i class="fas fa-video"></i>Video Meeting</a></li>
+                        <li><a href="#"><i class="fas fa-id-badge"></i>Public Profile</a></li>
+                    </ul> <small class="text-muted px-3">GROW YOUR CLIENT BASE</small>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-external-link-alt"></i>Share</a></li>
+                        <li><a href="#"><i class="fas fa-code"></i>Add to Website</a></li>
+                    </ul>
+                </div>
+            </div>    
+        </div>
+        <div  class="col-md-9">
+           <!-- <div style="background-color: aqua; border-radius: 3px; margin-right: 20px;"> <h1>card with pending tasks</h1></div> -->
+           <div class="card bg-info">
+            <div class="card-body">
+              <h5 class="card-category card-category-social">
+                <i class="fa fa-twitter"></i> Twitter
+              </h5>
+              <h4 class="card-title">
+                <a href="#pablo">&quot;You Don&apos;t Have to Sacrifice Joy to Build a Fabulous Business and Life&quot;</a>
+              </h4>
+              <div class="card-stats">
+                <div class="author">
+                  <a href="#pablo">
+                    <img src="./assets/img/faces/avatar.jpg" alt="..." class="avatar img-raised">
+                    <span>Tania Andrew</span>
+                  </a>
+                </div>
+                <div class="stats ml-auto">
+                  <i class="material-icons">favorite</i> 2.4K &#xB7;
+                  <i class="material-icons">share</i> 45
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+<%- include('partials/footer'); %>

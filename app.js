@@ -55,7 +55,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 require('./routes/UserLogin')(app, passport);
-
+require('./routes/portalRoutes')(app);
 // Routes
 //DEMO
 app.use('/verify', verifymail);
