@@ -25,13 +25,18 @@ const userSchema = new mongoose.Schema({
   managing: {
     type: [mongoose.Types.ObjectId],
     ref: 'Project',
-    default:[]
-  },
-  asmember: {
-    type: [mongoose.Types.ObjectId],
-    ref: 'Project',
     default: []
   },
+  asmember: [{
+    project_id: {
+      type: mongoose.Types.ObjectId,
+      ref: 'Project',
+    },
+    status: {
+      type: Boolean,
+      default: false
+    }
+  }],
   // company_name: String
 });
 
