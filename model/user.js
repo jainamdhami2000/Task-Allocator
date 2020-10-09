@@ -27,16 +27,19 @@ const userSchema = new mongoose.Schema({
     ref: 'Project',
     default: []
   },
-  asmember: [{
-    project_id: {
-      type: mongoose.Types.ObjectId,
-      ref: 'Project',
-    },
-    status: {
-      type: Boolean,
-      default: false
-    }
-  }],
+  asmember: {
+    type: [{
+      project_id: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Project',
+      },
+      status: {
+        type: Boolean,
+        default: false
+      }
+    }],
+    default: []
+  },
   // company_name: String
 });
 

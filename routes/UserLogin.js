@@ -13,43 +13,49 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/dashboard', (req, res) => {
-    // var memberof = req.user.asmember;
-    // var leaderof = req.user.managing;
-    // var merged = [...memberof, ...leaderof];
-    // var managing = [];
-    // var asmember = [];
-    // var pending = [];
-    // Project.find({
-    //   _id: {
-    //     $in: merged
-    //   }
-    // }, (err, projects) => {
-    //   managing = projects.filter(project => {
-    //     return leaderof.includes(project._id);
-    //   });
-    //   asmember = projects.filter(project => {
-    //     return memberof.includes(project._id);
-    //   });
-    //   pending = projects.filter(project => {
-    //     tasks = project.tasks.filter(task => {
-    //       return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
-    //     });
-    //     return tasks;
-    //   });
-    //   // res.render('dashboard', {
-    //   //   user: req.user,
-    //   //   managing: managing,
-    //   //   asmember: asmember,
-    //   //   pending: pending
-    //   // });
-    //   res.json({
-    //     managing: managing,
-    //     asmember: asmember,
-    //     pending: pending
-    //   });
-    // });
-    res.render('dashboard')
+  app.get('/dashboard',isLoggedIn, (req, res) => {
+    var memberof = req.user.asmember;
+    var mid = []
+    memberof.forEach(m=>{
+      mid.push(String(m.project_id));
+    })
+    var leaderof = req.user.managing;
+    var merged = [...mid, ...leaderof];
+    var managing = [];
+    var asmember = [];
+    var pending = [];
+    Project.find({
+      _id: {
+        $in: merged
+      }
+    }, (err, projects) => {
+      managing = projects.filter(project => {
+        return leaderof.includes(project._id);
+      });
+      asmember = projects.filter(project => {
+        return mid.includes(String(project._id));
+      });
+      pending = projects.filter(project => {
+        tasks = [];
+        if (project.tasks) {
+          tasks = project.tasks.filter(task => {
+            return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
+          });
+        }
+        return tasks;
+      });
+      res.render('dashboard', {
+        user: req.user,
+        managing: managing,
+        asmember: asmember,
+        pending: pending
+      });
+      // res.json({
+      //   managing: managing,
+      //   asmember: asmember,
+      //   pending: pending
+      // });
+    });
   });
 
   app.get('/signup', (req, res) => {
@@ -81,7 +87,7 @@ module.exports = function(app, passport) {
       Email: req.user.Email,
     }, function(err, user) {
       if (user.isVerified) {
-        res.redirect('/');
+        res.redirect('/dashboard');
       } else {
         res.render('verify', {
           user: req.user // get the user out of session and pass to template
