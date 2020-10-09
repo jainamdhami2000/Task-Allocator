@@ -3183,7 +3183,7 @@ tbody.collapse.show {
           align-items: center;
   -webkit-box-pack: justify;
           justify-content: space-between;
-  padding: 0.5rem 1rem; }
+  padding: 0.5rem 2.0rem; }
   .navbar > .container,
   .navbar > .container-fluid {
     display: -webkit-box;
@@ -3198,7 +3198,7 @@ tbody.collapse.show {
   display: inline-block;
   padding-top: 0.3125rem;
   padding-bottom: 0.3125rem;
-  margin-right: 1rem;
+  /* margin-right: 1rem; */
   font-size: 1.25rem;
   line-height: inherit;
   white-space: nowrap; }
@@ -16161,6 +16161,7 @@ select.selectpicker {
     -webkit-transform: translate3d(-230px, 0, 0);
     transform: translate3d(-230px, 0, 0); }
   .navbar .navbar-translate {
+
     width: 100%;
     position: relative;
     display: -webkit-box;
@@ -16487,13 +16488,12 @@ select.selectpicker {
   position: fixed;
   width: 300px;
   height: 100%;
-  background: #072F5F;
+  background:  #1d2124;
   padding: 20px 0
 }
 
 .text-muted {
-  /* color: #adb5bd !important */
- color: #D4DEED !important;
+  color: #adb5bd !important
 }
 
 ul {
