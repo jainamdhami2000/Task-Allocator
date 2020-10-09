@@ -57,77 +57,11 @@
                       <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
                         + CREATE TEAM
                     </button> -->
-                    <button class="btn btn-block btn-round" data-toggle="modal" data-target="#loginModal">
+                    <button class="btn btn-block btn-round" data-toggle="modal" data-target="#createTeamModal">
                       <i class="material-icons">account_circle</i>
-                      Login
+                      + CREATE A TEAM
                     </button>
                     </div>
-                    
-                  <!-- <div class="modal fade" id="createTeamModal" role="dialog" style="z-index: 25;">
-                      <div class="modal-dialog modal-login" role="content">
-                          <div class="modal-content"  style="z-index: 30;">
-                              <div class="card card-signup card-plain"  style="z-index: 35;">
-                                  <div class="modal-header" >
-                                    <div class="card-header card-header-primary text-center">
-                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                        <i class="material-icons">clear</i>
-                                      </button>
-                  
-                                      <h4 class="card-title">Log in</h4>
-                                      <div class="social-line">
-                                        <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
-                                          <i class="fa fa-facebook-square"></i>
-                                        </a>
-                                        <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
-                                          <i class="fa fa-twitter"></i>
-                                        <div class="ripple-container"></div></a>
-                                        <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
-                                          <i class="fa fa-google-plus"></i>
-                                        </a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="modal-body"  style="z-index:50;">
-                                      <form class="form" method="" action="">
-                                          <p class="description text-center">Or Be Classical</p>
-                                          <div class="card-body">
-                  
-                                              <div class="form-group bmd-form-group">
-                                                  <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <div class="input-group-text"><i class="material-icons">face</i></div>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="First Name...">
-                                                  </div>
-                                              </div>
-                  
-                                              <div class="form-group bmd-form-group">
-                                                  <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <div class="input-group-text"><i class="material-icons">email</i></div>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="Email...">
-                                                  </div>
-                                              </div>
-                  
-                                              <div class="form-group bmd-form-group">
-                                                  <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                      <div class="input-group-text"><i class="material-icons">lock_outline</i></div>
-                                                    </div>
-                                                    <input type="password" placeholder="Password..." class="form-control">
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </form>
-                                  </div>
-                                  <div class="modal-footer justify-content-center">
-                                      <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Get Started</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div> -->
                   </div>
                     <small class="text-muted px-3">LEADER</small>
                     <ul>
@@ -147,30 +81,20 @@
         <div  class="col-md-9">
            <!-- <div style="background-color: aqua; border-radius: 3px; margin-right: 20px;"> <h1>card with pending tasks</h1></div> -->
            <div class="container">
-            <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+            <div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog">
               <div class="modal-dialog modal-login" role="document">
                 <div class="modal-content" style="z-index: 35;">
                   <div class="card card-signup card-plain">
                     <div class="modal-header">
                       <div class="card-header card-header-primary text-center">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                        <h4 class="card-title">Log in</h4>
-                        <div class="social-line">
-                          <a href="#pablo" class="btn btn-just-icon btn-link">
-                            <i class="fa fa-facebook-square"></i>
-                          </a>
-                          <a href="#pablo" class="btn btn-just-icon btn-link">
-                            <i class="fa fa-twitter"></i>
-                          </a>
-                          <a href="#pablo" class="btn btn-just-icon btn-link">
-                            <i class="fa fa-google-plus"></i>
-                          </a>
+                        <div class="tim-typo">
+                          <h3>CREATE A TEAM</h3>
                         </div>
                       </div>
                     </div>
                     <div class="modal-body">
                       <form class="form" method="" action="">
-                        <p class="description text-center">Or Be Classical</p>
                         <div class="card-body">
                           <div class="form-group">
                             <div class="input-group">
@@ -179,7 +103,7 @@
                                   <i class="material-icons">face</i>
                                 </span>
                               </div>
-                              <input type="text" class="form-control" placeholder="First Name...">
+                              <input type="text" class="form-control" placeholder="Task Name" name="task_name" id="task_name">
                             </div>
                           </div>
                           <div class="form-group">
@@ -189,7 +113,12 @@
                                   <i class="material-icons">mail</i>
                                 </span>
                               </div>
-                              <input type="text" class="form-control" placeholder="Email...">
+                              <!-- <input type="text" class="form-control" placeholder="Email..."> -->
+                              <select class="selectpicker" name="assigned_to" id="assigned_to" data-style="select-with-transition" title="assign to:" data-size="7">
+                                <option value="1">blabla</option>
+                                <option value="2">Foobar</option>
+                                <option value="3">Is great</option>
+                              </select>
                             </div>
                           </div>
                           <div class="form-group">
@@ -199,7 +128,22 @@
                                   <i class="material-icons">lock_outline</i>
                                 </span>
                               </div>
-                              <input type="password" placeholder="Password..." class="form-control" />
+                              <div class="form-group label-floating">
+                                <label class="form-control-label bmd-label-floating" for="exampleInputTextarea">Task Description</label>
+                                <textarea  name="task_description" id="task_description" class="form-control" rows="5" id="exampleInputTextarea"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                  <i class="material-icons">lock_outline</i>
+                                </span>
+                              </div>
+                              <!-- <input type="password" placeholder="Password..." class="form-control" /> -->
+                              <label class="label-control">Datetime Picker</label>
+                    <input type="text" class="form-control datetimepicker" value="10/05/2016">
                             </div>
                           </div>
                         </div>
