@@ -14,41 +14,42 @@ module.exports = function(app, passport) {
   });
 
   app.get('/dashboard', (req, res) => {
-    var memberof = req.user.asmember;
-    var leaderof = req.user.managing;
-    var merged = [...memberof, ...leaderof];
-    var managing = [];
-    var asmember = [];
-    var pending = [];
-    Project.find({
-      _id: {
-        $in: merged
-      }
-    }, (err, projects) => {
-      managing = projects.filter(project => {
-        return leaderof.includes(project._id);
-      });
-      asmember = projects.filter(project => {
-        return memberof.includes(project._id);
-      });
-      pending = projects.filter(project => {
-        tasks = project.tasks.filter(task => {
-          return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
-        });
-        return tasks;
-      });
-      // res.render('dashboard', {
-      //   user: req.user,
-      //   managing: managing,
-      //   asmember: asmember,
-      //   pending: pending
-      // });
-      res.json({
-        managing: managing,
-        asmember: asmember,
-        pending: pending
-      });
-    });
+    // var memberof = req.user.asmember;
+    // var leaderof = req.user.managing;
+    // var merged = [...memberof, ...leaderof];
+    // var managing = [];
+    // var asmember = [];
+    // var pending = [];
+    // Project.find({
+    //   _id: {
+    //     $in: merged
+    //   }
+    // }, (err, projects) => {
+    //   managing = projects.filter(project => {
+    //     return leaderof.includes(project._id);
+    //   });
+    //   asmember = projects.filter(project => {
+    //     return memberof.includes(project._id);
+    //   });
+    //   pending = projects.filter(project => {
+    //     tasks = project.tasks.filter(task => {
+    //       return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
+    //     });
+    //     return tasks;
+    //   });
+    //   // res.render('dashboard', {
+    //   //   user: req.user,
+    //   //   managing: managing,
+    //   //   asmember: asmember,
+    //   //   pending: pending
+    //   // });
+    //   res.json({
+    //     managing: managing,
+    //     asmember: asmember,
+    //     pending: pending
+    //   });
+    // });
+    res.render('dashboard')
   });
 
   app.get('/signup', (req, res) => {
