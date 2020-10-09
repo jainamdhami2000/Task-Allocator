@@ -65,16 +65,16 @@
                   </div>
                     <small class="text-muted px-3">LEADER</small>
                     <ul>
-                        <li><a href="#">Team 1</a></li>
-                        <li><a href="#">Team 2</a></li>
-                        <li><a href="#">Team 3</a></li>
+                        <% managing.forEach(leader=>{%>
+                          <li><a href="#"><%= leader.project_name  %></a></li>
+                       <% } )%>
                     </ul>
                      <small class="text-muted px-3">MEMBER</small>
-                    <ul>
-                        <li><a href="#">Team 4</a></li>
-                        <li><a href="#">Team 5</a></li>
-                        <li><a href="#">Team 6</a></li>
-                    </ul> 
+                     <ul>
+                      <% asmember.forEach(member=>{%>
+                        <li><a href="#"><%= member.project_name  %></a></li>
+                     <% } )%>
+                  </ul>
                 </div>
             </div>    
         </div>
@@ -103,7 +103,7 @@
                                   <i class="material-icons">face</i>
                                 </span>
                               </div>
-                              <input type="text" class="form-control" placeholder="Task Name" name="task_name" id="task_name">
+                              <input type="text" class="form-control" placeholder="Team Name" name="project_name">
                             </div>
                           </div>
                           <div class="form-group">
@@ -114,43 +114,18 @@
                                 </span>
                               </div>
                               <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                              <select class="selectpicker" name="assigned_to" id="assigned_to" data-style="select-with-transition" title="assign to:" data-size="7">
+                              <select class="selectpicker" name="teammates" data-style="select-with-transition" multiple title="Select Teamates" data-size="7">
                                 <option value="1">blabla</option>
                                 <option value="2">Foobar</option>
                                 <option value="3">Is great</option>
                               </select>
                             </div>
                           </div>
-                          <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                  <i class="material-icons">lock_outline</i>
-                                </span>
-                              </div>
-                              <div class="form-group label-floating">
-                                <label class="form-control-label bmd-label-floating" for="exampleInputTextarea">Task Description</label>
-                                <textarea  name="task_description" id="task_description" class="form-control" rows="5" id="exampleInputTextarea"></textarea>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                  <i class="material-icons">lock_outline</i>
-                                </span>
-                              </div>
-                              <!-- <input type="password" placeholder="Password..." class="form-control" /> -->
-                              <label class="label-control">Datetime Picker</label>
-                    <input type="text" class="form-control datetimepicker" value="10/05/2016">
-                            </div>
-                          </div>
                         </div>
                       </form>
                     </div>
                     <div class="modal-footer justify-content-center">
-                      <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">Get Started</a>
+                      <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">CREATE!</a>
                     </div>
                   </div>
                 </div>

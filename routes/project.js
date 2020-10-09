@@ -6,6 +6,15 @@ const router = express.Router();
 const User = require('../model/user');
 const Project = require('../model/project');
 
+router.get('/users',(req, res)=>{
+  User.find({},(err,users)=>{
+    var leftusers = users.filter(user=>{
+      return String(req.user._id)!=String(user._id);
+    });
+    res.send({users:leftusers});
+  });
+});
+
 router.get('/create', (req, res) => {
   res.render('createteam', {
     user: req.user
@@ -15,8 +24,8 @@ router.get('/create', (req, res) => {
 router.post('/create',isLoggedIn, (req, res) => {
   var project = new Project({
     project_name: req.body.project_name,
-    // leader: req.user._id,
-    leader: req.body.leader,
+    leader: req.user._id,
+   // leader: req.body.leader,
   });
   var team = [];
   req.body.teammates.forEach(teammate => {
@@ -40,18 +49,18 @@ router.post('/create',isLoggedIn, (req, res) => {
   });
   project.teammates = team;
   project.save();
-  user_id = req.body.leader;
+  //user_id = req.body.leader;
   User.findOne({
-    // _id: req.user._id
-    _id: user_id
+    _id: req.user._id
+  //  _id: user_id
   }, (err, user) => {
-    // req.user.managing.push(project._id);
-    user.managing.push(project._id);
-    // user = req.user;
+    req.user.managing.push(project._id);
+    //user.managing.push(project._id);
+     user = req.user;
     user.save();
     res.json({
       project: project,
-      user: user
+      user: req.user
     });
   });
 });
