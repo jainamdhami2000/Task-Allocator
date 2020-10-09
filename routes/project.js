@@ -12,11 +12,11 @@ router.get('/create', (req, res) => {
   });
 });
 
-router.post('/create', (req, res) => {
+router.post('/create',isLoggedIn, (req, res) => {
   var project = new Project({
     project_name: req.body.project_name,
     // leader: req.user._id,
-    leader: '5f7f26cc9612ccf83c87cb4d',
+    leader: req.body.leader,
   });
   var team = [];
   req.body.teammates.forEach(teammate => {
@@ -40,7 +40,7 @@ router.post('/create', (req, res) => {
   });
   project.teammates = team;
   project.save();
-  user_id = '5f7f26cc9612ccf83c87cb4d'
+  user_id = req.body.leader;
   User.findOne({
     // _id: req.user._id
     _id: user_id
