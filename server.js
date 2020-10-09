@@ -15,15 +15,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-// app.use(express.static(path.join(__dirname + '/../public')));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 var Chat = require('./model/chat');
-// var Message = mongoose.model('Message',{
-//   name : String,
-//   message : String
-// })
-
 var dbUrl = process.env.ATLAS_URL;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -36,7 +31,6 @@ app.get('/chat/:project_id', (req, res) => {
     res.send(messages);
   });
 });
-
 
 app.get('/messages/:user', (req, res) => {
   var user = req.params.user;
@@ -83,7 +77,9 @@ io.on('connection', () => {
 });
 
 mongoose.connect(dbUrl, {
-  useMongoClient: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  promiseLibrary: global.Promise
 }, (err) => {
   console.log('mongodb connected', err);
 })

@@ -16,10 +16,13 @@ const http = require('http');
 const sanitize = require('mongo-sanitize');
 const configDB = require('./config/database');
 const verifymail = require('./routes/verifymail');
+const chat = require('./routes/chat');
 
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 mongoose.connect(configDB.url, {
   useNewUrlParser: true,
@@ -28,14 +31,14 @@ mongoose.connect(configDB.url, {
 
 require('./config/passport')(passport);
 
-
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
- app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -47,8 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
-  saveUninitialized:false,
-  resave:false
+  saveUninitialized: false,
+  resave: false
 }));
 
 app.use(passport.initialize());
@@ -57,8 +60,8 @@ app.use(flash());
 require('./routes/UserLogin')(app, passport);
 require('./routes/portalRoutes')(app);
 // Routes
-//DEMO
 app.use('/verify', verifymail);
+app.use('/chat', chat);
 
 app.listen(3000, function(err) {
   console.log('Server started on 3000');
