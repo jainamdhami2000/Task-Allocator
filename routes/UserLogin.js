@@ -3,12 +3,51 @@ require("dotenv").config();
 const sanitize = require('mongo-sanitize');
 const User = require('../model/user');
 const multer = require('multer');
+const Project = require('../model/project');
 //const mail=require('../utils/mailer');
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
     res.render('firstpage', {
       user: req.user
+    });
+  });
+
+  app.get('/dashboard', (req, res) => {
+    var memberof = req.user.asmember;
+    var leaderof = req.user.managing;
+    var merged = [...memberof, ...leaderof];
+    var managing = [];
+    var asmember = [];
+    var pending = [];
+    Project.find({
+      _id: {
+        $in: merged
+      }
+    }, (err, projects) => {
+      managing = projects.filter(project => {
+        return leaderof.includes(project._id);
+      });
+      asmember = projects.filter(project => {
+        return memberof.includes(project._id);
+      });
+      pending = projects.filter(project => {
+        tasks = project.tasks.filter(task => {
+          return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
+        });
+        return tasks;
+      });
+      // res.render('dashboard', {
+      //   user: req.user,
+      //   managing: managing,
+      //   asmember: asmember,
+      //   pending: pending
+      // });
+      res.json({
+        managing: managing,
+        asmember: asmember,
+        pending: pending
+      });
     });
   });
 
@@ -54,11 +93,11 @@ module.exports = function(app, passport) {
     scope: ['profile', 'email']
   }));
 
-  app.get('/google/callback',passport.authenticate('google', {
-      successRedirect: '/verify', // redirect to the secure profile section
-      failureRedirect: '/login', // redirect back to the signup page if there is an error
-      failureFlash: true // allow flash messages
-    }));
+  app.get('/google/callback', passport.authenticate('google', {
+    successRedirect: '/verify', // redirect to the secure profile section
+    failureRedirect: '/login', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+  }));
 
   app.get('/logout', function(req, res) {
     req.logout();
@@ -67,13 +106,9 @@ module.exports = function(app, passport) {
 };
 
 function isLoggedIn(req, res, next) {
-  try {
-    if (req.isAuthenticated()) {
-      req.isLogged = true;
-      return next();
-    }
-    res.redirect('/');
-  } catch (e) {
-    console.log(e);
+  if (req.isAuthenticated()) {
+    req.isLogged = true;
+    return next();
   }
+  res.redirect('/');
 }

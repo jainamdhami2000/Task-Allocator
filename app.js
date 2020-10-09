@@ -16,6 +16,7 @@ const http = require('http');
 const sanitize = require('mongo-sanitize');
 const configDB = require('./config/database');
 const verifymail = require('./routes/verifymail');
+const project = require('./routes/project');
 const chat = require('./routes/chat');
 
 var app = express();
@@ -58,10 +59,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 require('./routes/UserLogin')(app, passport);
-require('./routes/portalRoutes')(app);
 // Routes
 app.use('/verify', verifymail);
 app.use('/chat', chat);
+app.use('/project', project);
 
 app.listen(3000, function(err) {
   console.log('Server started on 3000');
