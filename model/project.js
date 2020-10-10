@@ -29,7 +29,7 @@ const projectSchema = new mongoose.Schema({
     }],
     default: []
   },
-  task: {
+  tasks: {
     type: [{
       task_name: String,
       task_description: String,

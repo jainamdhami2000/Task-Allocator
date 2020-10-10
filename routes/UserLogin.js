@@ -15,10 +15,10 @@ module.exports = function(app, passport) {
 
   app.get('/dashboard',isLoggedIn, (req, res) => {
     var memberof = req.user.asmember;
-    var mid = []
+    var mid = [];
     memberof.forEach(m=>{
       mid.push(String(m.project_id));
-    })
+    });
     var leaderof = req.user.managing;
     var merged = [...mid, ...leaderof];
     var managing = [];
@@ -35,14 +35,16 @@ module.exports = function(app, passport) {
       asmember = projects.filter(project => {
         return mid.includes(String(project._id));
       });
-      pending = projects.filter(project => {
-        tasks = [];
-        if (project.tasks) {
-          tasks = project.tasks.filter(task => {
-            return String(req.user._id) == String(task.assigned_to) && task.isDone == 0;
-          });
-        }
-        return tasks;
+      projects.forEach(project=>{
+        project.tasks.forEach(task=>{
+          if(String(req.user._id) == String(task.assigned_to) && task.isDone == 0){
+            pending.push({
+              _id:project._id,
+              project_name:project.project_name,
+              task:task
+            });
+          }
+        });
       });
       res.render('dashboard', {
         user: req.user,

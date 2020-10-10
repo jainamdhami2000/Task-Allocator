@@ -69,7 +69,7 @@ router.post('/createtask', (req, res) => {
   Project.findOne({
     _id: req.body.projectId
   }, (err, project) => {
-    project.task.push({
+    project.tasks.push({
       task_name: req.body.task_name,
       task_description: req.body.task_description,
       assigned_to: req.body.user_id,
