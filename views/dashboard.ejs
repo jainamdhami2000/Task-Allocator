@@ -162,17 +162,32 @@
             </div>
           </div>
         </div>
-        <div class="" style="padding-left: 50px; z-index: -1;">
+        <div class="tim-typo" style="padding-left: 50px; z-index: -1;">
           <h2>My Pending Tasks</h2>
         </div>
         <%pending.forEach((pendingtask, i) => {%>
           <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-          <p class="card-title"><%=pendingtask.project_name%></p>
+          <!-- <p class="card-title"><%=pendingtask.project_name%></p> -->
             <div class="card-body">
-              <div class="checkbox">
+              <div class="row">
+                <div class="col-4">
+                  <div class="checkbox">
+                    <input type="checkbox" name="" id=""><span style="padding-left: 5px;"><%=pendingtask.task.task_name%></span>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
+                    <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3>
+                  </div>
+                </div>
+                <div class="col-5">
+                  Description:<p><%=pendingtask.task.task_description%></p> -->
+                </div>
+              </div>
+              <!-- <div class="checkbox">
                 <input type="checkbox" name="" id=""><%=pendingtask.task.task_name%>
               </div>
-              Description:<p><%=pendingtask.task.task_description%></p>
+              Description:<p><%=pendingtask.task.task_description%></p> -->
             </div>
           </div>
         <%});%>
