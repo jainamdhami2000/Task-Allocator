@@ -137,8 +137,8 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
 });
 
 router.post('/showproject',isLoggedIn, (req, res) => {
-  var managing = req.app.locals.managing
-  var asmember = req.app.locals.asmember
+  var managing = req.app.locals.managing;
+  var asmember = req.app.locals.asmember;
   Project.findOne({
     _id: req.body.projectId
   }, (err, project) => {
@@ -158,12 +158,14 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   res.json(invites);
 });
 
-router.post('/checkinvite', isLoggedIn, (req, res) => {
+router.post('/checkinvite',isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var accept = req.body.accept;
   var reject = req.body.reject;
+  var user_id = req.user._id;
+  // var user_id = req.body.user_id;
   User.findOne({
-    _id: req.user._id
+    _id: user_id
   }, (err, user) => {
     user.asmember.forEach(member => {
       if (String(member.project_id) == projectId) {
@@ -181,7 +183,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
     _id: projectId
   }, (err, project) => {
     project.teammates.forEach(teammate => {
-      if (String(req.user._id) == String(teammate.user_id)) {
+      if (String(user_id) == String(teammate.user_id)) {
         if (accept == 'accept') {
           teammate.status = true;
         } else if (reject == 'reject') {
