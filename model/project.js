@@ -24,7 +24,7 @@ const projectSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
       },
-      image: [Object],
+      images: [Object],
       upload_description: String
     }],
     default: []
@@ -42,7 +42,11 @@ const projectSchema = new mongoose.Schema({
         enum: [0, 1, 2]
       },
       start_time: Date,
-      end_time: Date
+      end_time: Date,
+      review: {
+        type: String,
+        default: ''
+      }
     }],
     default: []
   }
