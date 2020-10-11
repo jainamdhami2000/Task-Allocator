@@ -48,6 +48,8 @@ module.exports = function(app, passport) {
           }
         });
       });
+      req.app.locals.managing = managing;
+      req.app.locals.asmember = asmember;
       res.render('dashboard', {
         user: req.user,
         managing: managing,

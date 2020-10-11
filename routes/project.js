@@ -136,11 +136,18 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
   }
 });
 
-router.post('/showproject', (req, res) => {
+router.post('/showproject',isLoggedIn, (req, res) => {
+  var managing = req.app.locals.managing
+  var asmember = req.app.locals.asmember
   Project.findOne({
     _id: req.body.projectId
   }, (err, project) => {
-    res.send(project);
+    res.render('project_page', {
+      project: project,
+      managing:managing,
+      asmember: asmember,
+      user: req.user
+    });
   });
 });
 
@@ -187,7 +194,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   res.send('Invite is reviewed');
 });
 
-router.post('/submittask', isLoggedIn, array('uploadedImages', 10), (req, res) => {
+router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
   var projectId = req.body.projectId;
   var task_id = req.body.task_id;
   Project.findOne({
