@@ -21,9 +21,11 @@ var uploads = multer({
 });
 
 router.get('/users', (req, res) => {
+  var user_id = req.user._id;
+  // var user_id = req.body.user_id;
   User.find({}, (err, users) => {
     var leftusers = users.filter(user => {
-      return String(req.user._id) != String(user._id);
+      return String(user_id) != String(user._id);
     });
     res.send({
       users: leftusers
@@ -31,7 +33,7 @@ router.get('/users', (req, res) => {
   });
 });
 
-router.get('/create', (req, res) => {
+router.get('/create',isLoggedIn, (req, res) => {
   res.render('createteam', {
     user: req.user
   });
