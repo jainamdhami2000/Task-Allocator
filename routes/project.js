@@ -195,6 +195,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   }, (err, project) => {
     project.teammates.forEach(teammate => {
       if (String(user_id) == String(teammate.user_id)) {
+        console.log(teammate.user_id);
         if (accept == 'accept') {
           teammate.status = true;
         } else if (reject == 'reject') {
@@ -233,7 +234,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
         project.save();
       }
     });
-    res.send('Task Done');
+    res.redirect('/dashboard');
   });
 });
 
