@@ -202,7 +202,7 @@
                       </div>
   
                       <div class="form-group form-file-upload form-file-multiple">
-                        <input type="file" id="files++<%= pendingtask.project_name %>+<%= pendingtask.task.task_name" multiple="" class="inputFileHidden">
+                        <input type="file" id="files+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name%>" multiple="" class="inputFileHidden">
                         <div class="input-group">
                           <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
                           <span class="input-group-btn">
@@ -279,7 +279,7 @@
       projectId: projectId,
       task_id: task_id,
       review: document.getElementById("review+"+projectname+"+"+taskname).value,
-      uploadedImages: document.getElementById("files"+projectname+taskname)
+      uploadedImages: document.getElementById("files"+projectname+"+"+taskname)
     },
     function(data,status){
       alert("Task has been successfully submitted");
