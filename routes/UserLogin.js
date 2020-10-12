@@ -13,11 +13,13 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/dashboard',isLoggedIn, (req, res) => {
+  app.get('/dashboard', isLoggedIn, (req, res) => {
     var memberof = req.user.asmember;
     var mid = [];
-    memberof.forEach(m=>{
-      mid.push(String(m.project_id));
+    memberof.forEach(m => {
+      if (m.status == true) {
+        mid.push(String(m.project_id));
+      }
     });
     var leaderof = req.user.managing;
     var merged = [...mid, ...leaderof];
@@ -35,17 +37,19 @@ module.exports = function(app, passport) {
       asmember = projects.filter(project => {
         return mid.includes(String(project._id));
       });
-      projects.forEach(project=>{
-        project.tasks.forEach(task=>{
-          if(String(req.user._id) == String(task.assigned_to) && task.isDone == 0){
+      projects.forEach(project => {
+        project.tasks.forEach(task => {
+          if (String(req.user._id) == String(task.assigned_to) && task.isDone == 0) {
             pending.push({
-              _id:project._id,
-              project_name:project.project_name,
-              task:task
+              _id: project._id,
+              project_name: project.project_name,
+              task: task
             });
           }
         });
       });
+      req.app.locals.managing = managing;
+      req.app.locals.asmember = asmember;
       res.render('dashboard', {
         user: req.user,
         managing: managing,

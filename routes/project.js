@@ -3,29 +3,47 @@
 require("dotenv").config();
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 const User = require('../model/user');
 const Project = require('../model/project');
 
-router.get('/users',(req, res)=>{
-  User.find({},(err,users)=>{
-    var leftusers = users.filter(user=>{
-      return String(req.user._id)!=String(user._id);
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads');
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+var uploads = multer({
+  storage: storage
+});
+
+router.get('/users', (req, res) => {
+  var user_id = req.user._id;
+  // var user_id = req.body.user_id;
+  User.find({}, (err, users) => {
+    var leftusers = users.filter(user => {
+      return String(user_id) != String(user._id);
     });
-    res.send({users:leftusers});
+    res.send({
+      users: leftusers
+    });
   });
 });
 
-router.get('/create', (req, res) => {
+router.get('/create',isLoggedIn, (req, res) => {
   res.render('createteam', {
     user: req.user
   });
 });
 
-router.post('/create',isLoggedIn, (req, res) => {
+router.post('/create', isLoggedIn, (req, res) => {
   var project = new Project({
     project_name: req.body.project_name,
     leader: req.user._id,
-   // leader: req.body.leader,
+    // leader: req.body.leader,
   });
   var team = [];
   req.body.teammates.forEach(teammate => {
@@ -49,14 +67,14 @@ router.post('/create',isLoggedIn, (req, res) => {
   });
   project.teammates = team;
   project.save();
-  //user_id = req.body.leader;
+  user_id = req.body.leader;
   User.findOne({
     _id: req.user._id
-  //  _id: user_id
+    // _id: user_id
   }, (err, user) => {
     req.user.managing.push(project._id);
-    //user.managing.push(project._id);
-     user = req.user;
+    // user.managing.push(project._id);
+    user = req.user;
     user.save();
     res.json({
       project: project,
@@ -65,21 +83,158 @@ router.post('/create',isLoggedIn, (req, res) => {
   });
 });
 
-router.post('/createtask', (req, res) => {
+router.post('/createtask', isLoggedIn, (req, res) => {
+  if (req.user.managing.includes(String(req.body.projectId))) {
+    Project.findOne({
+      _id: req.body.projectId
+    }, (err, project) => {
+      project.tasks.push({
+        task_name: req.body.task_name,
+        task_description: req.body.task_description,
+        assigned_to: req.body.user_id,
+        isDone: 0,
+        start_time: Date.now(),
+        end_time: req.body.end_time
+      });
+      project.save();
+      res.json(project);
+    });
+  } else {
+    res.send('You are not team leader');
+  }
+});
+
+router.post('/addmembers', isLoggedIn, (req, res) => {
+  var teammates = req.body.teammates;
+  var projectId = req.body.projectId;
+  if (req.user.managing.includes(String(req.body.projectId))) {
+    Project.findOne({
+      _id: projectId
+    }, (err, project) => {
+      teammates.forEach(teammate => {
+        project.teammates.push({
+          status: false,
+          user_id: teammate
+        });
+        project.save();
+      });
+    });
+    User.find({
+      _id: {
+        $in: teammates
+      }
+    }, (err, users) => {
+      users.forEach(user => {
+        user.asmember.push({
+          status: false,
+          project_id: projectId
+        });
+        user.save();
+      });
+    });
+    res.send('Members added successfully');
+  } else {
+    res.send('You are not team leader');
+  }
+});
+
+router.post('/showproject',isLoggedIn, (req, res) => {
+  var managing = req.app.locals.managing;
+  var asmember = req.app.locals.asmember;
   Project.findOne({
     _id: req.body.projectId
   }, (err, project) => {
-    project.tasks.push({
-      task_name: req.body.task_name,
-      task_description: req.body.task_description,
-      assigned_to: req.body.user_id,
-      isDone: 0,
-      start_time: Date.now(),
-      end_time: req.body.end_time
+    var tasks = [];
+    if (req.user.managing.includes(req.body.projectId)) {
+      tasks = project.tasks;
+    } else {
+      tasks = project.tasks.filter(task=>{
+        return String(task.assigned_to) == String(req.user._id);
+      });
+    }
+    res.render('project_page', {
+      project: project,
+      managing:managing,
+      asmember: asmember,
+      tasks: task,
+      user: req.user
     });
-    project.save();
-    res.json(project);
   });
+});
+
+router.get('/viewinvite', isLoggedIn, (req, res) => {
+  var invites = req.user.asmember.filter(invite => {
+    return invite.status == false;
+  });
+  res.json(invites);
+});
+
+router.post('/checkinvite',isLoggedIn, (req, res) => {
+  var projectId = req.body.projectId;
+  var accept = req.body.accept;
+  var reject = req.body.reject;
+  var user_id = req.user._id;
+  // var user_id = req.body.user_id;
+  User.findOne({
+    _id: user_id
+  }, (err, user) => {
+    user.asmember.forEach(member => {
+      if (String(member.project_id) == projectId) {
+        if (accept == 'accept') {
+          member.status = true;
+        } else if (reject == 'reject') {
+          member.status = false;
+        }
+        user.save();
+        req.user = user;
+      }
+    });
+  });
+  Project.findOne({
+    _id: projectId
+  }, (err, project) => {
+    project.teammates.forEach(teammate => {
+      if (String(user_id) == String(teammate.user_id)) {
+        if (accept == 'accept') {
+          teammate.status = true;
+        } else if (reject == 'reject') {
+          teammate.status = false;
+        }
+        project.save();
+      }
+    });
+  });
+  res.send('Invite is reviewed');
+});
+
+router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
+  var projectId = req.body.projectId;
+  var task_id = req.body.task_id;
+  Project.findOne({
+    _id: projectId
+  }, (err, project => {
+    project.tasks.forEach(task => {
+      if (String(task._id) == task_id) {
+        if (Date.now() <= task.end_time) {
+          task.isDone = 1;
+        } else {
+          task.isDone = 2;
+        }
+        if (req.body.review) {
+          task.review = req.body.review;
+        }
+        if (req.files.length != 0) {
+          project.uploads.push({
+            uploaded_by: req.user._id,
+            images: req.files,
+            upload_description: req.body.upload_description
+          });
+        }
+        project.save();
+      }
+    });
+    res.send('Task Done');
+  }));
 });
 
 function isLoggedIn(req, res, next) {
