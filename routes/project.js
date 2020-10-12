@@ -144,10 +144,19 @@ router.post('/showproject',isLoggedIn, (req, res) => {
   Project.findOne({
     _id: req.body.projectId
   }, (err, project) => {
+    var tasks = [];
+    if (req.user.managing.includes(req.body.projectId)) {
+      tasks = project.tasks;
+    } else {
+      tasks = project.tasks.filter(task=>{
+        return String(task.assigned_to) == String(req.user._id);
+      });
+    }
     res.render('project_page', {
       project: project,
       managing:managing,
       asmember: asmember,
+      tasks: task,
       user: req.user
     });
   });
