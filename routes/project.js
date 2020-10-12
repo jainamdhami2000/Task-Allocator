@@ -33,7 +33,7 @@ router.get('/users', (req, res) => {
   });
 });
 
-router.get('/create',isLoggedIn, (req, res) => {
+router.get('/create', isLoggedIn, (req, res) => {
   res.render('createteam', {
     user: req.user
   });
@@ -138,7 +138,7 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
   }
 });
 
-router.post('/showproject',isLoggedIn, (req, res) => {
+router.post('/showproject', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
   Project.findOne({
@@ -148,15 +148,15 @@ router.post('/showproject',isLoggedIn, (req, res) => {
     if (req.user.managing.includes(req.body.projectId)) {
       tasks = project.tasks;
     } else {
-      tasks = project.tasks.filter(task=>{
+      tasks = project.tasks.filter(task => {
         return String(task.assigned_to) == String(req.user._id);
       });
     }
     res.render('project_page', {
       project: project,
-      managing:managing,
+      managing: managing,
       asmember: asmember,
-      tasks: task,
+      tasks: tasks,
       user: req.user
     });
   });
@@ -169,7 +169,7 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   res.json(invites);
 });
 
-router.post('/checkinvite',isLoggedIn, (req, res) => {
+router.post('/checkinvite', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var accept = req.body.accept;
   var reject = req.body.reject;
@@ -212,7 +212,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
   var task_id = req.body.task_id;
   Project.findOne({
     _id: projectId
-  }, (err, project => {
+  }, (err, project) => {
     project.tasks.forEach(task => {
       if (String(task._id) == task_id) {
         if (Date.now() <= task.end_time) {
@@ -234,7 +234,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
       }
     });
     res.send('Task Done');
-  }));
+  });
 });
 
 function isLoggedIn(req, res, next) {

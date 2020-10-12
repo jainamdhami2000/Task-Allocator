@@ -67,9 +67,9 @@
             <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
               <div class="profile-photo-small">
                 <%if (user.loginType=='local'){%>
-                  <img src="./assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
+                <img src="./assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
                 <%} else {%>
-                  <img src="<%=user.image%>" alt="Circle Image" class="rounded-circle img-fluid">
+                <img src="<%=user.image%>" alt="Circle Image" class="rounded-circle img-fluid">
                 <%}%>
 
               </div>
@@ -95,7 +95,7 @@
               <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
                         + CREATE TEAM
                     </button> -->
-              <button class="btn btn-block btn-round" data-toggle="modal" data-target="#createTeamModal">
+              <button class="btn btn-block" data-toggle="modal" data-target="#createTeamModal">
                 <i class="material-icons">account_circle</i>
                 + CREATE A TEAM
               </button>
@@ -104,23 +104,23 @@
           <small class="text-muted px-3">LEADER</small>
           <ul>
             <% managing.forEach(leader=>{%>
-            <form id="project<%=leader._id%>" method='POST' action="/project/showproject">
-              <input name='projectId' style='display:none' value='<%=leader._id%>'>
-              <li id='<%=leader._id%>' onclick='details(this)'><a href="#"><%= leader.project_name  %></a></li>
-            </form>
-            <%})%>
-          </ul>
-          <small class="text-muted px-3">MEMBER</small>
-          <ul>
-            <% asmember.forEach(member=>{%>
-              <form id="project<%=member._id%>" method='POST' action="/project/showproject">
-                <input name='projectId' style='display:none' value='<%=member._id%>'>
-                <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
-              </form>
-            <%})%>
-          </ul>
-        </div>
+                <form id="project<%=leader._id%>" method='POST' action="/project/showproject">
+                  <input name='projectId' style='display:none' value='<%=leader._id%>'>
+          <li id='<%=leader._id%>' onclick='details(this)'><a href="#"><%= leader.project_name  %></a></li>
+          </form>
+          <%})%>
+        </ul>
+        <small class="text-muted px-3">MEMBER</small>
+        <ul>
+          <% asmember.forEach(member=>{%>
+          <form id="project<%=member._id%>" method='POST' action="/project/showproject">
+            <input name='projectId' style='display:none' value='<%=member._id%>'>
+            <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
+          </form>
+          <%})%>
+        </ul>
       </div>
+    </div>
     </div>
     <div class="col-md-9">
       <div class="container">
@@ -178,31 +178,33 @@
         </div>
         <div class="pendingTasks">
           <%pending.forEach((pendingtask, i) => {%>
-            <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
-            <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
-              <div class="modal-dialog modal-login" role="document">
-                <div class="modal-content" style="z-index: 35;">
-                  <div class="card card-signup card-plain">
-                    <div class="modal-header" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                      <div class="card-header card-header-primary text-center" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                        <h3><%=pendingtask.task.task_name%></h3>  
-                        <h4><%=pendingtask.project_name%></h4>
-                      </div>
+          <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
+          <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-login" role="document">
+              <div class="modal-content" style="z-index: 35;">
+                <div class="card card-signup card-plain">
+                  <div class="modal-header" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                    <div class="card-header card-header-primary text-center" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                      <h3><%=pendingtask.task.task_name%></h3>
+                      <h4><%=pendingtask.project_name%></h4>
                     </div>
-                    <div class="modal-body">
-                      <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                        <h3>DESCRIPTION:</h3>
-                        <p><%=pendingtask.task.task_description%></p>
-                      </div>
-                      <div class="tim-typo">
-                        <h6>Start Time : <%=pendingtask.task.start_time%></h6>
-                        <h6>End Time: <%=pendingtask.task.end_time%></h6>
-                        <!-- <h4> <%=pendingtask.project_name%></h4> -->
-                      </div>
-  
+                  </div>
+                  <div class="modal-body">
+                    <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                      <h3>DESCRIPTION:</h3>
+                      <p><%=pendingtask.task.task_description%></p>
+                    </div>
+                    <div class="tim-typo">
+                      <h6>Start Time : <%=pendingtask.task.start_time%></h6>
+                      <h6>End Time: <%=pendingtask.task.end_time%></h6>
+                      <!-- <h4> <%=pendingtask.project_name%></h4> -->
+                    </div>
+                    <form id="task<%=pendingtask._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
+                      <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
+                      <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
                       <div class="form-group form-file-upload form-file-multiple">
-                        <input type="file" id="files+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name%>" multiple="" class="inputFileHidden">
+                        <input type="file" id="files+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name%>" name='uploadedImages' multiple="" class="inputFileHidden">
                         <div class="input-group">
                           <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
                           <span class="input-group-btn">
@@ -212,81 +214,91 @@
                           </span>
                         </div>
                       </div>
-
                       <div class="form-group label-floating">
-                        <label class="form-control-label bmd-label-floating" > Review</label>
-                        <textarea class="form-control" rows="5" id="review+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>"></textarea>
+                        <label class="form-control-label bmd-label-floating"> Review</label>
+                        <textarea name='review' class="form-control" rows="5" id="review+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>"></textarea>
                       </div>
-  
-  
-                    </div>
-                    <div class="modal-footer justify-content-center">
-                      <button onclick="submittask('<%=pendingtask._id%>','<%=pendingtask.task._id%>','<%= pendingtask.project_name %>','<%= pendingtask.task.task_name %>')" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
-                    </div>
                   </div>
-                </div>
-              </div>
-              <!--  -->
-            </div> 
-            <!-- /////////////////////////////////////////task card/////////////////////////////////////////////////////////// -->
-          <div class="card" id="<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-            <!-- <p class="card-title"><%=pendingtask.project_name%></p> -->
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-1">
-                    <div class="checkbox" style="margin-top:30px">
-                      <input onchange="submittask()" type="checkbox" name="check" id="check">
-                    </div>
+                  <div class="modal-footer justify-content-center">
+                    <button id='<%=pendingtask._id%>' onclick="task(this)" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
                   </div>
-                  <div class="col-2">
-                    <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=pendingtask.task.task_name%></span>
-                  </div>
-                  <div class="col-3">
-                    <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
-                      Team:<br>
-                      <!-- <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3> -->
-                      <%=pendingtask.project_name%>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    Description:<p><%=pendingtask.task.task_description%></p>
-                  </div>
-                  <div class="col-2">
-                    <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
-                      <i class="material-icons">account_circle</i>
-                      DETAILS
-                    </button>
-                  </div>
-     
-                      <!--  -->
+                  </form>
                 </div>
               </div>
             </div>
+            <!--  -->
           </div>
-          <%});%>
+          <!-- /////////////////////////////////////////task card/////////////////////////////////////////////////////////// -->
+          <div class="card" id="<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+            <!-- <p class="card-title"><%=pendingtask.project_name%></p> -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col-1">
+                  <div class="checkbox" style="margin-top:30px">
+                    <input id="task<%=pendingtask._id%>" onclick="task(this)" type="checkbox" name="check" id="check">
+                  </div>
+                </div>
+                <div class="col-2">
+                  <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=pendingtask.task.task_name%></span>
+                </div>
+                <div class="col-3">
+                  <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
+                    Team:<br>
+                    <!-- <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3> -->
+                    <%=pendingtask.project_name%>
+                  </div>
+                </div>
+                <div class="col-4">
+                  Description:<p><%=pendingtask.task.task_description%></p>
+                </div>
+                <div class="col-2">
+                  <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+                    <i class="material-icons">account_circle</i>
+                    DETAILS
+                  </button>
+                </div>
+
+                <!--  -->
+              </div>
+            </div>
+          </div>
         </div>
+        <%});%>
       </div>
     </div>
-  </div>
-  <script>
-    function details(input) {
-      document.getElementById("project" + input.id).submit();
-    }
+    </div>
+    </div>
+    <script>
+      function details(input) {
+        document.getElementById("project" + input.id).submit();
+      }
 
-    function submittask(projectId,task_id,projectname,taskname){
-      $.post("/submittask",
-    {
-      projectId: projectId,
-      task_id: task_id,
-      review: document.getElementById("review+"+projectname+"+"+taskname).value,
-      uploadedImages: document.getElementById("files"+projectname+"+"+taskname)
-    },
-    function(data,status){
-      alert("Task has been successfully submitted");
-      document.getElementById(pending.project_name+pending.task.task_name).remove();
+      function task(input){
+        document.getElementById("task" + input.id).submit();
+      }
 
-    });
-    }
-  </script>
+      function submittask(projectId, task_id, projectname, taskname) {
+        console.log(document.getElementById("review+" + projectname + "+" + taskname).value)
+        console.log(document.getElementById("files+" + projectname + "+" + taskname).value)
+        console.log(projectId)
+        console.log(task_id)
+        $.ajax({
+          url: "http://localhost:3000/project/submittask",
+          type: 'POST',
+          contentType: 'multipart/form-data',
+          data: new FormData({
+            projectId: projectId,
+            task_id: task_id,
+            review: document.getElementById("review+" + projectname + "+" + taskname).value,
+            uploadedImages: document.getElementById("files+" + projectname + "+" + taskname).value
+          }),
+          function(data, status) {
+            alert("Task has been successfully submitted");
+            document.getElementById(pending.project_name + pending.task.task_name).remove();
 
-  <%- include('partials/footer'); %>
+          }
+        });
+      }
+    </script>
+
+    <%- include('partials/footer'); %>
