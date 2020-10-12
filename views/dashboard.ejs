@@ -162,6 +162,30 @@
             </div>
           </div>
         </div>
+        <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-login" role="document">
+            <div class="modal-content" style="z-index: 35;">
+              <div class="card card-signup card-plain">
+                <div class="modal-header">
+                  <div class="card-header card-header-primary text-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                      <h3><%=pendingtask.project_name%></h3>
+                  </div>
+                </div>
+                <div class="modal-body">
+                  <div class="tim-typo">
+                    <h3>DESCRIPTION:</h3>
+                    <!-- <h4> <%=pendingtask.project_name%></h4> -->
+                  </div>
+                  <p><%=pendingtask.task.task_description%></p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                  <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">CREATE!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="tim-typo" style="padding-left: 50px; z-index: -1;">
           <h2>My Pending Tasks</h2>
         </div>
@@ -170,24 +194,31 @@
           <!-- <p class="card-title"><%=pendingtask.project_name%></p> -->
             <div class="card-body">
               <div class="row">
-                <div class="col-4">
-                  <div class="checkbox">
-                    <input type="checkbox" name="" id=""><span style="padding-left: 5px;"><%=pendingtask.task.task_name%></span>
+                <div class="col-1">
+                  <div class="checkbox" style="margin-top:30px">
+                    <input type="checkbox" name="" id="">
                   </div>
+                </div>
+                <div class="col-2">
+                  <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=pendingtask.task.task_name%></span>
                 </div>
                 <div class="col-3">
-                  <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
-                    <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3>
+                  <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
+                    Team:<br>
+                    <!-- <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3> -->
+                    <%=pendingtask.project_name%>
                   </div>
                 </div>
-                <div class="col-5">
-                  Description:<p><%=pendingtask.task.task_description%></p> -->
+                <div class="col-4">
+                  Description:<p><%=pendingtask.task.task_description%></p>
+                </div>
+                <div class="col-2">
+                  <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+                    <i class="material-icons">account_circle</i>
+                    DETAILS
+                  </button>
                 </div>
               </div>
-              <!-- <div class="checkbox">
-                <input type="checkbox" name="" id=""><%=pendingtask.task.task_name%>
-              </div>
-              Description:<p><%=pendingtask.task.task_description%></p> -->
             </div>
           </div>
         <%});%>
