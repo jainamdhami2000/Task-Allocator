@@ -66,7 +66,12 @@
           <li class="dropdown nav-item">
             <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
               <div class="profile-photo-small">
-                <img src="./assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
+                <%if (user.loginType=='local'){%>
+                  <img src="./assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
+                <%} else {%>
+                  <img src="<%=user.image%>" alt="Circle Image" class="rounded-circle img-fluid">
+                <%}%>
+
               </div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
