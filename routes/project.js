@@ -1,4 +1,4 @@
-//jshint esversion:6
+//jshint esversion:8
 
 require("dotenv").config();
 const express = require('express');
@@ -143,21 +143,47 @@ router.post('/showproject', isLoggedIn, (req, res) => {
   var asmember = req.app.locals.asmember;
   Project.findOne({
     _id: req.body.projectId
-  }, (err, project) => {
+  }, async (err, project) => {
     var tasks = [];
-    if (req.user.managing.includes(req.body.projectId)) {
-      tasks = project.tasks;
-    } else {
-      tasks = project.tasks.filter(task => {
-        return String(task.assigned_to) == String(req.user._id);
+    var task_user_ids = [];
+    project.tasks.forEach(task => {
+      task_user_ids.push(task.assigned_to);
+    });
+    await User.find({
+      _id: {
+        $in: task_user_ids
+      }
+    }, (err, taskusers) => {
+      if (req.user.managing.includes(req.body.projectId)) {
+        project.tasks.forEach(task => {
+          taskusers.forEach(user => {
+            if (String(user._id) == String(task.assigned_to)) {
+              tasks.push({
+                _id: task._id,
+                task_name: task.task_name,
+                task_description: task.task_description,
+                assigned_to: task.assigned_to,
+                isDone: task.isDone,
+                start_time: task.start_time,
+                end_time: task.end_time,
+                name_of_user: user.FirstName + ' ' + user.LastName
+              });
+            }
+          });
+        });
+      } else {
+        tasks = project.tasks.filter(task => {
+          return String(task.assigned_to) == String(req.user._id);
+        });
+      }
+      console.log('Hole', tasks);
+      res.render('project_page', {
+        project: project,
+        managing: managing,
+        asmember: asmember,
+        tasks: tasks,
+        user: req.user
       });
-    }
-    res.render('project_page', {
-      project: project,
-      managing: managing,
-      asmember: asmember,
-      tasks: tasks,
-      user: req.user
     });
   });
 });
