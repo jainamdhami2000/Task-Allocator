@@ -1,5 +1,6 @@
 <%- include('partials/header'); %>
 </head>
+
 <body class="signup-page sidebar-collapse">
   <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
     <div class="container">
@@ -121,6 +122,9 @@
           <div class="card card-signup">
             <h2 class="card-title text-center">Register</h2>
             <div class="card-body">
+              <% if (message.length > 0) { %>
+              <div class="alert alert-danger"><%= message %></div>
+              <% } %>
               <div class="row">
                 <div class="col-md-5 ml-auto">
                   <div class="info info-horizontal">
@@ -159,7 +163,7 @@
                 </div>
                 <div class="col-md-5 mr-auto">
                   <div class="social text-center">
-                    <a href="/google"class="btn btn-just-icon btn-round btn-google">
+                    <a href="/google" class="btn btn-just-icon btn-round btn-google">
                       <i class="fa fa-google"></i>
                     </a>
                     <h4> or be classical </h4>
@@ -261,5 +265,5 @@
         </div>
       </div>
     </footer>
-    </div>
-    <%- include('partials/footer') %>
+  </div>
+  <%- include('partials/footer') %>

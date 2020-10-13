@@ -14,6 +14,7 @@
 -->
 <%- include('partials/header'); %>
 </head>
+
 <body class="login-page sidebar-collapse">
   <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
     <div class="container">
@@ -143,6 +144,9 @@
                 </div>
               </div>
               <div class="card-body ">
+                <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+                <% } %>
                 <p class="card-description text-center">Or Be Classical</p>
                 <span class="bmd-form-group">
                   <div class="input-group">
@@ -152,16 +156,6 @@
                       </span>
                     </div>
                     <input type="text" name='username' class="form-control" placeholder="Username...">
-                  </div>
-                </span>
-                <span class="bmd-form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">email</i>
-                      </span>
-                    </div>
-                    <input type="email" name='email' class="form-control" placeholder="Email...">
                   </div>
                 </span>
                 <span class="bmd-form-group">
@@ -218,5 +212,5 @@
         </div>
       </div>
     </footer>
-    </div>
-    <%- include('partials/footer'); %>
+  </div>
+  <%- include('partials/footer'); %>
