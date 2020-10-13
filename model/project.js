@@ -43,10 +43,7 @@ const projectSchema = new mongoose.Schema({
       },
       start_time: Date,
       end_time: Date,
-      review: {
-        type: String,
-        default: ''
-      }
+      review: String
     }],
     default: []
   }
