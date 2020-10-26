@@ -144,13 +144,13 @@
     }
 
     function getMessages() {
-      $.get('http://localhost:3000/messages/<%= Ministry %>', (data) => {
+      $.get('http://localhost:3001/messages/<%= project %>', (data) => {
         data.forEach(addMessages);
       })
     }
 
     function sendMessage(message) {
-      $.post('http://localhost:3000/messages/<%= Ministry %>', message)
+      $.post('http://localhost:3001/messages/<%= project %>', message)
     }
   </script>
 </body>

@@ -120,6 +120,7 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
 router.post('/showproject', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
+  console.log(asmember)
   Project.findOne({
     _id: req.body.projectId
   }, async (err, project) => {
@@ -175,33 +176,40 @@ router.post('/showproject', isLoggedIn, (req, res) => {
 //     return invite.status == false;
 //   });
 //   console.log('in the routes');
-//   //res.json(invites);
+//   res.json(invites);
 //   res.render('invitespage', {invites:invites, user:req.user, asmember:asmember, managing:managing})
 // });
 
 router.get('/viewinvite', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
+  console.log(req.app.locals.asmember)
   console.log('one');
   var invites = req.user.asmember.filter(invite => {
     return invite.status == false;
   });
+  console.log('hi')
   var invitearray = [];
-  invites.forEach(i=>{
+  invites.forEach(i => {
     invitearray.push(String(i.project_id));
   });
-  var invitations = [];
-  asmember.forEach(member=>{
-    if (invitearray.includes(String(member.project._id))){
-      invitations.push(member);
+console.log(invitearray)
+  Project.find({
+    _id: {
+      $in: invitearray
     }
+  }, (err, invitations) => {
+    console.log('in the routes');
+    console.log(invitations);
+    console.log(asmember);
+    //res.json(invites);
+    res.render('invitespage', {
+      invites: invitations,
+      user: req.user,
+      asmember: asmember,
+      managing: managing
+    })
   })
-  console.log('in the routes');
-  console.log(invitations);
-  console.log(asmember
-  );
-  //res.json(invites);
-  res.render('invitespage', {invites:invitations, user:req.user, asmember:asmember, managing:managing})
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {
@@ -283,11 +291,11 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
 });
 
 function isLoggedIn(req, res, next) {
-if (req.isAuthenticated()) {
-  req.isLogged = true;
-  return next();
-}
-res.redirect('/');
+  if (req.isAuthenticated()) {
+    req.isLogged = true;
+    return next();
+  }
+  res.redirect('/');
 }
 
 module.exports = router;

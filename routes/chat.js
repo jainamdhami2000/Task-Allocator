@@ -12,10 +12,6 @@ router.get('/', isLoggedIn, (req, res) => {
   res.redirect('http://localhost:3001/chat/' + req.user._id);
 });
 
-router.get('/notloggedIn', isLoggedIn, (req, res) => {
-
-});
-
 router.get('/:userid', (req, res) => {
   // console.log(req.params.userid)
   User.findOne({
@@ -25,14 +21,11 @@ router.get('/:userid', (req, res) => {
       res.send(err);
     } else {
       req.user = user;
-      res.render("organization_chat.ejs", {
-        userid: req.user.Name
-      });
+      res.render("team_chat.ejs", {userid: req.user._id});
     }
   });
   // res.redirect('/chatrooms');
 });
-
 
 function isLoggedIn(req, res, next) {
   try {
