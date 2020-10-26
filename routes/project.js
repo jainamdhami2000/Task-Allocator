@@ -16,9 +16,7 @@ var storage = multer.diskStorage({
   }
 });
 
-var uploads = multer({
-  storage: storage
-});
+var uploads = multer({storage: storage});
 
 router.get('/users', (req, res) => {
   var user_id = req.user._id;
@@ -27,30 +25,22 @@ router.get('/users', (req, res) => {
     var leftusers = users.filter(user => {
       return String(user_id) != String(user._id);
     });
-    res.send({
-      users: leftusers
-    });
+    res.send({users: leftusers});
   });
 });
 
 router.get('/create', isLoggedIn, (req, res) => {
-  res.render('createteam', {
-    user: req.user
-  });
+  res.render('createteam', {user: req.user});
 });
 
 router.post('/create', isLoggedIn, (req, res) => {
   var project = new Project({
-    project_name: req.body.project_name,
-    leader: req.user._id,
+    project_name: req.body.project_name, leader: req.user._id,
     // leader: req.body.leader,
   });
   var team = [];
   req.body.teammates.forEach(teammate => {
-    team.push({
-      user_id: teammate,
-      status: false
-    });
+    team.push({user_id: teammate, status: false});
   });
   User.find({
     _id: {
@@ -58,10 +48,7 @@ router.post('/create', isLoggedIn, (req, res) => {
     }
   }, (err, users) => {
     users.forEach(user => {
-      user.asmember.push({
-        project_id: project._id,
-        status: false
-      });
+      user.asmember.push({project_id: project._id, status: false});
       user.save();
     });
   });
@@ -76,10 +63,7 @@ router.post('/create', isLoggedIn, (req, res) => {
     // user.managing.push(project._id);
     user = req.user;
     user.save();
-    res.json({
-      project: project,
-      user: req.user
-    });
+    res.json({project: project, user: req.user});
   });
 });
 
@@ -88,6 +72,7 @@ router.post('/createtask', isLoggedIn, (req, res) => {
     Project.findOne({
       _id: req.body.projectId
     }, (err, project) => {
+      console.log(req.body.end_time)
       project.tasks.push({
         task_name: req.body.task_name,
         task_description: req.body.task_description,
@@ -112,10 +97,7 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
       _id: projectId
     }, (err, project) => {
       teammates.forEach(teammate => {
-        project.teammates.push({
-          status: false,
-          user_id: teammate
-        });
+        project.teammates.push({status: false, user_id: teammate});
         project.save();
       });
     });
@@ -125,10 +107,7 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
       }
     }, (err, users) => {
       users.forEach(user => {
-        user.asmember.push({
-          status: false,
-          project_id: projectId
-        });
+        user.asmember.push({status: false, project_id: projectId});
         user.save();
       });
     });
@@ -251,11 +230,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
           task.review = req.body.review;
         }
         if (req.files.length != 0) {
-          project.uploads.push({
-            uploaded_by: req.user._id,
-            images: req.files,
-            upload_description: req.body.upload_description
-          });
+          project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
         }
         project.save();
       }
@@ -264,12 +239,25 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
   });
 });
 
+router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
+  var projectId = req.body.projectId;
+  Project.findOne({
+    _id: projectId
+  }, (err, project) => {
+    if (req.files.length != 0) {
+      project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
+    }
+    project.save();
+  });
+  res.redirect('/dashboard');
+});
+
 function isLoggedIn(req, res, next) {
-  if (req.isAuthenticated()) {
-    req.isLogged = true;
-    return next();
-  }
-  res.redirect('/');
+if (req.isAuthenticated()) {
+  req.isLogged = true;
+  return next();
+}
+res.redirect('/');
 }
 
 module.exports = router;

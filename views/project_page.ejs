@@ -13,6 +13,7 @@
     padding-bottom: 0px;
   }
 </style>
+</head>
 
 <body>
 
@@ -63,93 +64,77 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-->
   </nav>
-  <div class="row">
-    <div class="col-md-3">
-      <div class="wrapper d-flex">
-        <div class="sidebar">
-          <div class="tim-typo" style="margin-left: 35px;padding-left: 0px; color:  #fff;">
-            <h3>MY TEAMS</h3>
-            <div class="createbtn">
-              <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
-                            + CREATE TEAM
-                        </button> -->
-              <button class="btn btn-block btn-round" data-toggle="modal" data-target="#createTeamModal">
-                <i class="material-icons">account_circle</i>
-                + CREATE A TEAM
-              </button>
-            </div>
-          </div>
-          <small class="text-muted px-3">LEADER</small>
-          <ul>
-            <% managing.forEach(leader=>{%>
-            <form id="project<%=leader._id%>" method='POST' action="/project/showproject">
-              <input name='projectId' style='display:none' value='<%=leader._id%>'>
-              <li id='<%=leader._id%>' onclick='details(this)'><a href="#"><%= leader.project_name  %></a></li>
-            </form>
-            <%})%>
-          </ul>
-          <small class="text-muted px-3">MEMBER</small>
-          <ul>
-            <% asmember.forEach(member=>{%>
-            <form id="project<%=member._id%>" method='POST' action="/project/showproject">
-              <input name='projectId' style='display:none' value='<%=member._id%>'>
-              <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
-            </form>
-            <%})%>
-          </ul>
-        </div>
-      </div>
-    
-    </div>
-    <div class="col-md-9">
-      <div class="container">
-        <div class="modal fade" id="createTeamModal" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-login" role="document">
-            <div class="modal-content" style="z-index: 35;">
-              <div class="card card-signup card-plain">
-                <div class="modal-header">
-                  <div class="card-header card-header-primary text-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                    <h3>CREATE A TEAM</h3>
-                  </div>
-                </div>
-                <div class="modal-body">
-                  <form class="form" method="" action="">
-                    <div class="card-body">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="material-icons">face</i>
-                            </span>
-                          </div>
-                          <input type="text" class="form-control" placeholder="Team Name" name="project_name">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text">
-                              <i class="material-icons">mail</i>
-                            </span>
-                          </div>
-                          <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                          <select class="selectpicker form-control" name="teammates" id="teammates" data-style="select-with-transition" multiple title="Select Teammates">
-                            <option value="2">Foobar</option>
-                            <option value="3">Is great</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-                <div class="modal-footer justify-content-center">
-                  <a href="#pablo" class="btn btn-primary btn-link btn-wd btn-lg">CREATE!</a>
-                </div>
+  <%-include('partials/sidebar')%>
+  <!--ADD TASK MODAL-->
+  <div class="container">
+    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-login" role="document">
+        <div class="modal-content" style="z-index: 35;">
+          <div class="card card-signup card-plain">
+            <div class="modal-header">
+              <div class="card-header card-header-primary text-center">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                <h3>ADD TASK</h3>
               </div>
             </div>
+            <form method="POST" action="/project/createtask">
+              <input style="display:none" name='projectId' value="<%=project._id%>" <div class="modal-body">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">add_task</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Task Name" name="task_name">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">description</i>
+                      </span>
+                    </div>
+                    <div class="form-group">
+                      <textarea class="form-control" placeholder="Description" id="exampleFormControlTextarea1" name='task_description'></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">date_range</i>
+                      </span>
+                    </div>
+                    <!-- <input type="text" class="form-control" placeholder="Email..."> -->
+                    <input type="text" class="form-control datetimepicker" name="end_time">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <!-- <input type="text" class="form-control" placeholder="Email..."> -->
+                    <select class="form-control teammate" name="teammate" id="teammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
+                    </select>
+                  </div>
+                </div>
+              </div>
           </div>
+          <div class="modal-footer justify-content-center">
+            <input type='submit' class="btn btn-primary btn-link btn-wd btn-lg" value='CREATE!' />
+          </div>
+          </form>
         </div>
+<<<<<<< HEAD
       </div>/
       <p>Other stuff</p>
       <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
@@ -165,27 +150,61 @@
               <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
                 <div class="createbtn">
                   <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
-                            + CREATE TEAM
-                        </button> -->
-                  <button class="btn btn-secondary" data-toggle="modal" data-target="#">
-                    <i class="material-icons">add</i>
-                    
-                  </button>
-                </div>
-              </div>
-            </div>
-                  
-          </div>
-         
-        </div>
+=======
       </div>
-      <!--------------------->
     </div>
   </div>
-    <script>
-      function details(input) {
-        document.getElementById("project" + input.id).submit();
-      }
-    </script>
+  </div>
+  <!--END ADD TASK MODAL-->
+  <p>Other stuff</p>
+  <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-6">
+
+          <div class="tim-typo" style="padding-left: 10px; margin-top: 0px;">
+            <h3 style="margin-top: 0px;">ADD TASK</h3>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
+            <div class="createbtn">
+              <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
+>>>>>>> 67304b050d9c7245e04b2425457abf95cd99783b
+                            + CREATE TEAM
+                        </button> -->
+              <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal">
+                <i class="material-icons">add</i>
+
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <!--------------------->
+  </div>
+  </div>
+  <script>
+    function details(input) {
+      document.getElementById("project" + input.id).submit();
+    }
+    $.ajax({
+      url: "/project/users",
+      method: "GET"
+    }).done(function(data) {
+      $('.teammates').selectpicker();
+      data.users.forEach((item) => {
+        $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+      });
+      $('.teammate').selectpicker();
+      data.users.forEach((item) => {
+        $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+      });
+    });
+  </script>
 </body>
 <%- include('partials/footer'); %>
