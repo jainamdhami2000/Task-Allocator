@@ -167,6 +167,18 @@ router.post('/showproject', isLoggedIn, (req, res) => {
   });
 });
 
+// router.get('/viewinvite', isLoggedIn, (req, res) => {
+//   var managing = req.app.locals.managing;
+//   var asmember = req.app.locals.asmember;
+//   console.log('one');
+//   var invites = req.user.asmember.filter(invite => {
+//     return invite.status == false;
+//   });
+//   console.log('in the routes');
+//   //res.json(invites);
+//   res.render('invitespage', {invites:invites, user:req.user, asmember:asmember, managing:managing})
+// });
+
 router.get('/viewinvite', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
@@ -174,9 +186,22 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   var invites = req.user.asmember.filter(invite => {
     return invite.status == false;
   });
+  var invitearray = [];
+  invites.forEach(i=>{
+    invitearray.push(String(i.project_id));
+  });
+  var invitations = [];
+  asmember.forEach(member=>{
+    if (invitearray.includes(String(member.project._id))){
+      invitations.push(member);
+    }
+  })
   console.log('in the routes');
+  console.log(invitations);
+  console.log(asmember
+  );
   //res.json(invites);
-  res.render('invitespage', {invites:invites, user:req.user, asmember:asmember, managing:managing})
+  res.render('invitespage', {invites:invitations, user:req.user, asmember:asmember, managing:managing})
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {

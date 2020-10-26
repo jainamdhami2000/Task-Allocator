@@ -69,12 +69,12 @@
     </div><!-- /.container-->
   </nav>
 <%- include('partials/sidebar')%>
-  <% invites.forEach((project)=>{%>
+  <% invites.forEach((invitee)=>{%>
     <div class="card">
         <div class="card-body row">
             <div class="col-4">
-                <% console.log(project.project_name) %>
-                <%= project%> 
+                <%= invitee %>
+                 
               
             </div>
             <div class="col-4"></div>
@@ -83,6 +83,12 @@
         </div>
     </div>
   <% }); %>
+    <p>one</p>
+  <% asmember.forEach((project)=>{%>
+    <p><%= project %></p>
+    this
+    <% });%>
+    <p>two</p>
 </div>
 </div>
 </div>
