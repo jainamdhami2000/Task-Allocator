@@ -168,10 +168,15 @@ router.post('/showproject', isLoggedIn, (req, res) => {
 });
 
 router.get('/viewinvite', isLoggedIn, (req, res) => {
+  var managing = req.app.locals.managing;
+  var asmember = req.app.locals.asmember;
+  console.log('one');
   var invites = req.user.asmember.filter(invite => {
     return invite.status == false;
   });
-  res.json(invites);
+  console.log('in the routes');
+  //res.json(invites);
+  res.render('invitespage', {invites:invites, user:req.user, asmember:asmember, managing:managing})
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {

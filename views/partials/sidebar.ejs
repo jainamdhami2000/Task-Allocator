@@ -2,6 +2,9 @@
   <div class="col-md-3">
     <div class="wrapper d-flex">
       <div class="sidebar">
+        <a href="/project/viewinvite" class="btn btn-primary btn-round">
+          <i class="material-icons">favorite</i> view invites
+        </a>
         <div class="tim-typo" style="margin-left: 35px;padding-left: 0px; color:  #fff;">
           <h3>MY TEAMS</h3>
           <div class="createbtn">
@@ -24,9 +27,9 @@
           <%})%>
         </ul>
         <small class="text-muted px-3">MEMBER</small>
-        <ul>
+        <ul>    
           <% asmember.forEach(member=>{%>
-          <form id="project<%=member._id%>" method='POST' action="/project/showproject">
+          <form id="project<%=member._id%>" method='POST' action="/project/showproject">>
             <input name='projectId' style='display:none' value='<%=member._id%>'>
             <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
           </form>
