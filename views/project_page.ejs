@@ -77,7 +77,7 @@
                 <h3>ADD TASK</h3>
               </div>
             </div>
-            <form method="POST" action="/project/createtask">
+            <form method="POST" action="http://localhost:3000/project/createtask">
               <input style="display:none" name='projectId' value="<%=project._id%>" <div class="modal-body">
               <div class="card-body">
                 <div class="form-group">
@@ -193,7 +193,7 @@
       document.getElementById("project" + input.id).submit();
     }
     $.ajax({
-      url: "/project/users",
+      url: "http://localhost:3000/project/users",
       method: "GET"
     }).done(function(data) {
       $('.teammates').selectpicker();
