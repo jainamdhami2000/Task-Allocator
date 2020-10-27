@@ -213,9 +213,10 @@ console.log(invitearray)
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {
+  console.log("rinside checkinvite");
+
   var projectId = req.body.projectId;
-  var accept = req.body.accept;
-  var reject = req.body.reject;
+  var opt=req.body.opt;
   var user_id = req.user._id;
   // var user_id = req.body.user_id;
   User.findOne({
@@ -223,9 +224,9 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   }, (err, user) => {
     user.asmember.forEach(member => {
       if (String(member.project_id) == projectId) {
-        if (accept == 'accept') {
+        if (opt == 'accept') {
           member.status = true;
-        } else if (reject == 'reject') {
+        } else if (opt == 'reject') {
           member.status = false;
         }
         user.save();
@@ -239,16 +240,17 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
     project.teammates.forEach(teammate => {
       if (String(user_id) == String(teammate.user_id)) {
         console.log(teammate.user_id);
-        if (accept == 'accept') {
+        if (opt == 'accept') {
           teammate.status = true;
-        } else if (reject == 'reject') {
+        } else if (opt == 'reject') {
           teammate.status = false;
         }
         project.save();
       }
     });
   });
-  res.send('Invite is reviewed');
+  
+  res.redirect('viewinvite');
 });
 
 router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {

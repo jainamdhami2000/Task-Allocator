@@ -134,23 +134,6 @@
           </div>
           </form>
         </div>
-<<<<<<< HEAD
-      </div>/
-      <p>Other stuff</p>
-      <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-6">
-
-              <div class="tim-typo" style="padding-left: 10px; margin-top: 0px;">
-                <h3 style="margin-top: 0px;">ADD TASK</h3>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
-                <div class="createbtn">
-                  <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
-=======
       </div>
     </div>
   </div>
@@ -170,19 +153,37 @@
           <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
             <div class="createbtn">
               <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
->>>>>>> 67304b050d9c7245e04b2425457abf95cd99783b
                             + CREATE TEAM
                         </button> -->
               <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal">
                 <i class="material-icons">add</i>
-
               </button>
             </div>
           </div>
         </div>
 
       </div>
+    </div>
+  </div>
 
+  <div class="card">
+    <div class="card-body">
+      <form action="/project/addmember" method="POST">
+        <input name='projectId' style='display:none' value='<%=project._id%>'>
+        <label for="addm">Add Members</label>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="material-icons">face</i>
+              </span>
+            </div>
+            <!-- <input type="text" class="form-control" placeholder="Email..."> -->
+            <select class="form-control teammates" name="teammates" id="teammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
+            </select>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
   <!--------------------->
@@ -192,6 +193,7 @@
     function details(input) {
       document.getElementById("project" + input.id).submit();
     }
+    
     $.ajax({
       url: "/project/users",
       method: "GET"

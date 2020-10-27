@@ -73,25 +73,41 @@
     <div class="card">
         <div class="card-body row">
             <div class="col-4">
-                <%= invitee %>
+                <%= invitee.project_name %>
                  
               
             </div>
             <div class="col-4"></div>
-            <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-check"></i> Accept</a></div>
-            <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-times"></i> reject</a></div>
+            <form action="/project/checkinvite" method="POST" id="checkinv<%=invitee._id%>">
+              <input name='projectId' style='display:none' value='<%=invitee._id%>'>
+              <input name='opt' id="opt" style='display:none'>
+            
+              <div class="col-2">
+                <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="accept">accept</button>
+                </div>
+              <div class="col-2">
+                <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="reject">reject</button>
+              </div>
+            </form>
         </div>
     </div>
   <% }); %>
-    <p>one</p>
-  <% asmember.forEach((project)=>{%>
-    <p><%= project %></p>
-    this
-    <% });%>
-    <p>two</p>
+
 </div>
 </div>
 </div>
-</body>
+<script>
+  function checkinv(input){
+    console.log("input: "+input.innerHTML);
+    if(input.value==="accept"){
+      document.getElementById("opt").value="accept";
+    }
+    else{
+      document.getElementById("opt").value="reject";
+    }
+    console.log("opt"+document.getElementById("opt"));
+   document.getElementById("checkinv"+input.id).submit();
+  }
+</script>
 
 <%- include('partials/footer'); %>
