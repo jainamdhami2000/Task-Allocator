@@ -21,7 +21,7 @@ var dbUrl = process.env.ATLAS_URL;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.get('/chat/:project', (req, res) => {
+app.get('/messages/:project', (req, res) => {
   console.log(req.params.project.split('|')[0]);
   Message.find({
     project_id: req.params.project.split('|')[0]

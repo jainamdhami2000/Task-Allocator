@@ -20,14 +20,14 @@
         <small class="text-muted px-3">LEADER</small>
         <ul>
           <% managing.forEach(leader=>{%>
-          <form id="project<%=leader._id%>" method='POST' action="/project/showproject">
+          <form id="project<%=leader._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=leader._id%>'>
             <li id='<%=leader._id%>' onclick='details(this)'><a href="#"><%= leader.project_name  %></a></li>
           </form>
           <%})%>
         </ul>
         <small class="text-muted px-3">MEMBER</small>
-        <ul>    
+        <ul>
           <% asmember.forEach(member=>{%>
           <form id="project<%=member._id%>" method='POST' action="/project/showproject">
             <input name='projectId' style='display:none' value='<%=member._id%>'>

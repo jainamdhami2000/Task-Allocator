@@ -66,116 +66,31 @@
   </nav>
   <%-include('partials/sidebar')%>
   <!--ADD TASK MODAL-->
-  <div class="container">
-    <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog modal-login" role="document">
-        <div class="modal-content" style="z-index: 35;">
-          <div class="card card-signup card-plain">
-            <div class="modal-header">
-              <div class="card-header card-header-primary text-center">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                <h3>ADD TASK</h3>
-              </div>
-            </div>
-            <form method="POST" action="/project/createtask">
-              <input style="display:none" name='projectId' value="<%=project._id%>" <div class="modal-body">
-              <div class="card-body">
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">add_task</i>
-                      </span>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Task Name" name="task_name">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">description</i>
-                      </span>
-                    </div>
-                    <div class="form-group">
-                      <textarea class="form-control" placeholder="Description" id="exampleFormControlTextarea1" name='task_description'></textarea>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">date_range</i>
-                      </span>
-                    </div>
-                    <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                    <input type="text" class="form-control datetimepicker" name="end_time">
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">
-                        <i class="material-icons">face</i>
-                      </span>
-                    </div>
-                    <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                    <select class="form-control teammate" name="teammate" id="teammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
-                    </select>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <input type='submit' class="btn btn-primary btn-link btn-wd btn-lg" value='CREATE!' />
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
+  <% managing.forEach(leader=>{%>
+  <form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
+    <input name='projectId' style='display:none' value='<%=leader._id%>'>
+    <button id='<%=leader._id%>' onclick='chat(this)'><%= leader.project_name  %></button>
+  </form>
+  <%})%>
+  <% asmember.forEach(member=>{%>
+  <form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
+    <input name='projectId' style='display:none' value='<%=member._id%>'>
+    <button id='<%=member._id%>' onclick='chat(this)'><%= member.project_name  %></button>
+  </form>
+  <%})%>
   <!--END ADD TASK MODAL-->
-  <p>Other stuff</p>
-  <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-6">
 
-          <div class="tim-typo" style="padding-left: 10px; margin-top: 0px;">
-            <h3 style="margin-top: 0px;">ADD TASK</h3>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="tim-typo" style="padding-left: 0px; margin-top: 0px;">
-            <div class="createbtn">
-              <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
-                            + CREATE TEAM
-                        </button> -->
-              <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal">
-                <i class="material-icons">add</i>
-
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
   <!--------------------->
-  </div>
-  </div>
   <script>
     function details(input) {
       document.getElementById("project" + input.id).submit();
     }
+
+    function chat(input) {
+      document.getElementById("chat" + input.id).submit();
+    }
     $.ajax({
-      url: "/project/users",
+      url: "http://localhost:3000/project/users",
       method: "GET"
     }).done(function(data) {
       $('.teammates').selectpicker();
