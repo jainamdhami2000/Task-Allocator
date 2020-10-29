@@ -63,7 +63,7 @@ router.post('/create', isLoggedIn, (req, res) => {
     // user.managing.push(project._id);
     user = req.user;
     user.save();
-    res.json({project: project, user: req.user});
+    res.redirect('/dashboard');
   });
 });
 
@@ -170,18 +170,14 @@ router.post('/showproject', isLoggedIn, (req, res) => {
 router.get('/viewinvite', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
-  console.log(req.app.locals.asmember)
-  console.log('one');
   var invites = req.user.asmember.filter(invite => {
     return invite.status == false;
   });
-  console.log('hi')
   var invitearray = [];
   invites.forEach(i => {
     console.log(i);
     invitearray.push(String(i.project_id));
   });
-  console.log(invitearray)
   Project.find({
     _id: {
       $in: invitearray
@@ -197,8 +193,6 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {
-  console.log("rinside checkinvite");
-
   var projectId = req.body.projectId;
   var opt = req.body.opt;
   var user_id = req.user._id;
@@ -206,12 +200,16 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   User.findOne({
     _id: user_id
   }, (err, user) => {
-    user.asmember.forEach(member => {
+    user.asmember.forEach((member) => {
       if (String(member.project_id) == projectId) {
         if (opt == 'accept') {
           member.status = true;
         } else if (opt == 'reject') {
-          member.status = false;
+          var afterrejected;
+          afterrejected = user.asmember.filter(m=>{
+            return member._id!=m._id
+          user.asmember = afterrejected;
+          })
         }
         user.save();
         req.user = user;
