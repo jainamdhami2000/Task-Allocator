@@ -167,18 +167,6 @@ router.post('/showproject', isLoggedIn, (req, res) => {
   });
 });
 
-// router.get('/viewinvite', isLoggedIn, (req, res) => {
-//   var managing = req.app.locals.managing;
-//   var asmember = req.app.locals.asmember;
-//   console.log('one');
-//   var invites = req.user.asmember.filter(invite => {
-//     return invite.status == false;
-//   });
-//   console.log('in the routes');
-//   res.json(invites);
-//   res.render('invitespage', {invites:invites, user:req.user, asmember:asmember, managing:managing})
-// });
-
 router.get('/viewinvite', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
@@ -193,16 +181,12 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
     console.log(i);
     invitearray.push(String(i.project_id));
   });
-console.log(invitearray)
+  console.log(invitearray)
   Project.find({
     _id: {
       $in: invitearray
     }
   }, (err, invitations) => {
-    console.log('in the routes');
-    console.log(invitations);
-    console.log(asmember);
-    
     res.render('invitespage', {
       invites: invitations,
       user: req.user,
@@ -216,7 +200,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   console.log("rinside checkinvite");
 
   var projectId = req.body.projectId;
-  var opt=req.body.opt;
+  var opt = req.body.opt;
   var user_id = req.user._id;
   // var user_id = req.body.user_id;
   User.findOne({
@@ -249,7 +233,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
       }
     });
   });
-  
+
   res.redirect('viewinvite');
 });
 

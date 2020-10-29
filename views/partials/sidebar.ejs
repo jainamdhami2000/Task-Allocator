@@ -102,6 +102,14 @@ $.ajax({
   $('.teammate').selectpicker();
   data.users.forEach((item) => {
     $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+  })
+  $('.addteammate').selectpicker();
+  data.users.forEach((item) => {
+    $('#addteammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
   });
+  $('.addteammates').selectpicker();
+    data.users.forEach((item) => {
+      $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+    });
 });
 </script>
