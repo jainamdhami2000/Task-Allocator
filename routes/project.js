@@ -175,7 +175,6 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   });
   var invitearray = [];
   invites.forEach(i => {
-    console.log(i);
     invitearray.push(String(i.project_id));
   });
   Project.find({
@@ -225,7 +224,11 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
         if (opt == 'accept') {
           teammate.status = true;
         } else if (opt == 'reject') {
-          teammate.status = false;
+          var afterrejected;
+          afterrejected = project.teammates.filter(m=>{
+            return member._id!=m._id
+          project.teammates = afterrejected;
+          })
         }
         project.save();
       }
