@@ -175,7 +175,6 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   });
   var invitearray = [];
   invites.forEach(i => {
-    console.log(i);
     invitearray.push(String(i.project_id));
   });
   Project.find({
@@ -206,10 +205,10 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
           member.status = true;
         } else if (opt == 'reject') {
           var afterrejected;
-          afterrejected = user.asmember.filter(m=>{
-            return member._id!=m._id
+          afterrejected = user.asmember.filter(m => {
+            return String(member._id) != String(m._id)
+          });
           user.asmember = afterrejected;
-          })
         }
         user.save();
         req.user = user;
@@ -225,14 +224,17 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
         if (opt == 'accept') {
           teammate.status = true;
         } else if (opt == 'reject') {
-          teammate.status = false;
+          var afterrejected;
+          afterrejected = project.teammates.filter(m => {
+            return String(teammate._id) != String(m._id)
+          });
+          project.teammates = afterrejected;
         }
         project.save();
       }
     });
   });
-
-  res.redirect('viewinvite');
+  res.redirect('/project/viewinvite');
 });
 
 router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
