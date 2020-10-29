@@ -163,7 +163,7 @@
 
   <div class="card">
     <div class="card-body">
-      <form action="/project/addmember" method="POST">
+      <form action="http://localhost:3000/project/addmembers" method="POST">
         <input name='projectId' style='display:none' value='<%=project._id%>'>
         <label for="addm">Add Members</label>
 
@@ -179,6 +179,7 @@
             </select>
           </div>
         </div>
+        <input type="submit" value="ADD!">
       </form>
     </div>
   </div>
