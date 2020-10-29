@@ -186,28 +186,6 @@
         document.getElementById("checktask" + input.id).submit();
       }
 
-      function submittask(projectId, task_id, projectname, taskname) {
-        console.log(document.getElementById("review+" + projectname + "+" + taskname).value)
-        console.log(document.getElementById("files+" + projectname + "+" + taskname).value)
-        console.log(projectId)
-        console.log(task_id)
-        $.ajax({
-          url: "http://localhost:3000/project/submittask",
-          type: 'POST',
-          contentType: 'multipart/form-data',
-          data: new FormData({
-            projectId: projectId,
-            task_id: task_id,
-            review: document.getElementById("review+" + projectname + "+" + taskname).value,
-            uploadedImages: document.getElementById("files+" + projectname + "+" + taskname).value
-          }),
-          function(data, status) {
-            alert("Task has been successfully submitted");
-            document.getElementById(pending.project_name + pending.task.task_name).remove();
-
-          }
-        });
-      }
       $.ajax({
         url: "/project/users",
         method: "GET"

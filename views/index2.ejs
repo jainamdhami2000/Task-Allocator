@@ -34,7 +34,7 @@
 }
 
 /* Style the right image */
-.chatcontainer img.right {
+.chatcontainer .right {
   float: right;
   margin-left: 20px;
   margin-right:0;
@@ -155,7 +155,7 @@
 
       </div>
     </div>
-    
+
     <div class="jumbotron">
       <h1 class="display-4">Send Message</h1>
       <br>
@@ -184,21 +184,21 @@
     socket.on('message', addMessages)
 
     function addMessages(message) {
-     if('<%=user.username%>' == ${message.name}) {
-      $("#messages").append(`<div class="chatcontainer">
+     if('<%=user.username%>' == `${message.name}`) {
+      $("#messages").append(`<div class="chatcontainer darker">
         <h4>${message.name}</h4>
-        <p>Hello. How are you today?</p>
+        <p>${message.message}</p>
         <span class="time-left">11:00</span>
       </div>`)
-    
-     }else{
+
+     } else{
       $("#messages").append(`<div class="chatcontainer">
-        <h4>${message.name}</h4>
-        <p>Hello. How are you today?</p>
+        <h4 class="right">${message.name}</h4>
+        <p>${message.message}</p>
         <span class="time-right">11:00</span>
       </div>`)
-     }
-      
+    } //nikali leje class='right' just for showing'
+
     }
 
     function getMessages() {
