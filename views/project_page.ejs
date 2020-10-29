@@ -175,7 +175,7 @@
               </span>
             </div>
             <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-            <select class="form-control teammates" name="teammates" id="teammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
+            <select class="form-control addteammates" name="addteammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
             </select>
           </div>
         </div>
@@ -189,21 +189,6 @@
       document.getElementById("project" + input.id).submit();
     }
     
-    $.ajax({
-      url: "http://localhost:3000/project/users",
-      method: "GET"
-    }).done(function(data) {
-      $('.teammates').selectpicker();
-      data.users.forEach((item) => {
-        $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-      });
-      $('.teammate').selectpicker();
-      data.users.forEach((item) => {
-        $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-      });
-    });
-
-
     $.ajax({
       url: "http://localhost:3000/project/users",
       method: "GET"
