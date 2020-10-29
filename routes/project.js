@@ -206,7 +206,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
         } else if (opt == 'reject') {
           var afterrejected;
           afterrejected = user.asmember.filter(m=>{
-            return member._id!=m._id
+            return String(member._id)!=String(m._id)
           user.asmember = afterrejected;
           })
         }
@@ -226,7 +226,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
         } else if (opt == 'reject') {
           var afterrejected;
           afterrejected = project.teammates.filter(m=>{
-            return member._id!=m._id
+            return String(member._id)!=String(m._id)
           project.teammates = afterrejected;
           })
         }
