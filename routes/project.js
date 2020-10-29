@@ -156,7 +156,6 @@ router.post('/showproject', isLoggedIn, (req, res) => {
           return String(task.assigned_to) == String(req.user._id);
         });
       }
-      console.log('Hole', tasks);
       res.render('project_page', {
         project: project,
         managing: managing,

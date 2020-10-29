@@ -2,7 +2,7 @@
   <div class="col-md-3">
     <div class="wrapper d-flex">
       <div class="sidebar">
-        <a href="/project/viewinvite" class="btn btn-primary btn-round">
+        <a href="http://localhost:3000/project/viewinvite" class="btn btn-primary btn-round">
           <i class="material-icons">favorite</i> view invites
         </a>
         <div class="tim-typo" style="margin-left: 35px;padding-left: 0px; color:  #fff;">
@@ -29,7 +29,7 @@
         <small class="text-muted px-3">MEMBER</small>
         <ul>
           <% asmember.forEach(member=>{%>
-          <form id="project<%=member._id%>" method='POST' action="/project/showproject">
+          <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=member._id%>'>
             <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
           </form>
@@ -86,3 +86,22 @@
           </div>
         </div>
       </div>
+<script type="text/javascript">
+function details(input) {
+  document.getElementById("project" + input.id).submit();
+}
+
+$.ajax({
+  url: "http://localhost:3000/project/users",
+  method: "GET"
+}).done(function(data) {
+  $('.teammates').selectpicker();
+  data.users.forEach((item) => {
+    $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+  });
+  $('.teammate').selectpicker();
+  data.users.forEach((item) => {
+    $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+  });
+});
+</script>

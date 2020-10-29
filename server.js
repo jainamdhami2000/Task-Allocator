@@ -46,6 +46,7 @@ app.post('/messages/:project', async (req, res) => {
     newmessage.name = req.body.name;
     newmessage.message = req.body.message;
     newmessage.project_id = req.params.project.split('|')[0];
+    newmessage.msg_time = Date.now();
 
     var savedMessage = await newmessage.save();
     console.log('saved');

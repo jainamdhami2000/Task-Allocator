@@ -9,7 +9,11 @@ const chatSchema = new mongoose.Schema({
   },
   name: String,
   message: String,
-  project_id: mongoose.Schema.ObjectId
+  project_id: mongoose.Schema.ObjectId,
+  msg_time: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 module.exports = mongoose.model("Chat", chatSchema);
