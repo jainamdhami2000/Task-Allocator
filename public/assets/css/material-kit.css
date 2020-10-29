@@ -16490,7 +16490,9 @@ select.selectpicker {
   width: 350px;
   height: 100%;
   background:  #1d2124;
-  padding: 20px 0
+  padding: 20px 0;
+  top:0px;
+  left: 0px;
 }
 
 .text-muted {

@@ -123,7 +123,7 @@
                       </span>
                     </div>
                     <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                    <select class="form-control teammate" name="teammate" id="teammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
+                    <select class="form-control addteammate" name="addteammate" id="addteammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
                     </select>
                   </div>
                 </div>
@@ -171,11 +171,12 @@
       <form action="/project/addmember" method="POST">
         <input name='projectId' style='display:none' value='<%=project._id%>'>
         <label for="addm">Add Members</label>
+        
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="material-icons">face</i>
+                <i class="material-icons">mail</i>
               </span>
             </div>
             <!-- <input type="text" class="form-control" placeholder="Email..."> -->
@@ -205,6 +206,21 @@
       $('.teammate').selectpicker();
       data.users.forEach((item) => {
         $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+      });
+    });
+
+
+    $.ajax({
+      url: "http://localhost:3000/project/users",
+      method: "GET"
+    }).done(function(data) {
+      $('.addteammates').selectpicker();
+      data.users.forEach((item) => {
+        $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+      });
+      $('.addteammate').selectpicker();
+      data.users.forEach((item) => {
+        $('#addteammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
       });
     });
   </script>

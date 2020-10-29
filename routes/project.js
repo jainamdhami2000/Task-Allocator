@@ -191,6 +191,7 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
   console.log('hi')
   var invitearray = [];
   invites.forEach(i => {
+    console.log(i);
     invitearray.push(String(i.project_id));
   });
 console.log(invitearray)
@@ -202,7 +203,7 @@ console.log(invitearray)
     console.log('in the routes');
     console.log(invitations);
     console.log(asmember);
-    //res.json(invites);
+    
     res.render('invitespage', {
       invites: invitations,
       user: req.user,
