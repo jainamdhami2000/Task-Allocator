@@ -69,29 +69,27 @@
     </div><!-- /.container-->
   </nav>
 <%- include('partials/sidebar')%>
-  <% invites.forEach((invitee)=>{%>
-    <div class="card">
-        <div class="card-body row">
-            <div class="col-4">
-                <%= invitee %>
-                 
-              
-            </div>
-            <div class="col-4"></div>
-            <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-check"></i> Accept</a></div>
-            <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-times"></i> reject</a></div>
-        </div>
+                <% invites.forEach((invitee)=>{%>
+                <div class="card">
+                  <div class="card-body row">
+                    <div class="col-4">
+                      <%= invitee %>
+                    </div>
+                    <div class="col-4"></div>
+                    <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-check"></i> Accept</a></div>
+                    <div class="col-2"><a class="btn btn-primary btn-link"><i class="fa fa-times"></i> reject</a></div>
+                  </div>
+                </div>
+                <% }); %>
+              </div>
+      </div>
     </div>
-  <% }); %>
-    <p>one</p>
-  <% asmember.forEach((project)=>{%>
-    <p><%= project %></p>
-    this
-    <% });%>
-    <p>two</p>
-</div>
-</div>
-</div>
 </body>
+
+<script>
+  function details(input) {
+    document.getElementById("project" + input.id).submit();
+  }
+  </script>
 
 <%- include('partials/footer'); %>

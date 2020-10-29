@@ -29,7 +29,7 @@
         <small class="text-muted px-3">MEMBER</small>
         <ul>
           <% asmember.forEach(member=>{%>
-          <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">>
+          <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=member._id%>'>
             <li id='<%=member._id%>' onclick='details(this)'><a href="#"><%= member.project_name  %></a></li>
           </form>

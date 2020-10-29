@@ -1,109 +1,104 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-  <title>OYE</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<%- include('partials/header'); %>
   <script src="/socket.io/socket.io.js"></script>
   <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/animate.css">
-  <link href="css/stylesheet.css" rel="stylesheet">
-
-</head>
 <style media="screen">
-  .card {
+  /* .card { */
     /* Add shadows to create the "card" effect */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
     width: 80%;
     margin: auto;
-  }
+  } */
 
-  .card-header {
+  /* .card-header {
     background-color: #87dfd6;
     height: 6rem;
     padding: 15px;
-  }
+  } */
 
-  .card-body {
+  /* .card-body {
     padding: 20px;
 
-  }
+  } */
 
-  .card-simple {
+  /* .card-simple {
     border-radius: 5px;
     background-color: #cbeaed;
     transition: 0.3s;
     width: 80%;
     height: 4rem;
     margin: auto;
-  }
+  } */
 
   /* On mouse-over, add a deeper shadow */
-  .card:hover {
+  /* .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  }
+  } */
 
   /* Add some padding inside the card container */
-  .container {
+  /* .container {
     padding: 2px 16px;
-  }
+  } */
 
-  .card .card-title {
+  /* .card .card-title {
     font-weight: bold;
     text-align: center;
-  }
+  } */
 
-  .card .row {
+  /* .card .row {
     margin: 35px 0;
-  }
+  } */
 </style>
-
-
-<nav class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-        <span class="sr-only">Toggle Navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html"><img src=""></a>
-      <!-- <a class="navbar-brand" href="/">
-  <img src="img/logo.png" alt="">
-</a> -->
-    </div>
-
-    <div class="collapse navbar-collapse" id="navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <!-- <li class="active"><a href="/">Home</a></li> -->
-
-
-        <li class="inactive"><a href="/FileAComplaint">File a Complaint</a></li>
-        <li class="inactive"><a href="/help">Help</a></li>
-
-        <%if  (typeof user =='undefined') {%>
-        <li class="inactive"><a href="/chat/notloggedIn">Forum</a></li>
-        <li class="inactive"><a href="/login-user">Login</a></li>
-        <li class="inactive"><a href="/signup-user">Signup</a></li>
-
-        <%} else {%>
-        <li class="inactive"><a href="/myGrievances">My Grievances</a></li>
-        <li class="inactive"><a href="/chat">Forum</a></li>
-        <li class="inactive"><a href="/logout">Logout</a></li>
-        <% } %>
-      </ul>
-    </div>
-
-  </div>
-</nav>
-
+</head>
 <body>
+  <nav class="navbar navbar-inverse navbar-expand-lg bg-dark" role="navigation-demo">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-translate">
+        <a class="navbar-brand" href="#0">Navbar with notification</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a href="/chat" class="nav-link">
+              CHAT
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#pablo" class="nav-link">
+              UPLOAD
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#pablo" class="btn btn-rose btn-raised btn-fab btn-round" data-toggle="dropdown">
+              <i class="material-icons">email</i>
+            </a>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
+              <div class="profile-photo-small">
+                <img src="/assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
+              </div>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <h6 class="dropdown-header">Dropdown header</h6>
+              <a href="#pablo" class="dropdown-item">Me</a>
+              <a href="#pablo" class="dropdown-item">Settings and other stuff</a>
+              <a href="#pablo" class="dropdown-item">Sign out</a>
+            </div>
+          </li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-->
+  </nav>
+  <%-include('partials/sidebar')%>
   <div class="container">
 
     <div class="card" style="width:100%;height: 500px;overflow: auto;">
