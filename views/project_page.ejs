@@ -166,7 +166,7 @@
       <form action="/project/addmember" method="POST">
         <input name='projectId' style='display:none' value='<%=project._id%>'>
         <label for="addm">Add Members</label>
-        
+
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -175,7 +175,7 @@
               </span>
             </div>
             <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-            <select class="form-control addteammates" name="addteammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
+            <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
             </select>
           </div>
         </div>
@@ -184,24 +184,5 @@
   </div>
   </div>
   </div>
-  <script>
-    function details(input) {
-      document.getElementById("project" + input.id).submit();
-    }
-    
-    $.ajax({
-      url: "http://localhost:3000/project/users",
-      method: "GET"
-    }).done(function(data) {
-      $('.addteammates').selectpicker();
-      data.users.forEach((item) => {
-        $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-      });
-      $('.addteammate').selectpicker();
-      data.users.forEach((item) => {
-        $('#addteammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-      });
-    });
-  </script>
 </body>
 <%- include('partials/footer'); %>
