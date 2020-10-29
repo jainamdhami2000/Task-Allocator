@@ -2,6 +2,55 @@
   <script src="/socket.io/socket.io.js"></script>
   <!-- Bootstrap core CSS -->
 <style media="screen">
+  /* Chat containers */
+.chatcontainer {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 2px ;
+  margin: 10px 5px;
+}
+
+/* Darker chat container */
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+/* Clear floats */
+.chatcontainer::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Style images */
+.chatcontainer img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+/* Style the right image */
+.chatcontainer img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+/* Style time text */
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+  float: left;
+  color: #999;
+}
   /* .card { */
     /* Add shadows to create the "card" effect */
     /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -106,7 +155,7 @@
 
       </div>
     </div>
-    <br>
+    
     <div class="jumbotron">
       <h1 class="display-4">Send Message</h1>
       <br>
@@ -135,7 +184,21 @@
     socket.on('message', addMessages)
 
     function addMessages(message) {
-      $("#messages").append(`<h4> ${message.name} </h4> <p> ${message.message} </p>`)
+     if('<%=user.username%>' == ${message.name}) {
+      $("#messages").append(`<div class="chatcontainer">
+        <h4>${message.name}</h4>
+        <p>Hello. How are you today?</p>
+        <span class="time-left">11:00</span>
+      </div>`)
+    
+     }else{
+      $("#messages").append(`<div class="chatcontainer">
+        <h4>${message.name}</h4>
+        <p>Hello. How are you today?</p>
+        <span class="time-right">11:00</span>
+      </div>`)
+     }
+      
     }
 
     function getMessages() {
