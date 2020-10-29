@@ -16,7 +16,6 @@ router.post('/:project/:userid', function(req, res) {
   User.findOne({
     _id: req.params.userid
   }, (err, user) => {
-    console.log(user)
     res.render('index2.ejs', {
       user: user,
       userid: req.params.userid,

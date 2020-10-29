@@ -72,7 +72,6 @@ router.post('/createtask', isLoggedIn, (req, res) => {
     Project.findOne({
       _id: req.body.projectId
     }, (err, project) => {
-      console.log(req.body.end_time)
       project.tasks.push({
         task_name: req.body.task_name,
         task_description: req.body.task_description,
@@ -120,7 +119,6 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
 router.post('/showproject', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
-  console.log(asmember)
   Project.findOne({
     _id: req.body.projectId
   }, async (err, project) => {
@@ -220,7 +218,6 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   }, (err, project) => {
     project.teammates.forEach(teammate => {
       if (String(user_id) == String(teammate.user_id)) {
-        console.log(teammate.user_id);
         if (opt == 'accept') {
           teammate.status = true;
         } else if (opt == 'reject') {

@@ -22,7 +22,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/messages/:project', (req, res) => {
-  console.log(req.params.project.split('|')[0]);
   Message.find({
     project_id: req.params.project.split('|')[0]
   }, (err, messages) => {
@@ -40,7 +39,6 @@ app.get('/messages/:userid', (req, res) => {
 });
 
 app.post('/messages/:project', async (req, res) => {
-  console.log(typeof(req.params.project.split('|')[0]));
   try {
     var newmessage = new Message();
     newmessage.name = req.body.name;

@@ -14,7 +14,6 @@ router.get('/', isLoggedIn, (req, res) => {
 });
 
 router.get('/:userid', (req, res) => {
-  // console.log(req.params.userid)
   User.findOne({
     _id: req.params.userid
   }, function(err, user) {
