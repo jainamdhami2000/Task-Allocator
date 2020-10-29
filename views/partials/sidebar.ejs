@@ -90,11 +90,13 @@
 function details(input) {
   document.getElementById("project" + input.id).submit();
 }
+var resarray = []
 
 $.ajax({
   url: "http://localhost:3000/project/users",
   method: "GET"
 }).done(function(data) {
+  window.resarray = data
   $('.teammates').selectpicker();
   data.users.forEach((item) => {
     $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');

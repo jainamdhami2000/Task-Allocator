@@ -1,90 +1,42 @@
 <%- include('partials/header'); %>
-<style>
-  .navbar {
-    margin-bottom: 0px;
-    margin-right: 0px;
-    width: 100%;
-    padding: 0px;
-  }
 
-  .nav-brand .nav-item {
-    align-self: center;
-    padding-top: 10px;
-    padding-bottom: 0px;
-  }
-</style>
-</head>
-
-<body>
-
-  <nav class="navbar navbar-inverse navbar-expand-lg bg-dark" role="navigation-demo">
-    <div class="container">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-translate">
-        <a class="navbar-brand" href="#0">Task Allocator</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a href="/chat" class="nav-link">
-              CHAT
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#pablo" class="nav-link">
-              UPLOAD
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#pablo" class="btn btn-rose btn-raised btn-fab btn-round" data-toggle="dropdown">
-              <i class="material-icons">email</i>
-            </a>
-          </li>
-          <li class="dropdown nav-item">
-            <a href="#pablo" class="profile-photo dropdown-toggle nav-link" data-toggle="dropdown">
-              <div class="profile-photo-small">
-                <img src="/assets/img/faces/avatar.jpg" alt="Circle Image" class="rounded-circle img-fluid">
-              </div>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <h6 class="dropdown-header">Dropdown header</h6>
-              <a href="#pablo" class="dropdown-item">Me</a>
-              <a href="#pablo" class="dropdown-item">Settings and other stuff</a>
-              <a href="#pablo" class="dropdown-item">Sign out</a>
-            </div>
-          </li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-->
-  </nav>
-  <%-include('partials/sidebar')%>
-  <!--ADD TASK MODAL-->
-  <% managing.forEach(leader=>{%>
-  <form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
-    <input name='projectId' style='display:none' value='<%=leader._id%>'>
-    <button id='<%=leader._id%>' onclick='chat(this)'><%= leader.project_name  %></button>
-  </form>
-  <%})%>
-  <% asmember.forEach(member=>{%>
-  <form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
-    <input name='projectId' style='display:none' value='<%=member._id%>'>
-    <button id='<%=member._id%>' onclick='chat(this)'><%= member.project_name  %></button>
-  </form>
-  <%})%>
-  <!--END ADD TASK MODAL-->
-
-  <!--------------------->
-  <script>
-    function chat(input) {
-      document.getElementById("chat" + input.id).submit();
+<head>
+  <style>
+    .navbar {
+      margin-bottom: 0px;
+      margin-right: 0px;
+      width: 100%;
+      padding: 0px;
     }
-  </script>
+
+    .nav-brand .nav-item {
+      align-self: center;
+      padding-top: 10px;
+      padding-bottom: 0px;
+    }
+  </style>
+</head>
+<%-include('partials/sidebar')%>
+<!--ADD TASK MODAL-->
+<% managing.forEach(leader=>{%>
+<form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
+  <input name='projectId' style='display:none' value='<%=leader._id%>'>
+  <button id='<%=leader._id%>' onclick='chat(this)'><%= leader.project_name  %></button>
+</form>
+<%})%>
+<% asmember.forEach(member=>{%>
+<form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
+  <input name='projectId' style='display:none' value='<%=member._id%>'>
+  <button id='<%=member._id%>' onclick='chat(this)'><%= member.project_name  %></button>
+</form>
+<%})%>
+<!--END ADD TASK MODAL-->
+
+<!--------------------->
+<script>
+  function chat(input) {
+    document.getElementById("chat" + input.id).submit();
+  }
+</script>
 </body>
 <%- include('partials/footer'); %>
