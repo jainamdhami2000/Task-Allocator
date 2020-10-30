@@ -90,8 +90,43 @@
 </div>
 </div>
 <!--END ADD TASK MODAL-->
-<p>Other stuff</p>
-<div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+
+  <%if(String(project.leader)===String(user._id)){%>
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <form action="http://localhost:3000/project/addmembers" method="POST">
+              <input name='projectId' style='display:none' value='<%=project._id%>'>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <i class="material-icons">mail</i>
+                  </span>
+                </div>
+              
+                <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
+                </select>
+                <input type="submit" value="ADD!" style="margin-left: 5px;">
+              </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
+    
+          <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
+            <i class="material-icons">add</i> ADD TASK
+          </button>
+        
+      </div>
+    </div>
+<%};%>
+
+
+<!-- <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
   <div class="card-body">
     <div class="row">
       <div class="col-6">
@@ -111,27 +146,47 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
+<!-- 
+<div class="row">
+  <div class="col-12 col-md-4" id="divfirst">
 
-<div class="card">
-  <div class="card-body">
-    <form action="/project/addmember" method="POST">
-      <input name='projectId' style='display:none' value='<%=project._id%>'>
-      <label for="addm">Add Members</label>
+  </div>
+  <div class="col-12 col-md-4" id="divsecond">
 
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <i class="material-icons">mail</i>
+  </div>
+  <div class="col-12 col-md-4" id="divthird">
+
+  </div>
+</div> -->
+
+
+
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-body">
+      <form action="http://localhost:3000/project/uploadimages" method="POST">
+        <input name='projectId' style='display:none' value='<%=project._id%>'>
+        <label for="addm">Upload images</label>
+        <div class="form-group form-file-upload form-file-multiple">
+          <input type="file" id="" name='uploadedImages' multiple="" class="inputFileHidden">
+          <div class="input-group">
+            <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-link btn-fab btn-info">
+                <i class="material-icons">layers</i>
+              </button>
             </span>
           </div>
-          <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-          <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Select Teammates">
-          </select>
         </div>
-      </div>
-    </form>
+   
+        </div>
+        <input type="submit" value="ADD!">
+      </form>
+    </div>
+
+    
+  </div>
+  </div>
   </div>
 </div>
 </body>
