@@ -8,9 +8,7 @@ const Project = require('../model/project');
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
-    res.render('firstpage', {
-      user: req.user
-    });
+    res.render('firstpage', {user: req.user});
   });
 
   app.get('/dashboard', isLoggedIn, (req, res) => {
@@ -22,7 +20,10 @@ module.exports = function(app, passport) {
       }
     });
     var leaderof = req.user.managing;
-    var merged = [...mid, ...leaderof];
+    var merged = [
+      ...mid,
+      ...leaderof
+    ];
     var managing = [];
     var asmember = [];
     var pending = [];
@@ -40,11 +41,7 @@ module.exports = function(app, passport) {
       projects.forEach(project => {
         project.tasks.forEach(task => {
           if (String(req.user._id) == String(task.assigned_to) && task.isDone == 0) {
-            pending.push({
-              _id: project._id,
-              project_name: project.project_name,
-              task: task
-            });
+            pending.push({_id: project._id, project_name: project.project_name, task: task});
           }
         });
       });
@@ -64,10 +61,12 @@ module.exports = function(app, passport) {
     });
   });
 
+  app.get('/about_us', (req, res) => {
+    res.render('aboutus', {user: req.user})
+  });
+
   app.get('/signup', (req, res) => {
-    res.render('register', {
-      message: req.flash('signupMessage')
-    });
+    res.render('register', {message: req.flash('signupMessage')});
   });
 
   app.post('/signup', passport.authenticate('local-signup', {
@@ -77,9 +76,7 @@ module.exports = function(app, passport) {
   }));
 
   app.get('/login', (req, res) => {
-    res.render('login', {
-      message: req.flash('loginMessage')
-    });
+    res.render('login', {message: req.flash('loginMessage')});
   });
 
   app.post('/login', passport.authenticate('local-login', {
@@ -90,7 +87,7 @@ module.exports = function(app, passport) {
 
   app.get('/verify', function(req, res) {
     User.findOne({
-      Email: req.user.Email,
+      Email: req.user.Email
     }, function(err, user) {
       if (user.isVerified) {
         res.redirect('/dashboard');

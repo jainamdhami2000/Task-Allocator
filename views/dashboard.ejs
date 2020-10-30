@@ -21,49 +21,49 @@
   <h2>My Pending Tasks</h2>
 </div>
 <div class="pendingTasks">
+
+  <!-- /////////////////////////////////////////task card/////////////////////////////////////////////////////////// -->
   <%pending.forEach((pendingtask, i) => {%>
-    <!-- /////////////////////////////////////////task card/////////////////////////////////////////////////////////// -->
-    <form id="checktask<%=pendingtask._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
-      <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
-      <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
-      <div class="card" id="<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-        <!-- <p class="card-title"><%=pendingtask.project_name%></p> -->
-        <div class="card-body">
-          <div class="row">
-            <div class="col-1">
-              <div class="checkbox" style="margin-top:30px">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input id="<%=pendingtask._id%>" onclick="checktask(this)" class="form-check-input" type="checkbox" value="">
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
-                </div>
+  <div class="card" id="<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+    <div class="card-body">
+      <div class="row">
+        <form id="checktask<%=pendingtask._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+          <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
+          <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
+          <div class="col-1">
+            <div class="checkbox" style="margin-top:30px">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input id="<%=pendingtask._id%>" onclick="checktask(this)" class="form-check-input" type="checkbox" value="">
+                  <span class="form-check-sign">
+                    <span class="check"></span>
+                  </span>
+                </label>
               </div>
             </div>
+          </div>
         </form>
-          <div class="col-2">
+        <div class="col-2">
           <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=pendingtask.task.task_name%></span>
         </div>
         <div class="col-3">
-      <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
-        Team:<br>
-        <!-- <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3> -->
-        <%=pendingtask.project_name%>
-      </div>
+          <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
+            Team:<br>
+            <!-- <h3 style="margin-top: 0px;"><%=pendingtask.project_name%></h3> -->
+            <%=pendingtask.project_name%>
+          </div>
         </div>
         <div class="col-4">
-      Description:<p><%=pendingtask.task.task_description%></p>
+          Description:<p><%=pendingtask.task.task_description%></p>
         </div>
         <div class="col-2">
-      <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
-        <i class="material-icons">account_circle</i>
-        DETAILS
-      </button>
+          <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+            <i class="material-icons">account_circle</i>
+            DETAILS
+          </button>
         </div>
-  </div>
-  </div>
+      </div>
+    </div>
   </div>
   <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
   <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
@@ -114,7 +114,7 @@
       </div>
     </div>
   </div>
-<%});%>
+  <%});%>
 </div>
 <script>
   function task(input) {
