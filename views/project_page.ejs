@@ -189,10 +189,30 @@
   </div>
   </div>
 </div>
-</div>
-</div>
 </body>
 <script>
-  $(document).ready()
+  var a = []
+</script>
+<%project.teammates.forEach(teammate=>{%>
+<script>
+  a.push(String('<%=teammate.user_id%>'));
+</script>
+<%})%>
+<script>
+  $.ajax({
+    url: "http://localhost:3000/project/users",
+    method: "GET"
+  }).done(function(data) {
+    var b = []
+    data.users.forEach(user => {
+      if (!a.includes(String(user._id))) {
+        b.push(user);
+      }
+    });
+    $('.addteammates').selectpicker();
+    b.forEach((item) => {
+      $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+    });
+  });
 </script>
 <%- include('partials/footer'); %>

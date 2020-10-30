@@ -22,7 +22,6 @@ router.post('/verifyMail', function(req, res) {
         res.send('Email not found');
       } else {
         const emailAddress = req.body.email;
-        // console.log(result._id)
         var date = Date.now();
         date += (24 * 60 * 60 * 1000);
         const payload = {

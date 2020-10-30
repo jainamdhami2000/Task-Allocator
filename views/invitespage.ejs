@@ -46,13 +46,11 @@
 </div>
 <script>
   function checkinv(input) {
-    console.log("input: " + input.innerHTML);
     if (input.value === "accept") {
       document.getElementById("opt").value = "accept";
     } else {
       document.getElementById("opt").value = "reject";
     }
-    console.log("opt" + document.getElementById("opt"));
     document.getElementById("checkinv" + input.id).submit();
   }
 </script>
