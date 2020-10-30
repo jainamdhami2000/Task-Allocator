@@ -62,7 +62,6 @@
                       <i class="material-icons">date_range</i>
                     </span>
                   </div>
-                  <!-- <input type="text" class="form-control" placeholder="Email..."> -->
                   <input type="text" class="form-control datetimepicker" name="end_time">
                 </div>
               </div>
@@ -74,7 +73,7 @@
                     </span>
                   </div>
                   <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                  <select class="form-control addteammate" name="addteammate" id="addteammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
+                  <select class="form-control addteammate" name="user_id" id="addteammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
                   </select>
                 </div>
               </div>
@@ -140,7 +139,6 @@
                     <i class="material-icons">mail</i>
                   </span>
                 </div>
-              
                 <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
                 </select>
                 <input type="submit" value="ADD!" style="margin-left: 5px;">
@@ -151,11 +149,9 @@
         </div>
       </div>
       <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
-    
           <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
             <i class="material-icons">add</i> ADD TASK
           </button>
-        
       </div>
     </div>
 <%};%>
@@ -204,7 +200,7 @@
 
   <!-- <div class="card" style="margin-top: 20px;">
     <div class="card-body">
-      <form action="http://localhost:3000/project/uploadimages" method="POST">
+      <form action="http://localhost:3000/project/uploadimages" enctype="multipart/form-data" method="POST">
         <input name='projectId' style='display:none' value='<%=project._id%>'>
         <label for="addm">Upload images</label>
         <div class="form-group form-file-upload form-file-multiple">
@@ -218,7 +214,6 @@
             </span>
           </div>
         </div>
-   
         </div>
         <input type="submit" value="ADD!">
       </form>

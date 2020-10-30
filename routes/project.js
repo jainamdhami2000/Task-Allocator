@@ -81,7 +81,7 @@ router.post('/createtask', isLoggedIn, (req, res) => {
         end_time: req.body.end_time
       });
       project.save();
-      res.json(project);
+      res.redirect('/dashboard')
     });
   } else {
     res.send('You are not team leader');
@@ -110,7 +110,7 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
         user.save();
       });
     });
-    res.send('Members added successfully');
+    res.redirect('/dashboard');
   } else {
     res.send('You are not team leader');
   }
@@ -193,29 +193,12 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var opt = req.body.opt;
   var user_id = req.user._id;
+  console.log(projectId);
   // var user_id = req.body.user_id;
-  User.findOne({
-    _id: user_id
-  }, (err, user) => {
-    user.asmember.forEach((member) => {
-      if (String(member.project_id) == projectId) {
-        if (opt == 'accept') {
-          member.status = true;
-        } else if (opt == 'reject') {
-          var afterrejected;
-          afterrejected = user.asmember.filter(m => {
-            return String(member._id) != String(m._id)
-          });
-          user.asmember = afterrejected;
-        }
-        user.save();
-        req.user = user;
-      }
-    });
-  });
   Project.findOne({
     _id: projectId
   }, (err, project) => {
+    console.log(project)
     project.teammates.forEach(teammate => {
       if (String(user_id) == String(teammate.user_id)) {
         if (opt == 'accept') {
@@ -230,8 +213,27 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
         project.save();
       }
     });
+    User.findOne({
+      _id: user_id
+    }, (err, user) => {
+      user.asmember.forEach((member) => {
+        if (String(member.project_id) == projectId) {
+          if (opt == 'accept') {
+            member.status = true;
+          } else if (opt == 'reject') {
+            var afterrejected;
+            afterrejected = user.asmember.filter(m => {
+              return String(member._id) != String(m._id)
+            });
+            user.asmember = afterrejected;
+          }
+          user.save();
+          req.user = user;
+        }
+      });
+      res.redirect('/dashboard');
+    });
   });
-  res.redirect('/project/viewinvite');
 });
 
 router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
