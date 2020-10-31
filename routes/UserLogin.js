@@ -122,3 +122,7 @@ function isLoggedIn(req, res, next) {
   }
   res.redirect('/');
 }
+
+app.get('/profile_page', (req, res) => {
+  res.render('profile-page', {user: req.user})
+});

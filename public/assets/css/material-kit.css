@@ -16554,3 +16554,17 @@ i.far.fa-credit-card:hover {
   opacity: 0.8; 
   color: #D4DEED;
 }
+.about-us .abdiv{
+background-color:#212121; 
+
+
+}
+.about-us .image1{
+height: 50px;
+width: 50%;
+right:0;
+}
+
+.about-us .txt1{
+width: 50%;
+}
