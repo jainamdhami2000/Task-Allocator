@@ -79,6 +79,10 @@ module.exports = function(app, passport) {
     res.render('login', {message: req.flash('loginMessage')});
   });
 
+  app.get('/profile_page', (req, res) => {
+    res.render('profile-page', {user: req.user})
+  });
+  
   app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/verify', // redirect to the secure profile section
     failureRedirect: '/login', // redirect back to the signup page if there is an error
@@ -123,6 +127,3 @@ function isLoggedIn(req, res, next) {
   res.redirect('/');
 }
 
-app.get('/profile_page', (req, res) => {
-  res.render('profile-page', {user: req.user})
-});
