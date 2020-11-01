@@ -8,7 +8,7 @@ const Project = require('../model/project');
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
-    res.render('firstpage', {user: req.user});
+    res.redirect('/login');
   });
 
   app.get('/dashboard', isLoggedIn, (req, res) => {
@@ -82,7 +82,7 @@ module.exports = function(app, passport) {
   app.get('/profile_page', (req, res) => {
     res.render('profile-page', {user: req.user})
   });
-  
+
   app.post('/login', passport.authenticate('local-login', {
     successRedirect: '/verify', // redirect to the secure profile section
     failureRedirect: '/login', // redirect back to the signup page if there is an error
@@ -126,4 +126,3 @@ function isLoggedIn(req, res, next) {
   }
   res.redirect('/');
 }
-
