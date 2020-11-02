@@ -115,45 +115,45 @@
                 </span>
               </div>
             </div>
-       
-            </div>
-            <input type="submit" value="ADD!">
-          </form>
+
         </div>
+        <input type="submit" value="ADD!">
+        </form>
       </div>
     </div>
   </div>
+</div>
 
 <!-- ===============================================================end uploads modal ==============================================================-->
-  <%if(String(project.leader)===String(user._id)){%>
-    <div class="row" style="z-index: -2;">
-      <div class="col-12 col-md-8">
-        <div class="card">
-          <div class="card-body">
-            <form action="http://localhost:3000/project/addmembers" method="POST">
-              <input name='projectId' style='display:none' value='<%=project._id%>'>
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="material-icons">mail</i>
-                  </span>
-                </div>
-                <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
-                </select>
-                <input type="submit" value="ADD!" style="margin-left: 5px;">
+<%if(String(project.leader)===String(user._id)){%>
+<div class="row" style="z-index: -2;">
+  <div class="col-12 col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <form action="http://localhost:3000/project/addmembers" method="POST">
+          <input name='projectId' style='display:none' value='<%=project._id%>'>
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="material-icons">mail</i>
+                </span>
               </div>
-              </div>
-            </form>
+              <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
+              </select>
+              <input type="submit" value="ADD!" style="margin-left: 5px;">
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
-          <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
-            <i class="material-icons">add</i> ADD TASK
-          </button>
+        </form>
       </div>
     </div>
+  </div>
+  <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
+    <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
+      <i class="material-icons">add</i> ADD TASK
+    </button>
+  </div>
+</div>
 <%};%>
 
 
@@ -168,12 +168,12 @@
             <i class="fa fa-pencil"></i> uploads
           </a>
         </li>
-        <li class="nav-item"  style="width: 33%;">
+        <li class="nav-item" style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab">
             <i class="fa fa-pencil"></i> progress tracker
           </a>
         </li>
-        <li class="nav-item"  style="width: 33%;">
+        <li class="nav-item" style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#pendingtasks" role="tab" data-toggle="tab">
             <i class="fa fa-pencil"></i> pending tasks
           </a>
@@ -189,95 +189,95 @@
   <div class="tab-pane active text-center gallery" id="pendingtasks">
     <% tasks.forEach(task=>{
        if(String(user._id)===String(task.assigned_to)){%>
-      <div class="card"  style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-        <div class="card-body">
-          <div class="row">
-            <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
-              <input name='projectId' style='display:none' value='<%=project._id%>'>
-              <input name='task_id' style='display:none' value='<%=task._id%>'>
-              <div class="col-1">
-                <div class="checkbox" style="margin-top:30px">
-                  <div class="form-check">
-                    <label class="form-check-label">
-                      <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox" value="">
-                      <span class="form-check-sign">
-                        <span class="check"></span>
-                      </span>
-                    </label>
-                  </div>
+    <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+      <div class="card-body">
+        <div class="row">
+          <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+            <input name='projectId' style='display:none' value='<%=project._id%>'>
+            <input name='task_id' style='display:none' value='<%=task._id%>'>
+            <div class="col-1">
+              <div class="checkbox" style="margin-top:30px">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox" value="">
+                    <span class="form-check-sign">
+                      <span class="check"></span>
+                    </span>
+                  </label>
                 </div>
               </div>
-            </form>
-            <div class="col-2">
-              <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=task.task_name%></span>
             </div>
-            <div class="col-3">
-              col3
-            </div>
-            <div class="col-4">
-              Description:<p><%=task.task_description%></p>
-            </div>
-            <div class="col-2">
-              <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
-                <i class="material-icons">account_circle</i>
-                DETAILS
-              </button>
-            </div>
+          </form>
+          <div class="col-2">
+            <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=task.task_name%></span>
+          </div>
+          <div class="col-3">
+            col3
+          </div>
+          <div class="col-4">
+            Description:<p><%=task.task_description%></p>
+          </div>
+          <div class="col-2">
+            <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+              <i class="material-icons">account_circle</i>
+              DETAILS
+            </button>
           </div>
         </div>
       </div>
-      <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
-      <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-login" role="document">
-          <div class="modal-content" style="z-index: 35;">
-            <div class="card card-signup card-plain">
-              <div class="modal-header" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                <div class="card-header card-header-primary text-center" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
-                  <h3><%=task.task_name%></h3>
-                 
-                </div>
+    </div>
+    <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
+    <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-login" role="document">
+        <div class="modal-content" style="z-index: 35;">
+          <div class="card card-signup card-plain">
+            <div class="modal-header" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+              <div class="card-header card-header-primary text-center" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                <h3><%=task.task_name%></h3>
+
               </div>
-              <div class="modal-body">
-                <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                  <h3>DESCRIPTION:</h3>
-                  <p><%=task.task_description%></p>
-                </div>
-                <div class="tim-typo">
-                  <h6>Start Time : <%=task.start_time%></h6>
-                  <h6>End Time: <%=task.end_time%></h6>
-                  
-                </div>
-                <form id="projtask<%=task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
-                  <input name='projectId' style='display:none' value='<%=project._id%>'>
-                  <input name='task_id' style='display:none' value='<%=task._id%>'>
-                  <div class="form-group form-file-upload form-file-multiple">
-                    <input type="file" name='uploadedImages' multiple="" class="inputFileHidden">
-                    <div class="input-group">
-                      <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-link btn-fab btn-info">
-                          <i class="material-icons">layers</i>
-                        </button>
-                      </span>
-                    </div>
-                  </div>
-                  <div class="form-group label-floating">
-                    <label class="form-control-label bmd-label-floating"> Review</label>
-                    <textarea name='review' class="form-control" rows="5"></textarea>
-                  </div>
-              </div>
-              <div class="modal-footer justify-content-center">
-                <button id='<%=task._id%>' onclick="projtask(this)" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
-              </div>
-              </form>
             </div>
+            <div class="modal-body">
+              <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                <h3>DESCRIPTION:</h3>
+                <p><%=task.task_description%></p>
+              </div>
+              <div class="tim-typo">
+                <h6>Start Time : <%=task.start_time%></h6>
+                <h6>End Time: <%=task.end_time%></h6>
+
+              </div>
+              <form id="projtask<%=task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
+                <input name='projectId' style='display:none' value='<%=project._id%>'>
+                <input name='task_id' style='display:none' value='<%=task._id%>'>
+                <div class="form-group form-file-upload form-file-multiple">
+                  <input type="file" name='uploadedImages' multiple="" class="inputFileHidden">
+                  <div class="input-group">
+                    <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-link btn-fab btn-info">
+                        <i class="material-icons">layers</i>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group label-floating">
+                  <label class="form-control-label bmd-label-floating"> Review</label>
+                  <textarea name='review' class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+              <button id='<%=task._id%>' onclick="projtask(this)" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
+            </div>
+            </form>
           </div>
         </div>
-      </div>  
-      
-      
-      <%}});%>
+      </div>
+    </div>
+
+
+    <%}});%>
   </div>
   <div class="tab-pane text-center gallery" id="progresstracker">
 
@@ -293,7 +293,7 @@
         </tr>
       </thead>
       <tbody>
-  <% var count=0;
+        <% var count=0;
     var progresstable=[];
     progresstable=tasks;
     progresstable.sort((a,b)=>{
@@ -306,33 +306,32 @@
     })
     progresstable.forEach(task=>{
       if(String(user._id)!==String(task.assigned_to)){ %>
-         
-      <tr>
-        <th scope="row"><%=count++%></th>
-        <td><%=task.task_name%></td>
-        <td><%=task.name_of_user%> </td>
-        <td>
-          <%if(task.isDone === 1){ %>
-             completed on time
-          <%} else if(task.isDone === 0){%>
-              not completed
+
+        <tr>
+          <th scope="row"><%=count++%></th>
+          <td><%=task.task_name%></td>
+          <td><%=task.name_of_user%> </td>
+          <td>
+            <%if(task.isDone === 1){ %>
+            completed on time
+            <%} else if(task.isDone === 0){%>
+            not completed
             <%} else {%>
-              completed late
-              <%}%>
+            completed late
+            <%}%>
         </td>
-        <td><%=task.start_time%></td>
-        <td><%=task.end_time%></td>
-      </tr> 
-     
-      <%}
+        <td><%=task.start_time.getUTCDate()%>/<%=task.start_time.getUTCMonth()%>/<%=task.start_time.getFullYear()%> <%=task.start_time.getHours()%>:<%=task.start_time.getMinutes()%>:<%=task.start_time.getSeconds()%></td>
+          <td><%=task.end_time.getUTCDate()%>/<%=task.end_time.getUTCMonth()%>/<%=task.end_time.getFullYear()%> <%=task.end_time.getHours()%>:<%=task.end_time.getMinutes()%>:<%=task.end_time.getSeconds()%></td>
+        </tr>
+        <%}
     });%>
-   </tbody>
-</table>
+      </tbody>
+    </table>
   </div>
 </div>
 
-  </div>
-  </div>
+</div>
+</div>
 </div>
 </body>
 <script>
