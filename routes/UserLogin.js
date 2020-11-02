@@ -8,7 +8,7 @@ const Project = require('../model/project');
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
-    res.render('firstpage', {user: req.user});
+    res.redirect('/login');
   });
 
   app.get('/dashboard', isLoggedIn, (req, res) => {
@@ -77,6 +77,10 @@ module.exports = function(app, passport) {
 
   app.get('/login', (req, res) => {
     res.render('login', {message: req.flash('loginMessage')});
+  });
+
+  app.get('/profile_page', (req, res) => {
+    res.render('profile-page', {user: req.user})
   });
 
   app.post('/login', passport.authenticate('local-login', {

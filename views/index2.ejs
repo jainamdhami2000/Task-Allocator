@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <div class="jumbotron">
+  <div style="padding:0px" class="jumbotron">
     <h1 class="display-4">Send Message</h1>
     <br>
     <!-- <input id = "name" class="form-control" placeholder="Name">
@@ -96,14 +96,14 @@
       $("#messages").append(`<div class="chatcontainer darker">
         <h4>${message.name}</h4>
         <p>${message.message}</p>
-        <span class="time-left">11:00</span>
+        <span class="time-left">${message.msg_time}</span>
       </div>`)
 
     } else {
       $("#messages").append(`<div class="chatcontainer">
         <h4 class="right">${message.name}</h4>
         <p>${message.message}</p>
-        <span class="time-right">11:00</span>
+        <span class="time-right">${message.msg_time}</span>
       </div>`)
     } //nikali leje class='right' just for showing'
 
