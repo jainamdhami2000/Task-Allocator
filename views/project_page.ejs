@@ -168,11 +168,13 @@
             <i class="fa fa-pencil"></i> uploads
           </a>
         </li>
+        <%if(String(project.leader)===String(user._id)){%>
         <li class="nav-item"  style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab">
             <i class="fa fa-pencil"></i> progress tracker
           </a>
         </li>
+        <%};%>
         <li class="nav-item"  style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#pendingtasks" role="tab" data-toggle="tab">
             <i class="fa fa-pencil"></i> pending tasks
