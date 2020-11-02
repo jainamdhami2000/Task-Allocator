@@ -162,20 +162,20 @@
 <div class="row">
   <div class="col-md-12 ml-auto mr-auto">
     <div class="profile-tabs">
-      <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
+      <ul class="nav  justify-content-center" role="tablist">
         <li class="nav-item" style="width: 33%;">
-          <a class="nav-link col-12 col-md-4" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
-            <i class="material-icons">palette</i> uploads
+          <a class="nav-link col-12 col-md-4" style="width: 100%;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
+            <i class="fa fa-pencil"></i> uploads
           </a>
         </li>
         <li class="nav-item"  style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab">
-            <i class="material-icons">palette</i> progress tracker
+            <i class="fa fa-pencil"></i> progress tracker
           </a>
         </li>
         <li class="nav-item"  style="width: 33%;">
           <a class="nav-link col-12 col-md-4" href="#pendingtasks" role="tab" data-toggle="tab">
-            <i class="material-icons">favorite</i> pending tasks
+            <i class="fa fa-pencil"></i> pending tasks
           </a>
         </li>
       </ul>
@@ -201,7 +201,99 @@
 
 <div class="tab-content tab-space">
   <div class="tab-pane active text-center gallery" id="pendingtasks">
-    pending tasks
+    <% tasks.forEach(task=>{%>
+      <div class="card"  style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+        <div class="card-body">
+          <div class="row">
+            <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+              <input name='projectId' style='display:none' value='<%=project._id%>'>
+              <input name='task_id' style='display:none' value='<%=task._id%>'>
+              <div class="col-1">
+                <div class="checkbox" style="margin-top:30px">
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox" value="">
+                      <span class="form-check-sign">
+                        <span class="check"></span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="col-2">
+              <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=task.task_name%></span>
+            </div>
+            <div class="col-3">
+              <!-- <div style="padding-left: 10px; margin-top: 15px; font-size: x-large;">
+                Team:<br>
+                <%=pendingtask.project_name%>
+              </div> -->
+            </div>
+            <div class="col-4">
+              Description:<p><%=task.task_description%></p>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+                <i class="material-icons">account_circle</i>
+                DETAILS
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
+      <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-login" role="document">
+          <div class="modal-content" style="z-index: 35;">
+            <div class="card card-signup card-plain">
+              <div class="modal-header" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                <div class="card-header card-header-primary text-center" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+                  <h3><%=task.task_name%></h3>
+                 
+                </div>
+              </div>
+              <div class="modal-body">
+                <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
+                  <h3>DESCRIPTION:</h3>
+                  <p><%=task.task_description%></p>
+                </div>
+                <div class="tim-typo">
+                  <h6>Start Time : <%=task.start_time%></h6>
+                  <h6>End Time: <%=pendingtask.task.end_time%></h6>
+                  <!-- <h4> <%=pendingtask.project_name%></h4> -->
+                </div>
+                <form id="task<%=pendingtask._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
+                  <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
+                  <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
+                  <div class="form-group form-file-upload form-file-multiple">
+                    <input type="file" id="files+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name%>" name='uploadedImages' multiple="" class="inputFileHidden">
+                    <div class="input-group">
+                      <input type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-link btn-fab btn-info">
+                          <i class="material-icons">layers</i>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group label-floating">
+                    <label class="form-control-label bmd-label-floating"> Review</label>
+                    <textarea name='review' class="form-control" rows="5" id="review+<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>"></textarea>
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-center">
+                <button id='<%=pendingtask._id%>' onclick="task(this)" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>  
+      
+      
+      <%});%>
   </div>
   <div class="tab-pane text-center gallery" id="progresstracker">
     progress tracker
@@ -259,5 +351,16 @@
       $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
     });
   });
+</script>
+<script>
+  function projtask(input) {
+    console.log('inside task');
+    document.getElementById("projtask" + input.id).submit();
+  }
+
+  function checkprojtask(input) {
+    console.log('inside checktask');
+    document.getElementById("checkprojtask" + input.id).submit();
+  }
 </script>
 <%- include('partials/footer'); %>
