@@ -21,7 +21,7 @@ const projectSchema = new mongoose.Schema({
   uploads: {
     type: [{
       uploaded_by: {
-        type: mongoose.Types.ObjectId,
+        type: String,
         ref: 'User'
       },
       images: [Object],

@@ -255,7 +255,11 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
           task.review = req.body.review;
         }
         if (req.files.length != 0) {
-          project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
+          project.uploads.push({
+            uploaded_by: req.user.FirstName + ' ' + req.user.LastName,
+            images: req.files,
+            upload_description: req.body.upload_description
+          });
         }
         project.save();
       }
@@ -270,7 +274,11 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
     _id: projectId
   }, (err, project) => {
     if (req.files.length != 0) {
-      project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
+      project.uploads.push({
+        uploaded_by: req.user.FirstName + ' ' + req.user.LastName,,
+        images: req.files,
+        upload_description: req.body.upload_description
+      });
     }
     project.save();
   });
