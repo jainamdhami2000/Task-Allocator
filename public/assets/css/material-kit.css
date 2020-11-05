@@ -16487,8 +16487,10 @@ select.selectpicker {
 
 .sidebar {
   position: fixed;
-  width: 350px;
+  /* width: 350px; */
   height: 100%;
+
+  width: 25%;
   background:  #1d2124;
   padding: 20px 0;
 

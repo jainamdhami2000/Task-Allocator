@@ -73,7 +73,7 @@
                     </span>
                   </div>
                   <!-- <input type="text" class="form-control" placeholder="Email..."> -->
-                  <select class="form-control addteammate" name="user_id" id="addteammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
+                  <select class="form-control assignedTo" name="user_id" id="assignedTo" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
                     <option value='<%=user._id%>'><%=user.FirstName%> <%=user.LastName%>(You)</option>
                   </select>
                 </div>
@@ -182,6 +182,9 @@
       </ul>
     </div>
   </div>
+  <script>
+
+  </script>
 
 </div>
 
@@ -350,14 +353,21 @@
     method: "GET"
   }).done(function(data) {
     var b = []
+    var c=[];
     data.users.forEach(user => {
       if (!a.includes(String(user._id))) {
         b.push(user);
+      } else {
+        c.push(user)
       }
     });
     $('.addteammates').selectpicker();
     b.forEach((item) => {
       $('#addteammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
+    });
+    $('.assignedTo').selectpicker();
+    c.forEach((item) => {
+      $('#assignedTo').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
     });
   });
 </script>
