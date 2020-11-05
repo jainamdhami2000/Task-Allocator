@@ -8,11 +8,11 @@ const transporter = nodemailer.createTransport({
     pass: process.env.password
   }
 });
-module.exports = function(email, content) {
+module.exports = function(email,subject, content) {
   let mail = {
     from: process.env.email,
     to: email,
-    subject: 'Verify Mail',
+    subject: subject,
     text: content
   };
   transporter.sendMail(mail, function(err, data) {

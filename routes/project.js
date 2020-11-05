@@ -6,6 +6,8 @@ const router = express.Router();
 const multer = require('multer');
 const User = require('../model/user');
 const Project = require('../model/project');
+const jwt = require('jwt-simple');
+const mail = require('../utils/mailer');
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -79,6 +81,28 @@ router.post('/createtask', isLoggedIn, (req, res) => {
         isDone: 0,
         start_time: Date.now(),
         end_time: req.body.end_time
+      });
+      var secret = process.env.email_secret;
+      //checking for existing mail in database
+      User.findOne({
+        _id: req.body.user_id
+      }, function(err, result) {
+        if (err) {
+          console.log(err);
+        }
+        if (result == null) {
+          res.send('Email not found');
+        } else {
+          const emailAddress = result.Email;
+          let content = `Hello ${result.FirstName} ${result.LastName}!
+          You have been assigned a task in ${project.project_name}.
+          The Details of the task are as follows:-
+              Task Name: ${req.body.task_name},
+              Task Description: ${req.body.task_description},
+              Assigned: Today,
+              Due date: ${req.body.end_time}`
+          mail(emailAddress, 'Task Assignment', content);
+        }
       });
       project.save();
       res.redirect('/dashboard')
@@ -294,7 +318,7 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
   }, (err, project) => {
     console.log(project)
     res.render('uploads', {
-      project:project,
+      project: project,
       user: req.user,
       asmember: asmember,
       managing: managing
