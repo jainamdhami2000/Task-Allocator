@@ -30,7 +30,7 @@
         <form id="checktask<%=pendingtask._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
           <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
           <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
-          <div class="col-1" style="margin-bottom: 15px;">
+          <div class="col-1">
             <div class="checkbox">
               <div class="form-check">
                 <label class="form-check-label">
@@ -47,9 +47,9 @@
           <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large; color:black">Task: <%=pendingtask.task.task_name%></span>
         </div>
         <div class="col-4">
-          <div style="padding-left: 10px; margin-top: 15px; font-size: x-medium; color:black;">
+          <div style="padding-left: 10px; margin-top: 19px; font-size: x-medium; color:black;">
             Team:
-            <!-- <h3 style="margin-top: 0px; "><%=pendingtask.project_name%></h3> -->
+            <!-- <h3 style="margin-top: 0px; padding-top: 25px;"><%=pendingtask.project_name%></h3> -->
             <%=pendingtask.project_name%>
           </div>
         </div>

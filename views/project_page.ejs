@@ -193,43 +193,43 @@
   <div class="tab-pane active text-center gallery" id="pendingtasks">
     <% tasks.forEach(task=>{
        if(String(user._id)===String(task.assigned_to)){%>
-    <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
-      <div class="card-body">
-        <div class="row">
-          <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
-            <input name='projectId' style='display:none' value='<%=project._id%>'>
-            <input name='task_id' style='display:none' value='<%=task._id%>'>
-            <div class="col-1">
-              <div class="checkbox" style="margin-top:30px">
-                <div class="form-check">
-                  <label class="form-check-label">
-                    <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox" value="">
-                    <span class="form-check-sign">
-                      <span class="check"></span>
-                    </span>
-                  </label>
+
+        <div class="card"  style="background-color:white; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
+          <div class="card-body">
+            <div class="row">
+              <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+                <input name='projectId' style='display:none' value='<%=project._id%>'>
+                <input name='task_id' style='display:none' value='<%=task._id%>'>
+                <div class="col-1" style="margin-bottom: 15px;">
+                  <div class="checkbox">
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-sign" style="margin-bottom: 20px;">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
+              </form>
+              <div class="col-4" style="padding-top: 18px; padding-right:20px;">
+                <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large; color:black">Task: <%=task.task_name%></span>
+              </div>
+             <div class="col-4"></div>
+              <!-- <div class="col-4">
+                Description:<p><%=task.task_description%></p>
+              </div> -->
+              <div class="col-2"">
+                <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
+                  <i class="material-icons">account_circle</i>
+                  DETAILS
+                </button>
               </div>
             </div>
-          </form>
-          <div class="col-2">
-            <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large;">Task: <%=task.task_name%></span>
-          </div>
-          <div class="col-3">
-            col3
-          </div>
-          <div class="col-4">
-            Description:<p><%=task.task_description%></p>
-          </div>
-          <div class="col-2">
-            <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
-              <i class="material-icons">account_circle</i>
-              DETAILS
-            </button>
           </div>
         </div>
-      </div>
-    </div>
+        
     <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
     <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-login" role="document">
