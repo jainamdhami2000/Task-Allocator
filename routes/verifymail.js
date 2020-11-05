@@ -33,7 +33,7 @@ router.post('/verifyMail', function(req, res) {
         // let content = 'http://'+ip+':'+port+'/user/resetpassword/'+payload.id+'/'+token
         //For locally uncomment this
         let content = 'http://localhost:3000/verify/verifyMail/' + payload.id + '/' + token;
-        mail(emailAddress, content);
+        mail(emailAddress,'Verify Mail', content);
         res.render('mailSend',{
           user:req.user
         });
