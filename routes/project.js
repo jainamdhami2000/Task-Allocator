@@ -292,8 +292,9 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
   Project.findOne({
     _id: projectId
   }, (err, project) => {
+    console.log(project)
     res.render('uploads', {
-      uploads: project.uploads,
+      project:project,
       user: req.user,
       asmember: asmember,
       managing: managing
