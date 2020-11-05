@@ -83,8 +83,15 @@
     </div><!-- /.container-->
   </nav>
 <%-include('partials/sidebar')%>
-<% project.uploads.forEach(task=>{
-%>
+<% project.uploads.forEach(task=>{%>
+    <div style="margin-top: 150px;">
+        <div class="card">
+            <div class="card-body">
+              This is some text within a card body.
+            </div>
+          </div>
+
+    </div>
 <%});%>
 </body>
 </html>
