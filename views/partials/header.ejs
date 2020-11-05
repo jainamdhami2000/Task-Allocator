@@ -58,12 +58,6 @@
             </a>
           </li>
           <li class="nav-item">
-            <form id="projectuploads<%=project._id%>" method='POST' action="/project/viewuploads">
-              <input name='projectId' style='display:none' value='<%=project._id%>'>
-              <a href="#" class="nav-link" id='<%=project._id%>' onclick='upload(this)'>UPLOADS</a>
-            </form>
-          </li>
-          <li class="nav-item">
             <a href="/logout" class="nav-link">
               LOGOUT
             </a>
@@ -96,9 +90,3 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-->
   </nav>
-
-  <script type="text/javascript">
-    function upload(input) {
-      document.getElementById("projectuploads" + input.id).submit();
-    }
-  </script>
