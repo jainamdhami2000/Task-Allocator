@@ -287,10 +287,17 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
 
 router.post('/viewuploads', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
+  var managing = req.app.locals.managing;
+  var asmember = req.app.locals.asmember;
   Project.findOne({
     _id: projectId
   }, (err, project) => {
-    res.json({uploads: project.uploads})
+    res.render('uploads', {
+      uploads: project.uploads,
+      user: req.user,
+      asmember: asmember,
+      managing: managing
+    })
   });
 });
 
