@@ -137,7 +137,7 @@
             <div class="input-group">
               <div class="input-group-prepend">
                 <span class="input-group-text">
-                  <i class="material-icons">mail</i>
+                  <i class="fa fa-user-friends"></i>
                 </span>
               </div>
               <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
@@ -150,7 +150,7 @@
     </div>
   </div>
   <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
-    <button class="btn btn-secondary" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
+    <button class="btn btn-secondary btn-round" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
       <i class="material-icons">add</i> ADD TASK
     </button>
   </div>
@@ -163,34 +163,40 @@
 <div class="row">
   <div class="col-md-12 ml-auto mr-auto">
     <div class="profile-tabs" style="margin-top: 10px;">
-      <ul class="nav  justify-content-center" role="tablist">
-        <li class=" btn btn-secondary" style="width: 33%;">
-          <a class=" col-12 col-md-4" style="width: 100%;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
-            <i class="fa fa-pencil"></i> uploads
+      <ul class="nav  justify-content-center" role="tablist" >
+        <li class=" btn btn-secondary" style="width: 33%; ">
+          <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
+            <i class="fa fa-upload"></i>   upload
           </a>
         </li>
-        <li class=" btn btn-secondary" style="width: 33%;">
-          <a class=" col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab">
-            <i class="fa fa-pencil"></i> progress tracker
+        <%if(String(user._id)===String(project.leader)){%>
+        <li class=" btn btn-secondary" id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
+          <a class=" col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab" style="color: black;">
+            <i class="fa fa-tasks"></i>   progress tracker
           </a>
         </li>
+        <%};%>
         <li class=" btn btn-secondary" style="width: 33%;">
-          <a class=" col-12 col-md-4" href="#pendingtasks" role="tab" data-toggle="tab">
-            <i class="fa fa-pencil"></i> pending tasks
+          <a class=" col-12 col-md-4" href="#pendingtasks" role="tab" data-toggle="tab" style="color: black;">
+            <i class="fa fa-clipboard"></i>   pending tasks
           </a>
         </li>
       </ul>
     </div>
   </div>
-  <script>
-
-  </script>
-
+<head>
+  <style>
+    .profile-tabs .nav a:active{
+      background-color: #7F90A0;
+    }
+  </style>
+</head>
 </div>
 
 
 <div class="tab-content tab-space">
   <div class="tab-pane active text-center gallery" id="pendingtasks">
+      <h3>PENDING TASKS</h3>
     <% tasks.forEach(task=>{
        if(String(user._id)===String(task.assigned_to)){%>
     <div class="card" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
@@ -284,7 +290,7 @@
     <%}});%>
   </div>
   <div class="tab-pane text-center gallery" id="progresstracker">
-
+    <H3>PROGRESS</H3>
     <table class="table table-striped table-dark">
       <thead>
         <tr>

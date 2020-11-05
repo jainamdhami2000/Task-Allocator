@@ -3,37 +3,44 @@
     <div class="wrapper d-flex">
       <div class="sidebar" >
         
-        <a href="http://localhost:3000/project/viewinvite" class="btn btn-primary btn-round">
-          <i class="material-icons">favorite</i> view invites
+        <a href="http://localhost:3000/project/viewinvite" class="btn  btn-round" style="background-color:floralwhite; color: black; width: 75%; margin-left: 30px; ">
+          <i class="material-icons" style="color: black;">favorite</i> view invites
         </a>
-      
-        <div class="tim-typo" style="margin-left: 35px;padding-left: 0px; color:  #fff;">
-          <h3>MY TEAMS</h3>
-          <div class="createbtn">
-            <!-- <button class="btn btn-round" data-toggle="modal" id="createTeambtn" data-target="#createTeamModal">
-                      + CREATE TEAM
-                  </button> -->
-            <button class="btn btn-block" data-toggle="modal" data-target="#createTeamModal">
-              <i class="material-icons">account_circle</i>
-              + CREATE A TEAM
+
+            <button class="btn btn-round" data-toggle="modal" data-target="#createTeamModal" style="background-color: floralwhite; color: black; width: 75%; margin-left: 30px; ">
+              <i class="material-icons" style="color: black;">account_circle</i>
+              + NEW TEAM
             </button>
-          </div>
-        </div>
-        <h4 class="text-muted px-3" style="padding-bottom: 4px; padding-left: 10px;">LEADER</h4>
-        <ul>
+          
+            <div class="tim-typo" style="margin-left:20px;padding-left: 0px; color: floralwhite;">
+              <h3>MY TEAMS</h3>
+            </div>
+             
+        
+        <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">LEADER</h4>
+        <ul style="margin: 0px;">
           <% managing.forEach(leader=>{%>
           <form id="project<%=leader._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=leader._id%>'>
-            <li id='<%=leader._id%>' onclick='details(this)' style="padding: 0px;" ><a href="#"><%= leader.project_name  %></a></li>
+            <%if(String(leader.project_name)===String(project.project_name)){%>
+              <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;" ><a aria-disabled href="#" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+
+              <%}else{%>
+            <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;" ><a href="#" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+            <%}%>
           </form>
           <%})%>
         </ul>
-        <h4 class="text-muted px-3" style="padding-bottom: 4px; padding-left: 10px;">MEMBER</h4>
+        <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">MEMBER</h4>
         <ul>
           <% asmember.forEach(member=>{%>
           <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=member._id%>'>
-            <li id='<%=member._id%>' onclick='details(this)' style="padding: 0px;"><a href="#"><%= member.project_name  %></a></li>
+            <%if(String(member.project_name)===String(project.project_name)){%>
+              <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="#" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+              <%}else{%>
+            <li id='<%=member._id%>' onclick='details(this)' style="padding: 0px; margin: 0px;"><a href="#" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+            <%}%>
           </form>
           <%})%>
         </ul>
