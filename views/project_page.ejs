@@ -33,11 +33,25 @@
   <link href="/assets/demo/demo.css" rel="stylesheet" />
   <link href="/assets/demo/vertical-nav.css" rel="stylesheet" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-
+  <style>
+    .nav-brand .nav-item {
+      align-self: center;
+    
+      padding-bottom: 0px;
+    }
+    .navbar{
+        margin-top: 0px !important;
+        padding-top: 0px;
+        margin-bottom: 0px!important;
+        padding-bottom: 0px;
+        right: 0;
+       margin-right: 0px;
+    }
+  </style>
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse navbar-expand-lg bg-dark fixed-top" style="right: 0; margin-right: 0px;" role="navigation-demo">
+  <nav class="navbar navbar-inverse navbar-expand-lg bg-dark fixed-top" style="" role="navigation-demo">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-translate">
@@ -103,15 +117,10 @@
     }
   </script>
 
-  .nav-brand .nav-item {
-  align-self: center;
-  padding-top: 10px;
-  padding-bottom: 0px;
-  }
   </style>
   <%-include('partials/sidebar')%>
   <!--===============================================================ADD TASK MODAL===============================================================-->
-  <div class="container" style="padding-top:65px;">
+  <div class="container">
     <div class="modal fade" id="createTaskModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-login" role="document">
         <div class="modal-content" style="z-index: 35;">
