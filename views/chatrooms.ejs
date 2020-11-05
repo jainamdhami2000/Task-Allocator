@@ -11,7 +11,7 @@
 
     .nav-brand .nav-item {
       align-self: center;
-    
+
       padding-bottom: 0px;
     }
   </style>
@@ -20,16 +20,34 @@
 <%-include('partials/sidebar')%>
 <!--ADD TASK MODAL-->
 <% managing.forEach(leader=>{%>
-<form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
-  <input name='projectId' style='display:none' value='<%=leader._id%>'>
-  <button id='<%=leader._id%>' onclick='chat(this)'><%= leader.project_name  %></button>
-</form>
+<div class='row'>
+  <div class="col-md-4">
+    <div class="card card-profile">
+      <div class="card-body ">
+        <h4 class="card-title"><%= leader.project_name  %></h4>
+        <form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
+        <input name='projectId' style='display:none' value='<%=leader._id%>'>
+        <button id='<%=leader._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <%})%>
 <% asmember.forEach(member=>{%>
-<form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
-  <input name='projectId' style='display:none' value='<%=member._id%>'>
-  <button id='<%=member._id%>' onclick='chat(this)'><%= member.project_name  %></button>
-</form>
+  <div class='row'>
+    <div class="col-md-4">
+      <div class="card card-profile">
+        <div class="card-body ">
+          <h4 class="card-title"><%= member.project_name  %></h4>
+          <form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
+          <input name='projectId' style='display:none' value='<%=member._id%>'>
+          <button id='<%=member._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 <%})%>
 <!--END ADD TASK MODAL-->
 

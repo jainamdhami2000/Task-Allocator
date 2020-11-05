@@ -36,7 +36,7 @@
   <style>
     .nav-brand .nav-item {
       align-self: center;
-    
+
       padding-bottom: 0px;
     }
     .navbar{
@@ -300,21 +300,23 @@
   <div class="tab-content tab-space">
     <div class="tab-pane active text-center gallery" id="pendingtasks">
       <h3>PENDING TASKS</h3>
-      <% tasks.forEach(task=>{
+      <% pendingtasks.forEach(task=>{
        if(String(user._id)===String(task.assigned_to)){%>
       <div class="card" id="<%= task.project_name %>+<%= task.task_name %>" style="background-color:white; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
         <div class="card-body">
           <div class="row">
-            <form id="checktask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+            <form id="checkprojtask<%=task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
               <input name='projectId' style='display:none' value='<%=task._id%>'>
               <input name='task_id' style='display:none' value='<%=task._id%>'>
               <div class="col-1">
                 <div class="checkbox">
                   <div class="form-check">
-                    <input id="<%=task._id%>" onclick="checktask(this)" class="form-check-input" type="checkbox" value="">
-                    <span class="form-check-sign" style="margin-top: 3px;">
-                      <span class="check"></span>
-                    </span>
+                    <label style='margin-bottom:10px' class="form-check-label">
+                      <input id="<%=task._id%>" onclick="checkprojtask(this)" class="form-check-input" type="checkbox">
+                      <span class="form-check-sign" style="margin-top: 3px;">
+                        <span class="check"></span>
+                      </span>
+                    </label>
                   </div>
                 </div>
               </div>
@@ -323,15 +325,8 @@
               <span style=" margin-top: 30px; padding-left: 10px; font-size: x-large; color:black">Task: <%=task.task_name%></span>
             </div>
             <div class="col-4">
-              <div style="padding-left: 10px; margin-top: 19px; font-size: x-medium; color:black;">
-                Team:
-                <!-- <h3 style="margin-top: 0px; padding-top: 25px;"><%=task.project_name%></h3> -->
-                <%=task.project_name%>
-              </div>
+
             </div>
-            <!-- <div class="col-4">
-               Description:<p><%=task.task_description%></p>
-             </div> -->
             <div class="col-2">
               <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
                 <i class="material-icons">account_circle</i>

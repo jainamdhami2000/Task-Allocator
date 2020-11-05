@@ -178,8 +178,12 @@ router.post('/showproject', isLoggedIn, (req, res) => {
           return String(task.assigned_to) == String(req.user._id);
         });
       }
+      var pendingtasks = tasks.filter(pending=>{
+        return pending.isDone == 0
+      })
       res.render('project_page', {
         project: project,
+        pendingtasks:pendingtasks,
         managing: managing,
         asmember: asmember,
         tasks: tasks,
