@@ -129,7 +129,7 @@
 <%if(String(project.leader)===String(user._id)){%>
 <div class="row" style="z-index: -2; margin-bottom: 0px;">
   <div class="col-12 col-md-8">
-    <div class="card" style="margin-bottom: 4px;"> 
+    <div class="card" style="margin-bottom: 4px;">
       <div class="card-body">
         <form action="http://localhost:3000/project/addmembers" method="POST">
           <input name='projectId' style='display:none' value='<%=project._id%>'>
@@ -220,7 +220,7 @@
               <!-- <div class="col-4">
                 Description:<p><%=task.task_description%></p>
               </div> -->
-              <div class="col-2"">
+              <div class="col-2">
                 <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
                   <i class="material-icons">account_circle</i>
                   DETAILS
@@ -229,7 +229,7 @@
             </div>
           </div>
         </div>
-        
+
     <!--////////////////////////////////////////DETAILS modal////////////////////////////////////////////////////////////// -->
     <div class="modal fade" id="DetailsModal" tabindex="-1" role="dialog">
       <div class="modal-dialog modal-login" role="document">

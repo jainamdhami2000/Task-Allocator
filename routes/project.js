@@ -248,8 +248,8 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
           task.isDone = 1;
           console.log('task done')
         } else {
-         task.isDone = 2;
-         console.log('task done late');
+          task.isDone = 2;
+          console.log('task done late');
         }
         if (req.body.review) {
           task.review = req.body.review;
@@ -257,7 +257,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
         if (req.files.length != 0) {
           project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
         }
-       project.save();
+        project.save();
       }
     });
     res.redirect('/dashboard');
@@ -275,6 +275,15 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
     project.save();
   });
   res.redirect('/dashboard');
+});
+
+router.post('/viewuploads', isLoggedIn, (req, res) => {
+  var projectId = req.body.projectId;
+  Project.findOne({
+    _id: projectId
+  }, (err, project) => {
+    res.json({uploads: project.uploads})
+  });
 });
 
 function isLoggedIn(req, res, next) {
