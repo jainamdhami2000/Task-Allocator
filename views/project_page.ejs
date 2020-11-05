@@ -74,6 +74,7 @@
                   </div>
                   <!-- <input type="text" class="form-control" placeholder="Email..."> -->
                   <select class="form-control addteammate" name="user_id" id="addteammate" data-live-search='true' data-style="select-with-transition" title="Select Teammates">
+                    <option value='<%=user._id%>'><%=user.FirstName%> <%=user.LastName%>(You)</option>
                   </select>
                 </div>
               </div>
@@ -304,6 +305,7 @@
       else
         return -1;
     })
+    console.log(progresstable)
     progresstable.forEach(task=>{
       if(String(user._id)!==String(task.assigned_to)){ %>
 
