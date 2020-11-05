@@ -27,8 +27,8 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse navbar-expand-lg bg-dark fixed-top" style="right: 0; margin-right: 0px; margin-bottom:10px;"
-        role="navigation-demo">
+    <nav class="navbar navbar-inverse navbar-expand-lg bg-dark fixed-top"
+        style="right: 0; margin-right: 0px; margin-bottom:10px;" role="navigation-demo">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-translate">
@@ -89,23 +89,38 @@
         </div><!-- /.container-->
     </nav>
 
-    
+
     <%-include('partials/sidebar')%>
+    <div style="margin-bottom: 90px;">
+        <h2>Documents</h2>
+    </div>
     <% project.uploads.forEach(task=>{%>
     <% task.images.forEach(task=>{%>
-        <div style="margin-bottom: 100px;"></div>
+
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-5" style="margin-top: 10px;">
-            <%=task.filename%>
-        </div>
-        <div class="col-1">
-            <!-- <button class="btn" onclick="openfile(this)"><i class="fa fa-folder"></i></button> -->
-            <a href="./<%=task.filename%>" download>Download File</a>
+                    <%=task.filename%>
+                </div>
+                <div class="col-2">
 
-        </div>
-        </div>
+                </div>
+                <div class="col-1">
+                    <!-- <button class="btn" onclick="openfile(this)"><i class="fa fa-folder"></i></button> -->
+                    <a href="../<%=task.filename%>" download><button class="btn"><i
+                                class="fa fa-download"></i></button></a>
+                    <!-- <a href="../<%=task.filename%>" target="_blank">Open page in new window</a> -->
+
+                </div>
+                <div class="col-1">
+                    <!-- <button class="btn" onclick="openfile(this)"><i class="fa fa-folder"></i></button> -->
+                    <!-- <a href="../<%=task.filename%>" download><button class="btn"><i class="fa fa-eye"></i></button></a> -->
+                    <a href="../<%=task.filename%>" target="_blank"><button class="btn"><i
+                                class="fa fa-eye"></i></button></a>
+
+                </div>
+            </div>
         </div>
 
     </div>
@@ -115,8 +130,9 @@
 </body>
 <script>
     function openfile(input) {
-      console.log('inside task');
-      document.getElementById("projtask" + input.id).submit();
+        console.log('inside task');
+        document.getElementById("projtask" + input.id).submit();
     }
 </script>
+
 </html>
