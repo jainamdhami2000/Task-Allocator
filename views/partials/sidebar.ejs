@@ -22,7 +22,7 @@
           <% managing.forEach(leader=>{%>
           <form id="project<%=leader._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=leader._id%>'>
-            <%if(String(leader.project_name)===String(project.project_name)){%>
+            <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
               <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;" ><a aria-disabled href="#" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
 
               <%}else{%>
@@ -36,7 +36,7 @@
           <% asmember.forEach(member=>{%>
           <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">
             <input name='projectId' style='display:none' value='<%=member._id%>'>
-            <%if(String(member.project_name)===String(project.project_name)){%>
+            <%if( (typeof(project)!='undefined') && String(member.project_name)===String(project.project_name)){%>
               <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="#" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
               <%}else{%>
             <li id='<%=member._id%>' onclick='details(this)' style="padding: 0px; margin: 0px;"><a href="#" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
