@@ -17,7 +17,7 @@
     </style>
   </head>
   <%-include('partials/sidebar')%>
-  <div class="tim-typo" style="padding-left: 50px; z-index: -1;">
+  <div class="tim-typo" style="padding-left: 50px; z-index: 0;padding-top: 75px; ">
     <h2>My Pending Tasks</h2>
   </div>
   <div class="pendingTasks">
@@ -116,6 +116,7 @@
     </div>
     <%});%>
   </div>
+ 
   <script>
     function task(input) {
       console.log('inside task');

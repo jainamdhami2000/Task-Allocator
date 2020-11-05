@@ -17,29 +17,31 @@
   </style>
 </head>
 <%- include('partials/sidebar')%>
+<div style="padding-top: 75px;">
 <% invites.forEach((invitee)=>{%>
-<div class="card">
-  <div class="card-body row">
-    <div class="col-4">
-      <%= invitee.project_name %>
-
-
+  <div class="card">
+    <div class="card-body row">
+      <div class="col-4">
+        <%= invitee.project_name %>
+  
+  
+      </div>
+      <div class="col-4"></div>
+      <form action="/project/checkinvite" method="POST" id="checkinv<%=invitee._id%>">
+        <input name='projectId' style='display:none' value='<%=invitee._id%>'>
+        <input name='opt' id="opt" style='display:none'>
+  
+        <div class="col-2">
+          <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="accept">accept</button>
+        </div>
+        <div class="col-2">
+          <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="reject">reject</button>
+        </div>
+      </form>
     </div>
-    <div class="col-4"></div>
-    <form action="/project/checkinvite" method="POST" id="checkinv<%=invitee._id%>">
-      <input name='projectId' style='display:none' value='<%=invitee._id%>'>
-      <input name='opt' id="opt" style='display:none'>
-
-      <div class="col-2">
-        <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="accept">accept</button>
-      </div>
-      <div class="col-2">
-        <button class="btn btn-primary btn-link" id="<%=invitee._id%>" onclick="checkinv(this)" value="reject">reject</button>
-      </div>
-    </form>
   </div>
+  <% }); %>
 </div>
-<% }); %>
 
 </div>
 </div>
