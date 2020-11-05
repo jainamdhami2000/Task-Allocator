@@ -245,10 +245,10 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
     project.tasks.forEach(task => {
       if (String(task._id) == task_id) {
         if (Date.now() <= task.end_time) {
-          //task.isDone = 1;
+          task.isDone = 1;
           console.log('task done')
         } else {
-         // task.isDone = 2;
+         task.isDone = 2;
          console.log('task done late');
         }
         if (req.body.review) {
@@ -257,7 +257,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
         if (req.files.length != 0) {
           project.uploads.push({uploaded_by: req.user._id, images: req.files, upload_description: req.body.upload_description});
         }
-      //  project.save();
+       project.save();
       }
     });
     res.redirect('/dashboard');
