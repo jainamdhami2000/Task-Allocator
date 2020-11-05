@@ -275,7 +275,7 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
   }, (err, project) => {
     if (req.files.length != 0) {
       project.uploads.push({
-        uploaded_by: req.user.FirstName + ' ' + req.user.LastName,,
+        uploaded_by: req.user.FirstName + ' ' + req.user.LastName,
         images: req.files,
         upload_description: req.body.upload_description
       });
