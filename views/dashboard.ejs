@@ -51,6 +51,8 @@
           </div>
         </div>
         <div class="col-2">
+        </div>
+        <div class="col-2">
           <button class="btn btn-block btn-round" data-toggle="modal" data-target="#DetailsModal">
             <i class="material-icons">account_circle</i>
             DETAILS
@@ -113,12 +115,10 @@
 
 <script>
   function task(input) {
-    console.log('inside task');
     document.getElementById("task" + input.id).submit();
   }
 
   function checktask(input) {
-    console.log('inside checktask');
     document.getElementById("checktask" + input.id).submit();
   }
 </script>

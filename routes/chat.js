@@ -62,7 +62,6 @@ router.get('/:userid', (req, res) => {
       });
     });
   });
-  // res.redirect('/chatrooms');
 });
 
 function isLoggedIn(req, res, next) {

@@ -4,7 +4,6 @@ const sanitize = require('mongo-sanitize');
 const User = require('../model/user');
 const multer = require('multer');
 const Project = require('../model/project');
-//const mail=require('../utils/mailer');
 
 module.exports = function(app, passport) {
   app.get('/', (req, res) => {
@@ -53,11 +52,6 @@ module.exports = function(app, passport) {
         asmember: asmember,
         pending: pending
       });
-      // res.json({
-      //   managing: managing,
-      //   asmember: asmember,
-      //   pending: pending
-      // });
     });
   });
 

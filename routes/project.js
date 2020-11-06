@@ -178,12 +178,12 @@ router.post('/showproject', isLoggedIn, (req, res) => {
           return String(task.assigned_to) == String(req.user._id);
         });
       }
-      var pendingtasks = tasks.filter(pending=>{
+      var pendingtasks = tasks.filter(pending => {
         return pending.isDone == 0
       })
       res.render('project_page', {
         project: project,
-        pendingtasks:pendingtasks,
+        pendingtasks: pendingtasks,
         managing: managing,
         asmember: asmember,
         tasks: tasks,
@@ -221,12 +221,10 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var opt = req.body.opt;
   var user_id = req.user._id;
-  console.log(projectId);
   // var user_id = req.body.user_id;
   Project.findOne({
     _id: projectId
   }, (err, project) => {
-    console.log(project)
     project.teammates.forEach(teammate => {
       if (String(user_id) == String(teammate.user_id)) {
         if (opt == 'accept') {
@@ -272,12 +270,10 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
   }, (err, project) => {
     project.tasks.forEach(task => {
       if (String(task._id) == task_id) {
-        if (Date.now() <= task.end_time) {
+        if (Date.now() <= Date.parse(task.end_time)) {
           task.isDone = 1;
-          console.log('task done')
         } else {
           task.isDone = 2;
-          console.log('task done late');
         }
         if (req.body.review) {
           task.review = req.body.review;
@@ -320,7 +316,6 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
   Project.findOne({
     _id: projectId
   }, (err, project) => {
-    console.log(project)
     res.render('uploads', {
       project: project,
       user: req.user,

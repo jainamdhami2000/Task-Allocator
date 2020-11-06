@@ -13,12 +13,6 @@
       font-family: sans-serif;
       background: #1c1e22;
   }
-  /* body {
-  	display: flex;
-  	align-items: center;
-  	justify-content: center;
-      flex-direction: column;
-  } */
   ::-webkit-scrollbar {
   	width: 4px;
   }
@@ -151,7 +145,7 @@
   }
   .nav-brand .nav-item {
       align-self: center;
-    
+
       padding-bottom: 0px;
     }
     .navbar{
@@ -160,12 +154,16 @@
         margin-bottom: 0px!important;
         padding-bottom: 0px;
     }
+
+    #send:hover{
+      color: green
+    }
   </style>
 </head>
 <%-include('partials/sidebar')%>
-	<section class="chatbox">
-		<section class="chat-window">
-      <div id="messages">
+	<section class="chatbox" style="height:600px">
+		<section class="chat-window" >
+      <div id="messages" >
 
       </div>
 		</section>
@@ -181,13 +179,17 @@
   var socket = io();
   $(() => {
     $("#send").click(() => {
-      sendMessage({
-        name: $("#userName").val(),
-        message: $("#message").val()
-      });
+      if ($("#message").val()!=''){
+        sendMessage({
+          name: $("#userName").val(),
+          message: $("#message").val()
+        });
+        $("#message").val('')
+      } else {
+        alert('Type a message')
+      }
     })
-    getMessages()
-    document.getElementById('message').value = ''
+    getMessages();
   })
 
   socket.on('message', addMessages)
@@ -223,8 +225,7 @@
       					</div>
       				</div>
       			</article>`)
-    } //nikali leje class='right' just for showing'
-// <span class="time-right">${message.msg_time}</span>
+    }
   }
 
   function getMessages() {
