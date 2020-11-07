@@ -325,6 +325,89 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
   });
 });
 
+router.post('/randomassignment', (req, res) => {
+  if (req.user.managing.includes(String(req.body.projectId))) {
+    assigntasks = [
+      {
+        task_name: 'qwerty1',
+        task_description: 'qwerty1desc',
+        end_time: Date.now()
+      }, {
+        task_name: 'qwerty2',
+        task_description: 'qwerty2desc',
+        end_time: Date.now()
+      }, {
+        task_name: 'qwerty3',
+        task_description: 'qwerty3desc',
+        end_time: Date.now()
+      }
+    ];
+    Project.findOne({
+      _id: req.body.projectId
+    }, (err, project) => {
+      req.body.assigntasks.forEach(assignedtask => {
+        var useridarray = []
+        project.teammates.forEach(mate => {
+          useridarray.push(String(mate.user_id))
+        })
+        useridarray.push(String(project.leader))
+        project.tasks.forEach(task => {
+          if (task.isDone == 0)
+            useridarray.push(String(task.assigned_to));
+          }
+        );
+        function Counter(array) {
+          var count = {};
+          array.forEach(val => count[val] = (count[val] || 0) + 1);
+          return count;
+        }
+        a = Counter(useridarray);
+        var min = Object.keys(a)[0]
+        for (var key in a) {
+          if (a[min] > a[key]) {
+            min = key
+          }
+        }
+        project.tasks.push({
+          task_name: assignedtask.task_name,
+          task_description: assignedtask.task_description,
+          assigned_to: min,
+          isDone: 0,
+          start_time: Date.now(),
+          end_time: assignedtask.end_time
+        });
+        var secret = process.env.email_secret;
+        //checking for existing mail in database
+        User.findOne({
+          _id: min
+        }, function(err, result) {
+          if (err) {
+            console.log(err);
+          }
+          if (result == null) {
+            res.send('Email not found');
+          } else {
+            const emailAddress = result.Email;
+            let content = `Hello ${result.FirstName} ${result.LastName}!
+          You have been assigned a task in ${project.project_name}.
+          The Details of the task are as follows:-
+              Task Name: ${assignedtask.task_name},
+              Task Description: ${assignedtask.task_description},
+              Assigned: Today,
+              Due date: ${assignedtask.end_time}`
+            mail(emailAddress, 'Task Assignment', content);
+          }
+        });
+
+      });
+      project.save();
+      res.redirect('/dashboard');
+    });
+  } else {
+    res.send('You are not team leader');
+  }
+});
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     req.isLogged = true;
