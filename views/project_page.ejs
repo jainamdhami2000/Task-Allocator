@@ -187,53 +187,177 @@
       </div>
     </div>
   </div>
-
   <!-- ===============================================================end uploads modal ==============================================================-->
-  <%if(String(project.leader)===String(user._id)){%>
-  <div class="row" style="z-index: -2; margin-bottom: 0px;">
-    <div class="col-12 col-md-8">
-      <div class="card" style="margin-bottom: 4px;">
-        <div class="card-body">
-          <form action="http://localhost:3000/project/addmembers" method="POST">
-            <input name='projectId' style='display:none' value='<%=project._id%>'>
-            <div class="form-group">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="fa fa-user-friends"></i>
-                  </span>
-                </div>
-                <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
-                </select>
-                <input type="submit" value="ADD!" style="margin-left: 5px;">
-              </div>
+  <!-- ===============================================================addmember modal ==============================================================-->
+  <div class="modal fade" id="addMembersModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content" style="z-index: 35;">
+        <div class="card card-signup card-plain">
+          <div class="modal-header">
+            <div class="card-header card-header-primary text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+              <h3>ADD MEMBERS</h3>
             </div>
-          </form>
+          </div>
+          <div class="modal-body" style="padding-top: 35px;">
+            <form action="http://localhost:3000/project/addmembers" method="POST">
+              <input name='projectId' style='display:none' value='<%=project._id%>'>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="fa fa-user-friends"></i>
+                    </span>
+                  </div>
+                  <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members">
+                  </select>
+                  <input type="submit" value="ADD!" style="margin-left: 5px;">
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- ===============================================================end addmember modal ==============================================================-->
+  <!-- =============================================================== random tasks count modal ==============================================================-->
+  <div class="modal fade" id="TasksRandomlyCountModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content" style="z-index: 35;">
+        <div class="card card-signup card-plain">
+          <div class="modal-header">
+            <div class="card-header card-header-primary text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+              <h3>ADD Random</h3>
+            </div>
+          </div>
+          <div class="modal-body" style="padding-top: 35px;">
+            <!-- <form action="" id="numOfTasks"> -->
+              <input type="number" placeholder="Enter number of tasks" id="numTask">
+              <button onclick="randomAssignCount()">next</button>
+            <!-- </form> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===============================================================end random task count modal ==============================================================-->
+  <!-- ===============================================================random task  modal ==============================================================-->
+  <div class="modal fade" id="TasksRandomlyAssignModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content" style="z-index: 35;">
+        <div class="card card-signup card-plain">
+          <div class="modal-header">
+            <div class="card-header card-header-primary text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+              <h3 id="RTaskHeader"></h3>
+            </div>
+          </div>
+          <div class="modal-body" style="padding-top: 35px;">
+            <form action="" id="listOfTasks">
+              <input style="display:none" id='projectIdR' value="<%=project._id%>">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">add_task</i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="Task Name" id="task_name_random" name="task_name_random">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">description</i>
+                    </span>
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control" placeholder="Description" id='task_description_random'></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="material-icons">date_range</i>
+                    </span>
+                  </div>
+                  <input type="text" class="form-control datetimepicker" id="end_time_random">
+                </div>
+              </div>
+
+             
+            </form>
+            <button onclick="randomAssign()">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===============================================================end random task  modal ==============================================================-->
+  <!-- ===============================================================tasks added success modal ==============================================================-->
+  <div class="modal fade" id="TasksAddedSuccessModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document">
+      <div class="modal-content" style="z-index: 35;">
+        <div class="card card-signup card-plain">
+          <div class="modal-header">
+            <div class="card-header card-header-primary text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+              <h3>Success!</h3>
+            </div>
+          </div>
+          <div class="modal-body" style="padding-top: 35px;">
+            <div class="tim-typo">
+              <p><span id="scount"></span> tasks have been successfully added</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===============================================================end tasks added success modal ==============================================================-->
+
+  <%if(String(project.leader)===String(user._id)){%>
+  <div class="row" style="z-index: -2; margin-bottom: 0px;">
+    <div class="col-12 col-md-4"  style="align-items: center; justify-items: center; padding-top: 35px;">
+      <button class="btn btn-secondary btn-round" data-toggle="modal" data-target="#addMembersModal" style="width:100%;">
+        <i class="material-icons">add</i> ADD MEMBERS
+      </button>
+    </div>
     <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
-      <button class="btn btn-secondary btn-round" data-toggle="modal" data-target="#createTaskModal" style="width: 80%;">
+      <button class="btn btn-secondary btn-round" data-toggle="modal" data-target="#createTaskModal" style="width: 100%;">
         <i class="material-icons">add</i> ADD TASK
       </button>
     </div>
+    <div class="col-12 col-md-4" style="align-items: center; justify-items: center; padding-top: 35px;">
+      <button class="btn btn-secondary btn-round" data-toggle="modal" data-target="#TasksRandomlyCountModal" style="width:100%;">
+        <i class="material-icons">add</i> ADD TASKS RANDOMLY
+      </button>
+
+    </div>
   </div>
   <%};%>
-
-
-
 
   <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
       <div class="profile-tabs" style="margin-top: 10px;">
         <ul class="nav  justify-content-center" role="tablist">
-          <li class=" btn btn-secondary" style="width: 33%; ">
+          <li class=" btn btn-secondary btn-round" style="width: 33%; ">
             <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
               <i class="fa fa-upload"></i> upload
             </a>
           </li>
           <%if(String(user._id)===String(project.leader)){%>
-          <li class=" btn btn-secondary" id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
+          <li class=" btn btn-secondary btn-round" id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
             <a class=" col-12 col-md-4" href="#progresstracker" role="tab" data-toggle="tab" style="color: black;">
               <i class="fa fa-tasks"></i> progress tracker
             </a>
@@ -256,7 +380,6 @@
       </style>
     </head>
   </div>
-
 
   <div class="tab-content tab-space">
     <div class="tab-pane active text-center gallery" id="pendingtasks">
@@ -405,6 +528,59 @@
   </div>
   </div>
 </body>
+
+<script>
+  var fcount;
+  var tasksObj=[];
+  function randomAssignCount(){
+    console.log("inside rac");
+  fcount=document.getElementById("numTask").value;
+  console.log(fcount);
+  $('#TasksRandomlyCountModal').modal('hide');
+  document.getElementById("RTaskHeader").innerHTML="Task 1 of "+fcount;
+  $('#TasksRandomlyAssignModal').modal('show');
+  }
+  
+  count=1;
+  function randomAssign(){
+    // console.log(document.getElementById("task_name_random").value);
+    // console.log(document.getElementById("task_description_random").value);
+    // console.log(document.getElementById("end_time_random").value);
+    var obj={
+      "task_name":document.getElementById("task_name_random").value,
+      "task_description":document.getElementById("task_description_random").value,
+      "end_time":document.getElementById("end_time_random").value
+    }
+
+    tasksObj.push(obj);
+    count++;
+    console.log(count);
+    console.log(obj);
+    if(count<=fcount){
+      document.getElementById("RTaskHeader").innerHTML="Task" +count+" of "+fcount;
+      document.getElementById("listOfTasks").reset();
+    }
+    else{
+      console.log(tasksObj);
+      var projId=document.getElementById("projectIdR").value;
+      console.log(projId);
+      $('#TasksRandomlyAssignModal').modal('hide');
+      count=1;
+      atask=tasksObj;
+      tasksObj=[];
+      document.getElementById("scount").innerHTML=fcount;
+      $('#TasksAddedSuccessModal').modal('show');
+      $.post('/project/randomassignment', {assigntasks:atask,projectId:projId});
+      window.location.replace("http://localhost:3000/dashboard");
+    }
+    
+
+  }
+    
+</script>
+
+
+
 <script>
   var a = []
 </script>

@@ -326,22 +326,9 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
 });
 
 router.post('/randomassignment', (req, res) => {
+  console.log(req.body.projectId);
+  console.log(req.body.assigntasks);
   if (req.user.managing.includes(String(req.body.projectId))) {
-    assigntasks = [
-      {
-        task_name: 'qwerty1',
-        task_description: 'qwerty1desc',
-        end_time: Date.now()
-      }, {
-        task_name: 'qwerty2',
-        task_description: 'qwerty2desc',
-        end_time: Date.now()
-      }, {
-        task_name: 'qwerty3',
-        task_description: 'qwerty3desc',
-        end_time: Date.now()
-      }
-    ];
     Project.findOne({
       _id: req.body.projectId
     }, (err, project) => {
