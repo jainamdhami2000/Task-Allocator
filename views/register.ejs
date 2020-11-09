@@ -19,6 +19,31 @@
   <link href="/assets/demo/demo.css" rel="stylesheet" />
   <link href="/assets/demo/vertical-nav.css" rel="stylesheet" />
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+  <style>
+      .signup-page {
+        padding-top: 100px;
+        width: 100%;
+        min-height: 730px;
+        height: 100%;
+        background-image: url('/assets/img/bgsignuplogin.jpg');
+        background-size: 100%;
+        position: relative;
+      }
+
+      .signup-page:before {
+
+        content: "";
+        position: absolute;
+        top: 0%;
+        bottom: 0%;
+        left: 0%;
+        right: 0%;
+        opacity: 0.1;
+        z-index: -1;
+        background: whitesmoke;
+        background: linear-gradient(90deg, rgb(255, 255, 255), 13%, 100%);
+      }
+  </style>
 </head>
 
 <body class="signup-page sidebar-collapse">
