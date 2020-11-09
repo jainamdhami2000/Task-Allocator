@@ -305,7 +305,7 @@
                 </div>
               </div>
 
-             
+
             </form>
             <button onclick="randomAssign()">Next</button>
           </div>
@@ -332,7 +332,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          
+
           </div>
         </div>
       </div>
@@ -342,12 +342,11 @@
   <div style="padding: 0px; padding-left: 50px; padding-bottom: 0px; margin-bottom: 0px;">
     <span class="pname"><%=project.project_name%></span> <a style="color: rgb(61, 61, 61);" href="#" data-toggle="tooltip" data-html="true" data-placement="bottom" title="
     <ul>
-      <li>  <%=lead%> (leader)</li>
+      <li>  <%=lead.name%> (leader)</li>
       <%members.forEach(member=>{%>
         <li><%=member.name%> </li>
      <% })%>
     </ul>
-    
     ">members</a>
   </div>
   <%if(String(project.leader)===String(user._id)){%>
@@ -360,12 +359,12 @@
               <i class="fa fa-users"></i> ADD MEMBERS
             </a>
           </li>
-        
+
           <li class=" btn btn-secondary " id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
             <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#createTaskModal">
               <i class="fa fa-stack-overflow"></i> ADD TASK
             </a>
-        
+
           <li class=" btn btn-secondary" style="width: 33%;">
             <a class=" col-12 col-md-4"  style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#TasksRandomlyCountModal">
               <i class="fa fa-stack-exchange"></i> ADD TASKS RANDOMLY
@@ -569,10 +568,10 @@
 
 <script>
   $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();   
+    $('[data-toggle="tooltip"]').tooltip();
   });
   </script>
-  
+
 <script>
   var fcount;
   var tasksObj=[];
@@ -584,7 +583,7 @@
   document.getElementById("RTaskHeader").innerHTML="Task 1 of "+fcount;
   $('#TasksRandomlyAssignModal').modal('show');
   }
-  
+
   count=1;
   function randomAssign(){
     // console.log(document.getElementById("task_name_random").value);
@@ -617,10 +616,10 @@
       $.post('/project/randomassignment', {assigntasks:atask,projectId:projId});
       window.location.replace("http://localhost:3000/dashboard");
     }
-    
+
 
   }
-    
+
 </script>
 
 

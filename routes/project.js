@@ -149,16 +149,14 @@ router.post('/showproject', isLoggedIn, (req, res) => {
   }, async (err, project) => {
     var tasks = [];
     var task_user_ids = [];
-    var members=[];
-    var members_ids=[];
-    var lead;
+    var members_ids = [];
     project.tasks.forEach(task => {
       task_user_ids.push(task.assigned_to);
     });
-    project.teammates.forEach(teammate=>{
+    project.teammates.forEach(teammate => {
       members_ids.push(teammate.user_id);
     });
-   
+    members_ids.push(project.leader)
     await User.find({
       _id: {
         $in: task_user_ids
@@ -189,36 +187,32 @@ router.post('/showproject', isLoggedIn, (req, res) => {
       var pendingtasks = tasks.filter(pending => {
         return pending.isDone == 0
       })
-      console.log("leader:"+project.leader);
-      User.findOne({_id:project.leader}, (err,leader)=>{
-        lead=leader.FirstName+" "+leader.LastName;
-        console.log("leader found="+leader);
-        console.log("inside leader find");
-      });
-      console.log(lead);
+
       User.find({
-        _id:{
+        _id: {
           $in: members_ids
         }
-      },(err,membersList)=>{
-        console.log("inside member find");
-        membersList.forEach(member=>{
+      }, (err, membersList) => {
+        var members = [];
+        var lead;
+        for (var i = 1; i < membersList.length; i++) {
           members.push({
-            name: member.FirstName+" "+member.LastName
+            name: membersList[i].FirstName + " " + membersList[i].LastName
           })
-          console.log("members="+member);
-        })
-      });
-
-      res.render('project_page', {
-        lead:lead,
-        members:members,
-        project: project,
-        pendingtasks: pendingtasks,
-        managing: managing,
-        asmember: asmember,
-        tasks: tasks,
-        user: req.user
+        }
+        lead = {
+          name: membersList[0].FirstName + ' ' + membersList[0].LastName
+        }
+        res.render('project_page', {
+          lead: lead,
+          members: members,
+          project: project,
+          pendingtasks: pendingtasks,
+          managing: managing,
+          asmember: asmember,
+          tasks: tasks,
+          user: req.user
+        });
       });
     });
   });
