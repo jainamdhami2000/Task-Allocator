@@ -143,7 +143,6 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
 router.post('/showproject', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
-  console.log("inside showproject");
   Project.findOne({
     _id: req.body.projectId
   }, async (err, project) => {
@@ -187,23 +186,48 @@ router.post('/showproject', isLoggedIn, (req, res) => {
       var pendingtasks = tasks.filter(pending => {
         return pending.isDone == 0
       })
-
       User.find({
         _id: {
           $in: members_ids
         }
       }, (err, membersList) => {
-        var members = [];
         var lead;
-        for (var i = 1; i < membersList.length; i++) {
-          members.push({
-            name: membersList[i].FirstName + " " + membersList[i].LastName
-          })
-        }
-        lead = {
-          name: membersList[0].FirstName + ' ' + membersList[0].LastName
-        }
+        membersList.forEach(member => {
+          if (String(member._id) == String(project.leader)) {
+            lead = {
+              name: member.FirstName + ' ' + member.LastName
+            }
+          }
+        })
+        var members = [];
+        members = membersList.filter(member => {
+          return String(member._id) != String(project.leader)
+        });
+        var memberscore = []
+        members.forEach(member => {
+          var completed = 0;
+          var pending = 0;
+          var late = 0;
+          project.tasks.forEach(task => {
+            if (String(member._id) == String(task.assigned_to)) {
+              if (task.isDone == 0) {
+                pending++;
+              } else if (task.isDone == 1) {
+                completed++;
+              } else if (task.isDone == 2) {
+                late++;
+              }
+            }
+          });
+          memberscore.push({
+            name: member.FirstName + ' ' + member.LastName,
+            pending: pending,
+            completed: completed,
+            late: late
+          });
+        });
         res.render('project_page', {
+          memberscore: memberscore,
           lead: lead,
           members: members,
           project: project,
