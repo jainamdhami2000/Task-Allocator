@@ -34,6 +34,20 @@
       right: 0;
       margin-right: 0px;
     }
+    .pname{
+      color: rgb(61, 61, 61);
+      display: inline;
+      font-weight: 300;
+      font-size: 50px;
+      line-height: 50px;
+    }
+    .pmembers{
+      color: rgb(61, 61, 61);
+      display: block;
+      font-weight: 300;
+      font-size: 20px;
+      line-height: 20px;
+    }
   </style>
 </head>
 
@@ -145,7 +159,7 @@
                 </div>
               </div>
               <div class="modal-footer justify-content-center">
-                <input type='submit' class="btn btn-primary btn-link btn-wd btn-lg" value='CREATE!' />
+                <input type='submit' class="btn btn-info btn-link btn-wd btn-lg" value='CREATE!' />
               </div>
             </form>
           </div>
@@ -325,7 +339,17 @@
     </div>
   </div>
   <!-- ===============================================================end tasks added success modal ==============================================================-->
-
+  <div style="padding: 0px; padding-left: 50px; padding-bottom: 0px; margin-bottom: 0px;">
+    <span class="pname"><%=project.project_name%></span> <a style="color: rgb(61, 61, 61);" href="#" data-toggle="tooltip" data-html="true" data-placement="bottom" title="
+    <ul>
+      <li>  <%=lead%> (leader)</li>
+      <%members.forEach(member=>{%>
+        <li><%=member.name%> </li>
+     <% })%>
+    </ul>
+    
+    ">members</a>
+  </div>
   <%if(String(project.leader)===String(user._id)){%>
 <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
@@ -363,7 +387,7 @@
 
   <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
-      <div class="profile-tabs" style="margin-top: 0px;">
+      <div class="profile-tabs" style="margin-top: 0px; padding-top: 0px;">
         <ul class="nav  justify-content-center" role="tablist">
           <li class=" btn btn-info" style="width: 33%; ">
             <a class=" col-12 col-md-4" style="width: 100%; color: whitesmoke;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
@@ -395,7 +419,7 @@
     </head>
   </div>
 
-  <div class="tab-content tab-space">
+  <div class="tab-content tab-space" style="margin-top: 0px; padding-top: 0px;">
     <div class="tab-pane active text-center gallery" id="pendingtasks">
       <h3>PENDING TASKS</h3>
       <% pendingtasks.forEach(task=>{
@@ -543,6 +567,12 @@
   </div>
 </body>
 
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+  });
+  </script>
+  
 <script>
   var fcount;
   var tasksObj=[];

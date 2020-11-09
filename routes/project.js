@@ -143,14 +143,22 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
 router.post('/showproject', isLoggedIn, (req, res) => {
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
+  console.log("inside showproject");
   Project.findOne({
     _id: req.body.projectId
   }, async (err, project) => {
     var tasks = [];
     var task_user_ids = [];
+    var members=[];
+    var members_ids=[];
+    var lead;
     project.tasks.forEach(task => {
       task_user_ids.push(task.assigned_to);
     });
+    project.teammates.forEach(teammate=>{
+      members_ids.push(teammate.user_id);
+    });
+   
     await User.find({
       _id: {
         $in: task_user_ids
@@ -181,7 +189,30 @@ router.post('/showproject', isLoggedIn, (req, res) => {
       var pendingtasks = tasks.filter(pending => {
         return pending.isDone == 0
       })
+      console.log("leader:"+project.leader);
+      User.findOne({_id:project.leader}, (err,leader)=>{
+        lead=leader.FirstName+" "+leader.LastName;
+        console.log("leader found="+leader);
+        console.log("inside leader find");
+      });
+      console.log(lead);
+      User.find({
+        _id:{
+          $in: members_ids
+        }
+      },(err,membersList)=>{
+        console.log("inside member find");
+        membersList.forEach(member=>{
+          members.push({
+            name: member.FirstName+" "+member.LastName
+          })
+          console.log("members="+member);
+        })
+      });
+
       res.render('project_page', {
+        lead:lead,
+        members:members,
         project: project,
         pendingtasks: pendingtasks,
         managing: managing,
