@@ -229,7 +229,6 @@ router.post('/showproject', isLoggedIn, (req, res) => {
         res.render('project_page', {
           memberscore: memberscore,
           lead: lead,
-          members: members,
           project: project,
           pendingtasks: pendingtasks,
           managing: managing,
