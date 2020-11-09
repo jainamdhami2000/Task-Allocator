@@ -74,7 +74,32 @@ module.exports = function(app, passport) {
   });
 
   app.get('/profile_page', (req, res) => {
-    res.render('profile-page', {user: req.user})
+    var member_team_ids=[];
+    var leader_team_ids=[];
+    req.user.managing.forEach(team=>{
+       leader_team_ids.push(team);
+      console.log(team);
+    });
+    req.user.asmember.forEach(team=>{
+      member_team_ids.push(team.project_id);
+      console.log(team.project_id);
+    })
+    Project.find({
+      _id:{
+        $in:leader_team_ids
+      }
+    },(err,lprojects)=>{
+      Project.find({
+        _id:member_team_ids
+      },(err,mprojects)=>{
+        console.log(lprojects);
+        console.log(mprojects);
+        res.render('profile-page', {
+          user: req.user,
+          // leaderProjects:lprojects,
+        })
+      });
+    });
   });
 
   app.post('/login', passport.authenticate('local-login', {
