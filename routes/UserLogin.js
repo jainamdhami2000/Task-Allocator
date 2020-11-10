@@ -73,32 +73,13 @@ module.exports = function(app, passport) {
     res.render('login', {message: req.flash('loginMessage')});
   });
 
-  app.get('/profile_page', (req, res) => {
-    var member_team_ids=[];
-    var leader_team_ids=[];
-    req.user.managing.forEach(team=>{
-       leader_team_ids.push(team);
-      console.log(team);
-    });
-    req.user.asmember.forEach(team=>{
-      member_team_ids.push(team.project_id);
-      console.log(team.project_id);
-    })
-    Project.find({
-      _id:{
-        $in:leader_team_ids
-      }
-    },(err,lprojects)=>{
-      Project.find({
-        _id:member_team_ids
-      },(err,mprojects)=>{
-        console.log(lprojects);
-        console.log(mprojects);
-        res.render('profile-page', {
-          user: req.user,
-          // leaderProjects:lprojects,
-        })
-      });
+  app.get('/profile_page',isLoggedIn, (req, res) => {
+    managing = req.app.locals.managing;
+    asmember = req.app.locals.asmember;
+    res.render('profile-page', {
+      user: req.user,
+      managing: managing,
+      asmember: asmember
     });
   });
 
