@@ -246,11 +246,9 @@
               <h3>ADD Random</h3>
             </div>
           </div>
-          <div class="modal-body" style="padding-top: 35px; padding-left: 15px">
-            <!-- <form action="" id="numOfTasks"> -->
-              <input type="number" placeholder="Enter number of tasks" id="numTask">
-              <button class="btn btn-primary" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button>
-            <!-- </form> -->
+          <div class="modal-body" style="padding-top: 35px;">
+              <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask">
+              <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
       </div>
@@ -468,7 +466,6 @@
                 <div class="card-header card-header-info text-center">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
                   <h3><%=task.task_name%></h3>
-
                 </div>
               </div>
               <div class="modal-body">
@@ -479,7 +476,6 @@
                 <div class="tim-typo">
                   <h6>Start Time : <%=task.start_time%></h6>
                   <h6>End Time: <%=task.end_time%></h6>
-
                 </div>
                 <form id="projtask<%=task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
                   <input name='projectId' style='display:none' value='<%=project._id%>'>
@@ -501,7 +497,7 @@
                   </div>
               </div>
               <div class="modal-footer justify-content-center">
-                <button id='<%=task._id%>' onclick="projtask(this)" class="btn btn-primary btn-link btn-wd btn-lg">Task Finished!</button>
+                <button id='<%=task._id%>' onclick="projtask(this)" class="btn btn-info btn-link btn-wd btn-lg">Task Finished!</button>
               </div>
               </form>
             </div>
