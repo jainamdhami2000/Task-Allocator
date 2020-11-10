@@ -114,11 +114,8 @@ router.post('/createtask', isLoggedIn, (req, res) => {
 
 router.post('/addmembers', isLoggedIn, (req, res) => {
   var teammates = req.body.teammates;
-  console.log(typeof teammates)
-  console.log(teammates)
   if (typeof teammates == 'string') {
     teammates = [req.body.teammates]
-    console.log(teammates)
   }
   var projectId = req.body.projectId;
   if (req.user.managing.includes(String(req.body.projectId))) {
@@ -381,8 +378,6 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
 });
 
 router.post('/randomassignment', (req, res) => {
-  console.log(req.body.projectId);
-  console.log(req.body.assigntasks);
   if (req.user.managing.includes(String(req.body.projectId))) {
     Project.findOne({
       _id: req.body.projectId
