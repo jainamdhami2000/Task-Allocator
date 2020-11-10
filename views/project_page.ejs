@@ -667,12 +667,10 @@ function drawChart() {
       </table>
     </div>
   </div>
-
   </div>
   </div>
   </div>
 </body>
-
 <script>
   $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
@@ -730,7 +728,6 @@ function drawChart() {
   document.getElementById("RTaskHeader").innerHTML="Task 1 of "+fcount;
   $('#TasksRandomlyAssignModal').modal('show');
   }
-
   count=1;
   function randomAssign(){
     // console.log(document.getElementById("task_name_random").value);
@@ -763,15 +760,7 @@ function drawChart() {
       $.post('/project/randomassignment', {assigntasks:atask,projectId:projId});
       window.location.replace("http://localhost:3000/dashboard");
     }
-
-
   }
-
-</script>
-
-
-
-<script>
   var a = []
 </script>
 <%project.teammates.forEach(teammate=>{%>
