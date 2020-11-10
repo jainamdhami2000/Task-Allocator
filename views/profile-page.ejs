@@ -43,7 +43,11 @@
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <%if(user.loginType=='google'){%>
+                <img src="<%=user.image%>" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <%} else {%>
+                <img src="../assets/img/faces/blank.webp" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <%}%>
               </div>
               <div class="name">
                 <h3 class="title"><%=user.FirstName%> <%=user.LastName%></h3>
@@ -80,12 +84,12 @@
         <div class="tab-content tab-space" style="">
           <div class="tab-pane active text-center gallery" id="leaderTeams">
             <div class="row">
-              
+
             </div>
           </div>
           <div class="tab-pane text-center gallery" id="memberTeams">
             <div class="row">
-              
+
             </div>
           </div>
         </div>
