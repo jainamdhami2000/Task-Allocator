@@ -34,14 +34,16 @@
       right: 0;
       margin-right: 0px;
     }
-    .pname{
+
+    .pname {
       color: rgb(61, 61, 61);
       display: inline;
       font-weight: 300;
       font-size: 50px;
       line-height: 50px;
     }
-    .pmembers{
+
+    .pmembers {
       color: rgb(61, 61, 61);
       display:inline;
       font-weight: 300;
@@ -247,8 +249,8 @@
             </div>
           </div>
           <div class="modal-body" style="padding-top: 35px;">
-              <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask">
-              <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
+            <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask">
+            <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
       </div>
@@ -330,7 +332,6 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
           </div>
         </div>
       </div>
@@ -348,6 +349,31 @@
               <h3>Analysis</h3>
             </div>
           </div>
+          <script>
+            var a = []
+            var names = []
+          </script>
+          <%memberscore.forEach(member=>{%>
+          <script>
+            score = (4 * <%= member.completed %> -1 * <%= member.pending %> ) / ( <%= member.completed %> + <%= member.pending %> )
+            a.push(score)
+            names.push('<%=member.name%>')
+          </script>
+          <%})%>
+          <script type="text/javascript">
+            max = Math.max(...a)
+            for (i = 0; i < a.length; i++) {
+              if (a[i] == max) {
+                break
+              }
+            }
+          </script>
+          <center>
+            <h3 id='score'></h3>
+          </center>
+          <script type="text/javascript">
+            $('#score').html(names[i] + " is the best member of the team")
+          </script>
           <div class="modal-body" style="padding-top: 35px; padding-left: 15px">
             <div class="table-responsive">
               <table class="table">
@@ -364,26 +390,24 @@
                 </thead>
                 <tbody>
                   <%memberscore.forEach(member=>{%>
-                    <tr>
-                      <td class="text-center">#</td>
-                      <td><%=member.name%></td>
-                      <td><%=member.completed%></td>
-                      <td><%=member.pending%></td>
-                      <td><%=member.late%></td>
-                      <td class="td-actions text-right">
-                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#chartModal<%=member.memId%>">
-                          <i class="material-icons">person</i>chart
-                        </button>
-  
-                      </td>
-                      <td class="td-actions text-right">
-                        <button type="button"  class="btn btn-info ">
-                          <i class="material-icons">person</i>remove
-                        </button>
-                      </td>
-                    </tr>
-                
-                 <% })%>
+                  <tr>
+                    <td class="text-center">#</td>
+                    <td><%=member.name%></td>
+                    <td><%=member.completed%></td>
+                    <td><%=member.pending%></td>
+                    <td><%=member.late%></td>
+                    <td class="td-actions text-right">
+                      <button type="button" class="btn btn-info " data-toggle="modal" data-target="#chartModal<%=member.memId%>">
+                        <i class="material-icons">person</i>chart
+                      </button>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" class="btn btn-info ">
+                        <i class="material-icons">person</i>remove
+                      </button>
+                    </td>
+                  </tr>
+                  <% })%>
                 </tbody>
               </table>
             </div>
@@ -393,11 +417,10 @@
     </div>
   </div>
   <!-- ===============================================================End Analyse modal ==============================================================-->
-   <!-- ===============================================================chart modal ==============================================================-->
-   
+  <!-- ===============================================================chart modal ==============================================================-->
 
-   <%memberscore.forEach(member=>{%>
-   <div class="modal fade" id="chartModal<%=member.memId%>" tabindex="-1" role="dialog">
+  <%memberscore.forEach(member=>{%>
+  <div class="modal fade" id="chartModal<%=member.memId%>" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-login" role="document" style="max-width: 700px;">
       <div class="modal-content" style="z-index: 35;">
         <div class="card card-signup card-plain">
@@ -408,40 +431,45 @@
             </div>
           </div>
           <div class="modal-body" style="padding-top: 35px;">
-            <div id="piechart"></div>
+            <div id="piechart<%=member.memId%>"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
 
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+    // Draw the chart and set the chart values
+    function drawChart() {
 
-// Draw the chart and set the chart values
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Task', 'Count'],
-  ['Completed Tasks', 8],
-  ['Pending Tasks', 2],
-  ['Completed Late', 4]
-]);
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Count'],
+        ['Completed Tasks', <%= member.completed %> ],
+        ['Pending Tasks', <%= member.pending %> ],
+        ['Completed Late', <%= member.late %> ]
+      ]);
 
-  // Optional; add a title and set the width and height of the chart
-  var options = {'title':'My Average Day', 'width':550, 'height':400};
+      // Optional; add a title and set the width and height of the chart
+      var options = {
+        'title': 'Member Analysis',
+        'width': 550,
+        'height': 400
+      };
 
-  // Display the chart inside the <div> element with id="piechart"
-  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-  chart.draw(data, options);
-}
-</script>
-
+      // Display the chart inside the <div> element with id="piechart"
+      var chart = new google.visualization.PieChart(document.getElementById('piechart<%=member.memId%>'));
+      chart.draw(data, options);
+    }
+  </script>
   <%});%>
   <!-- ===============================================================end chart modal ==============================================================-->
- 
+
   <div style="padding: 0px; padding-left: 50px; padding-bottom: 0px; margin-bottom: 0px;">
     <div class="row">
       <div class="col-12 col-sm-6">
@@ -461,7 +489,7 @@ function drawChart() {
     </div> 
   </div>
   <%if(String(project.leader)===String(user._id)){%>
-<div class="row">
+  <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
       <div class="profile-tabs" style="margin-top: 10px;">
         <ul class="nav  justify-content-center" role="tablist">
@@ -477,11 +505,10 @@ function drawChart() {
             </a>
           </li>
           <li class=" btn btn-secondary" style="width: 33%;">
-            <a class=" col-12 col-md-4"  style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#TasksRandomlyCountModal">
+            <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#TasksRandomlyCountModal">
               <i class="fa fa-stack-exchange"></i> ADD TASKS RANDOMLY
             </a>
           </li>
-
 
         </ul>
       </div>
@@ -679,53 +706,43 @@ function drawChart() {
   </div>
 </body>
 <script>
-  $(document).ready(function(){
+  $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
-  </script>
-
-
+</script>
 <script>
   var fcount;
-  var tasksObj=[];
-  function randomAssignCount(){
-    console.log("inside rac");
-  fcount=document.getElementById("numTask").value;
-  console.log(fcount);
-  $('#TasksRandomlyCountModal').modal('hide');
-  document.getElementById("RTaskHeader").innerHTML="Task 1 of "+fcount;
-  $('#TasksRandomlyAssignModal').modal('show');
+  var tasksObj = [];
+  function randomAssignCount() {
+    fcount = document.getElementById("numTask").value;
+    $('#TasksRandomlyCountModal').modal('hide');
+    document.getElementById("RTaskHeader").innerHTML = "Task 1 of " + fcount;
+    $('#TasksRandomlyAssignModal').modal('show');
   }
-  count=1;
-  function randomAssign(){
-    // console.log(document.getElementById("task_name_random").value);
-    // console.log(document.getElementById("task_description_random").value);
-    // console.log(document.getElementById("end_time_random").value);
-    var obj={
-      "task_name":document.getElementById("task_name_random").value,
-      "task_description":document.getElementById("task_description_random").value,
-      "end_time":document.getElementById("end_time_random").value
+  count = 1;
+  function randomAssign() {
+    var obj = {
+      "task_name": document.getElementById("task_name_random").value,
+      "task_description": document.getElementById("task_description_random").value,
+      "end_time": document.getElementById("end_time_random").value
     }
-
     tasksObj.push(obj);
     count++;
-    console.log(count);
-    console.log(obj);
-    if(count<=fcount){
-      document.getElementById("RTaskHeader").innerHTML="Task" +count+" of "+fcount;
+    if (count <= fcount) {
+      document.getElementById("RTaskHeader").innerHTML = "Task" + count + " of " + fcount;
       document.getElementById("listOfTasks").reset();
-    }
-    else{
-      console.log(tasksObj);
-      var projId=document.getElementById("projectIdR").value;
-      console.log(projId);
+    } else {
+      var projId = document.getElementById("projectIdR").value;
       $('#TasksRandomlyAssignModal').modal('hide');
-      count=1;
-      atask=tasksObj;
-      tasksObj=[];
-      document.getElementById("scount").innerHTML=fcount;
+      count = 1;
+      atask = tasksObj;
+      tasksObj = [];
+      document.getElementById("scount").innerHTML = fcount;
       $('#TasksAddedSuccessModal').modal('show');
-      $.post('/project/randomassignment', {assigntasks:atask,projectId:projId});
+      $.post('/project/randomassignment', {
+        assigntasks: atask,
+        projectId: projId
+      });
       window.location.replace("http://localhost:3000/dashboard");
     }
   }
@@ -765,12 +782,10 @@ function drawChart() {
   }
 
   function projtask(input) {
-    console.log('inside task');
     document.getElementById("projtask" + input.id).submit();
   }
 
   function checkprojtask(input) {
-    console.log('inside checktask');
     document.getElementById("checkprojtask" + input.id).submit();
   }
 </script>
