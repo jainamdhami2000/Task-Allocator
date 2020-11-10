@@ -363,25 +363,27 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <%memberscore%>
-                  <tr>
-                    <td class="text-center">5</td>
-                    <td>Paul Dickens</td>
-                    <td>Completed</td>
-                    <td>pending</td>
-                    <td>late</td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" class="btn btn-info btn-just-icon btn-sm">
-                        <i class="material-icons">person</i>
-                      </button>
-
-                    </td>
-                    <td class="td-actions text-right">
-                      <button type="button" rel="tooltip" class="btn btn-info btn-just-icon btn-sm">
-                        <i class="material-icons">person</i>
-                      </button>
-                    </td>
-                  </tr>
+                  <%memberscore.forEach(member=>{%>
+                    <tr>
+                      <td class="text-center">#</td>
+                      <td><%=member.name%></td>
+                      <td><%=member.completed%></td>
+                      <td><%=member.pending%></td>
+                      <td><%=member.late%></td>
+                      <td class="td-actions text-right">
+                        <button type="button" class="btn btn-info " data-toggle="modal" data-target="#chartModal<%=member.memId%>">
+                          <i class="material-icons">person</i>chart
+                        </button>
+  
+                      </td>
+                      <td class="td-actions text-right">
+                        <button type="button"  class="btn btn-info ">
+                          <i class="material-icons">person</i>remove
+                        </button>
+                      </td>
+                    </tr>
+                
+                 <% })%>
                 </tbody>
               </table>
             </div>
@@ -391,6 +393,55 @@
     </div>
   </div>
   <!-- ===============================================================End Analyse modal ==============================================================-->
+   <!-- ===============================================================chart modal ==============================================================-->
+   
+
+   <%memberscore.forEach(member=>{%>
+   <div class="modal fade" id="chartModal<%=member.memId%>" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-login" role="document" style="max-width: 700px;">
+      <div class="modal-content" style="z-index: 35;">
+        <div class="card card-signup card-plain">
+          <div class="modal-header">
+            <div class="card-header card-header-info text-center">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="material-icons">clear</i></button>
+              <h3><%=member.name%></h3>
+            </div>
+          </div>
+          <div class="modal-body" style="padding-top: 35px;">
+            <div id="piechart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Task', 'Count'],
+  ['Completed Tasks', 8],
+  ['Pending Tasks', 2],
+  ['Completed Late', 4]
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'My Average Day', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script>
+
+  <%});%>
+  <!-- ===============================================================end chart modal ==============================================================-->
+ 
   <div style="padding: 0px; padding-left: 50px; padding-bottom: 0px; margin-bottom: 0px;">
     <span class="pname"><%=project.project_name%></span> <a style="color: rgb(61, 61, 61);" href="#" data-toggle="tooltip" data-html="true" data-placement="bottom" title="
     <ul>
@@ -627,6 +678,46 @@
     $('[data-toggle="tooltip"]').tooltip();
   });
   </script>
+
+<!-- <script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+  });
+  </script> -->
 
 <script>
   var fcount;

@@ -226,6 +226,7 @@ router.post('/showproject', isLoggedIn, (req, res) => {
             }
           });
           memberscore.push({
+            memId:member._id,
             name: member.FirstName + ' ' + member.LastName,
             pending: pending,
             completed: completed,
