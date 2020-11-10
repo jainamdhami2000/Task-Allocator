@@ -114,6 +114,12 @@ router.post('/createtask', isLoggedIn, (req, res) => {
 
 router.post('/addmembers', isLoggedIn, (req, res) => {
   var teammates = req.body.teammates;
+  console.log(typeof teammates)
+  console.log(teammates)
+  if (typeof teammates == 'string') {
+    teammates = [req.body.teammates]
+    console.log(teammates)
+  }
   var projectId = req.body.projectId;
   if (req.user.managing.includes(String(req.body.projectId))) {
     Project.findOne({
