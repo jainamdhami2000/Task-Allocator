@@ -4,43 +4,49 @@
   <script src="/socket.io/socket.io.js"></script>
   <!-- Bootstrap core CSS -->
   <style media="screen">
-  html,
-  body {
+    html,
+    body {
       height: 100%;
       width: 100%;
       margin: 0;
       padding: 0;
       font-family: sans-serif;
       background: #1c1e22;
-  }
-  ::-webkit-scrollbar {
-  	width: 4px;
-  }
-  ::-webkit-scrollbar-thumb {
-  	background-color: #4c4c6a;
-  	border-radius: 2px;
-  }
-  .chatbox {
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #4c4c6a;
+      border-radius: 2px;
+    }
+
+    .chatbox {
       max-height: 580px;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
-  }
-  .chat-window {
+      box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    }
+
+    .chat-window {
       flex: auto;
       max-height: calc(100% - 60px);
       background: #2f323b;
       overflow: auto;
-  }
-  .chat-input {
+    }
+
+    .chat-input {
       flex: 0 0 auto;
       height: 60px;
       background: #40434e;
       border-top: 1px solid #2671ff;
-      box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
-  }
-  .chat-input input {
+      box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    }
+
+    .chat-input input {
       height: 59px;
       line-height: 60px;
       outline: 0 none;
@@ -51,37 +57,43 @@
       font-size: 12pt;
       padding: 0;
       background: #40434e;
-  }
-  .chat-input button {
+    }
+
+    .chat-input button {
       float: right;
       outline: 0 none;
       border: none;
-      background: rgba(255,255,255,.25);
+      background: rgba(255, 255, 255, .25);
       height: 40px;
       width: 40px;
       border-radius: 50%;
       padding: 2px 0 0 0;
       margin: 10px;
       transition: all 0.15s ease-in-out;
-  }
-  .chat-input input[good] + button {
-      box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    }
+
+    .chat-input input[good]+button {
+      box-shadow: 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
       background: #2671ff;
-  }
-  .chat-input input[good] + button:hover {
-      box-shadow: 0 8px 17px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-  }
-  .chat-input input[good] + button path {
+    }
+
+    .chat-input input[good]+button:hover {
+      box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .chat-input input[good]+button path {
       fill: white;
-  }
-  .msg-container {
+    }
+
+    .msg-container {
       position: relative;
       display: inline-block;
       width: 100%;
       margin: 0 0 10px 0;
       padding: 0;
-  }
-  .msg-box {
+    }
+
+    .msg-box {
       display: flex;
       background: #5b5e6c;
       padding: 10px 10px 0 10px;
@@ -89,97 +101,114 @@
       max-width: 80%;
       width: auto;
       float: left;
-      box-shadow: 0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
-  }
-  .user-img {
+      box-shadow: 0 0 2px rgba(0, 0, 0, .12), 0 2px 4px rgba(0, 0, 0, .24);
+    }
+
+    .user-img {
       display: inline-block;
       border-radius: 50%;
       height: 40px;
       width: 40px;
       background: #2671ff;
       margin: 0 10px 10px 0;
-  }
-  .flr {
+    }
+
+    .flr {
       flex: 1 0 auto;
       display: flex;
       flex-direction: column;
       width: calc(100% - 50px);
-  }
-  .messages {
+    }
+
+    .messages {
       flex: 1 0 auto;
-  }
-  .msg {
+    }
+
+    .msg {
       display: inline-block;
       font-size: 11pt;
       line-height: 13pt;
-      color: rgba(255,255,255,.7);
+      color: rgba(255, 255, 255, .7);
       margin: 0 0 4px 0;
-  }
-  .msg:first-of-type {
+    }
+
+    .msg:first-of-type {
       margin-top: 8px;
-  }
-  .timestamp {
-      color: rgba(0,0,0,.38);
+    }
+
+    .timestamp {
+      color: rgba(0, 0, 0, .38);
       font-size: 8pt;
       margin-bottom: 10px;
-  }
-  .username {
+    }
+
+    .username {
       margin-right: 3px;
-  }
-  .posttime {
+    }
+
+    .posttime {
       margin-left: 3px;
-  }
-  .msg-self .msg-box {
+    }
+
+    .msg-self .msg-box {
       border-radius: 6px 0 0 6px;
       background: #2671ff;
       float: right;
-  }
-  .msg-self .user-img {
+    }
+
+    .msg-self .user-img {
       margin: 0 0 10px 10px;
-  }
-  .msg-self .msg {
+    }
+
+    .msg-self .msg {
       text-align: right;
-  }
-  .msg-self .timestamp {
+    }
+
+    .msg-self .timestamp {
       text-align: right;
-  }
-  .nav-brand .nav-item {
+    }
+
+    .nav-brand .nav-item {
       align-self: center;
 
       padding-bottom: 0px;
     }
-    .navbar{
-        margin-top: 0px !important;
-        padding-top: 0px;
-        margin-bottom: 0px!important;
-        padding-bottom: 0px;
+
+    .navbar {
+      margin-top: 0px !important;
+      padding-top: 0px;
+      margin-bottom: 0px !important;
+      padding-bottom: 0px;
     }
 
-    #send:hover{
+    #send:hover {
       color: green
     }
   </style>
 </head>
 <%-include('partials/sidebar')%>
-	<section class="chatbox" style="height:600px">
-		<section class="chat-window" >
-      <div id="messages" >
+<section class="chatbox" style="height:600px">
+  <section class="chat-window">
+    <div id="messages">
 
-      </div>
-		</section>
-		<div class="chat-input" onsubmit="return false;">
-			<input id="message" type="text" autocomplete="on" placeholder="Type a message" />
-			<button id="send">
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="rgba(0,0,0,.38)" d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" /></svg>
-                </button>
-                <input type="text" id="userName" style="visibility:hidden" name="" value="<%= user.username %>">
-		</div>
-	</section>
+    </div>
+  </section>
+  <div class="chat-input" onsubmit="return false;">
+    <input id="message" type="text" autocomplete="on" placeholder="Type a message" />
+    <button id="send">
+      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+        <path fill="rgba(0,0,0,.38)"
+          d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
+      </svg>
+    </button>
+    <input type="text" id="userName" style="visibility:hidden" name="" value="<%= user.username %>">
+  </div>
+</section>
 <script>
   var socket = io();
   $(() => {
     $("#send").click(() => {
-      if ($("#message").val()!=''){
+      if ($("#message").val() != '') {
         sendMessage({
           name: $("#userName").val(),
           message: $("#message").val()
@@ -195,6 +224,17 @@
   socket.on('message', addMessages)
 
   function addMessages(message) {
+    var timeelapsed;
+    var dif = Date.now() - Date.parse(message.msg_time)
+    if (dif < 3600000) {
+      timeelapsed = Math.floor(dif / 60000) + ' minutes ago'
+    } else if (dif > 3600000 && dif < 86400000) {
+      timeelapsed = Math.floor(dif / 3600000) + ' hours ago'
+    } else {
+      var date = new Date(message.msg_time)
+      month = date.getUTCMonth() + 1
+      timeelapsed = date.getUTCDate() + '/' + month + '/' + date.getUTCFullYear()
+    }
     if ('<%=user.username%>' == `${message.name}`) {
       $("#messages").append(`<article class="msg-container msg-self" id="msg-0">
       				<div class="msg-box">
@@ -204,13 +244,11 @@
       								${message.message}
       							</p>
       						</div>
-      						<span class="timestamp"><span class="username">${message.name}</span>&bull;<span class="posttime">2 minutes ago</span></span>
+      						<span class="timestamp"><span class="username">${message.name}</span>&bull;<span class="posttime">${timeelapsed}</span></span>
       					</div>
       					<img class="user-img" id="user-0" src="//gravatar.com/avatar/56234674574535734573000000000001?d=retro" />
       				</div>
       			</article>`)
-      // <span class="time-left">${message.msg_time}</span>
-
     } else {
       $('#messages').append(`<article class="msg-container msg-remote" id="msg-0">
       				<div class="msg-box">

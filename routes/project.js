@@ -449,37 +449,52 @@ router.post('/randomassignment', (req, res) => {
   }
 });
 
-router.post('/leave', (req, res) => {
+router.post('/leave', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var userId = req.body.userId;
-  Project.update({
-    _id: projectId
-  }, {
-    $pull: {
-      teammates: {
-        user_id: userId
-      }
-    }
-  });
-  if (!req.user.managing.includes(projectId)) {
-    User.update({
-      _id: userId
-    }, {
-      $pull: {
-        asmember: {
-          project_id: projectId
+    if (!req.user.managing.includes(projectId)) {
+      Project.update({
+        _id: projectId
+      }, {
+        $pull: {
+          teammates: {
+            user_id: userId
+          }
         }
-      }
-    });
-  } else {
-    User.update({}, {
-      $pull: {
-        managing: projectId
-      }
-    });
-    Project.deleteOne({_id: projectId});
-  }
-  res.redirect('/dashboard');
+      }, (err, done) => {
+        console.log('done1')
+      });
+      User.update({
+        _id: userId
+      }, {
+        $pull: {
+          asmember: {
+            project_id: projectId
+          }
+        }
+      }, (err, done) => {
+        console.log('done2')
+      });
+    } else {
+      User.updateMany({}, {
+        $pull: {
+          managing: projectId,
+          asmember: {
+            project_id: projectId
+          }
+        }
+      }, {
+        multi: true
+      }, (err, done) => {
+        console.log('done3')
+      });
+      Project.deleteOne({
+        _id: projectId
+      }, (err) => {
+        console.log('done4')
+      });
+    }
+    res.redirect('/dashboard');
 });
 
 function isLoggedIn(req, res, next) {

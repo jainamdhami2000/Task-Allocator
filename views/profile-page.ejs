@@ -9,11 +9,9 @@
   <title>
     Project Manager
   </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-    name='viewport' />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-kit.css?v=2.2.0" rel="stylesheet" />
@@ -23,14 +21,12 @@
 </head>
 
 <body class="profile-page sidebar-collapse">
-  <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100"
-    id="sectionsNav">
+  <nav class="navbar navbar-color-on-scroll navbar-transparent    fixed-top  navbar-expand-lg " color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand" href="http://localhost:3000/dashboard">
           Project Manager </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
-          aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon"></span>
           <span class="navbar-toggler-icon"></span>
@@ -39,8 +35,7 @@
       </div>
     </div>
   </nav>
-  <div class="page-header header-filter" data-parallax="true"
-    style="background-image: url('../assets/img/bgsignuplogin.jpg');"></div>
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('../assets/img/bgsignuplogin.jpg');"></div>
   <div class="main main-raised">
     <div class="profile-content">
       <div class="container">
@@ -51,14 +46,12 @@
                 <%if(user.loginType=='google'){%>
                 <img src="<%=user.image%>" alt="Circle Image" class="img-raised rounded-circle img-fluid">
                 <%} else {%>
-                <img src="../assets/img/faces/blank.webp" alt="Circle Image"
-                  class="img-raised rounded-circle img-fluid">
+                <img src="../assets/img/faces/blank.webp" alt="Circle Image" class="img-raised rounded-circle img-fluid">
                 <%}%>
               </div>
               <div class="name">
                 <h3 class="title"><%=user.FirstName%> <%=user.LastName%></h3>
                 <h6><%=user.username%></h6>
-
               </div>
             </div>
           </div>
@@ -66,7 +59,6 @@
         <div class="description text-center">
           <%=user.Email%>
         </div>
-
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile-tabs">
@@ -89,35 +81,30 @@
         </div>
         <div class="tab-content tab-space">
           <div class="tab-pane active text-center gallery" id="leaderTeams">
-
             <div>
               <% managing.forEach((pro)=>{%>
               <div class="card">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-5" style="margin-top: 10px;">
-                      <%=pro.project_name
-                          %>
+                      <%=pro.project_name%>
                     </div>
                     <div class="col-2" style="margin-top: 10px;">
-
                     </div>
                     <div class="col-3" style="margin-top: 10px;">
                     </div>
                     <div class="col-2">
-                      <button class="btn" style="background-color:red;">EXIT TEAM</button>
+                      <form class="" action="/project/leave" method="post">
+                        <input type="text" name="projectId" value="<%=pro._id%>" style="display:none">
+                        <input type="text" name="userId" value="<%=user._id%>" style="display:none">
+                        <button type="submit" class="btn" style="background-color:red;">EXIT TEAM</button>
+                      </form>
                     </div>
-
                   </div>
                 </div>
-
               </div>
               <%})%>
-
-
-
             </div>
-
           </div>
           <div class="tab-pane text-center gallery" id="memberTeams">
             <div>
@@ -126,25 +113,24 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-5" style="margin-top: 10px;">
-                      <%=pro.project_name
-                          %>
+                      <%=pro.project_name%>
                     </div>
                     <div class="col-2" style="margin-top: 10px;">
-
                     </div>
                     <div class="col-3" style="margin-top: 10px;">
                     </div>
                     <div class="col-2">
-                      <button class="btn" style="background-color:red;">EXIT TEAM</button>
+                      <form class="" action="/project/leave" method="post">
+                        <input type="text" name="projectId" value="<%=pro._id%>" style="display:none">
+                        <input type="text" name="userId" value="<%=user._id%>" style="display:none">
+                        <input type="submit" class="btn" style="background-color:red;" value="EXIT TEAM"/>
+                      </form>
                     </div>
                   </div>
                 </div>
 
               </div>
               <%})%>
-
-
-
             </div>
           </div>
         </div>
