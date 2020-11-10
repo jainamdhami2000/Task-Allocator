@@ -449,6 +449,39 @@ router.post('/randomassignment', (req, res) => {
   }
 });
 
+router.post('/leave', (req, res) => {
+  var projectId = req.body.projectId;
+  var userId = req.body.userId;
+  Project.update({
+    _id: projectId
+  }, {
+    $pull: {
+      teammates: {
+        user_id: userId
+      }
+    }
+  });
+  if (!req.user.managing.includes(projectId)) {
+    User.update({
+      _id: userId
+    }, {
+      $pull: {
+        asmember: {
+          project_id: projectId
+        }
+      }
+    });
+  } else {
+    User.update({}, {
+      $pull: {
+        managing: projectId
+      }
+    });
+    Project.deleteOne({_id: projectId});
+  }
+  res.redirect('/dashboard');
+});
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     req.isLogged = true;
