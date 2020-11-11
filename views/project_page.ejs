@@ -45,7 +45,7 @@
 
     .pmembers {
       color: rgb(61, 61, 61);
-      display:inline;
+      display: inline;
       font-weight: 300;
       font-size: 30px;
       line-height: 30px;
@@ -304,10 +304,8 @@
                   <input type="text" class="form-control datetimepicker" id="end_time_random">
                 </div>
               </div>
-
-
             </form>
-            <button onclick="randomAssign()">Next</button>
+            <center><button class="btn btn-info" onclick="randomAssign()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
       </div>
@@ -357,16 +355,15 @@
           </script>
           <%memberscore.forEach(member=>{%>
           <script>
-            score = (4 * <%= member.completed %> -1 * <%= member.late %> ) / ( <%= member.completed %> + <%= member.pending %> )
-            completed+= <%= member.completed %>
-            late+= <%= member.late %>
+          if(!<%=member.completed%>+<%=member.pending%>+<%=member.late%>==0){
+            score = (4*<%=member.completed%>-1*<%=member.late%>)/(<%=member.completed%>+<%=member.pending%>+<%=member.late%>)
+            completed += <%= member.completed %>
+            late += <%= member.late %>
             a.push(score)
-            names.push('<%=member.name%>')
+            names.push('<%=member.name%>')}
           </script>
           <%})%>
           <script type="text/javascript">
-          console.log(completed)
-          console.log(late)
             max = Math.max(...a)
             for (i = 0; i < a.length; i++) {
               if (a[i] == max) {
@@ -492,9 +489,9 @@
       </div>
       <div class="col-sm-3"></div>
       <div class="col-12 col-sm-3 justify-content-end">
-      
+
       </div>
-    </div> 
+    </div>
   </div>
   <%if(String(project.leader)===String(user._id)){%>
   <div class="row">
@@ -568,7 +565,7 @@
 
   <div class="tab-content tab-space" style="margin-top: 0px; padding-top: 0px;">
     <div class="tab-pane active text-center gallery" id="pendingtasks">
-      <h3>PENDING TASKS</h3>  
+      <h3>PENDING TASKS</h3>
       <% pendingtasks.forEach(task=>{
        if(String(user._id)===String(task.assigned_to)){%>
       <div class="card" id="<%= task.project_name %>+<%= task.task_name %>" style="background-color:white; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
@@ -657,10 +654,10 @@
       <%}});%>
     </div>
     <div class="tab-pane text-center gallery" id="progresstracker">
-     <div style="margin-bottom: 30px; margin-top: 30px;">
-      <h3>PROGRESS</h3>
-      <button class="btn btn-secondary btn-round" data-toggle="modal" data-placement="bottom" data-target="#AnalyseModal">ANALYSE</button>
-     </div>
+      <div style="margin-bottom: 30px; margin-top: 30px;">
+        <h3>PROGRESS</h3>
+        <button class="btn btn-secondary btn-round" data-toggle="modal" data-placement="bottom" data-target="#AnalyseModal">ANALYSE</button>
+      </div>
       <table class="table table-striped table-dark">
         <thead>
           <tr>
@@ -760,7 +757,10 @@
 </script>
 <%project.teammates.forEach(teammate=>{%>
 <script>
-  a.push(String('<%=teammate.user_id%>'));
+  a.push({
+    userid: String('<%=teammate.user_id%>'),
+    status: <%= teammate.status %>
+  });
 </script>
 <%})%>
 <script>
@@ -771,10 +771,18 @@
     var b = []
     var c = [];
     data.users.forEach(user => {
-      if (!a.includes(String(user._id))) {
+      var found = false;
+      for (var i = 0; i < a.length; i++) {
+        if (a[i].userid == String(user._id)) {
+          found = true;
+          break;
+        }
+      }
+      if (found == false) {
         b.push(user);
       } else {
-        c.push(user)
+        if (a[i].status==true)
+          c.push(user)
       }
     });
     $('.addteammates').selectpicker();

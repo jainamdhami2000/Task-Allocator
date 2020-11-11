@@ -224,16 +224,19 @@
   socket.on('message', addMessages)
 
   function addMessages(message) {
+    console.log(Date.parse(message.msg_time))
     var timeelapsed;
     var dif = Date.now() - Date.parse(message.msg_time)
     if (dif < 3600000) {
       timeelapsed = Math.floor(dif / 60000) + ' minutes ago'
     } else if (dif > 3600000 && dif < 86400000) {
       timeelapsed = Math.floor(dif / 3600000) + ' hours ago'
-    } else {
+    } else if (dif > 86400000){
       var date = new Date(message.msg_time)
       month = date.getUTCMonth() + 1
       timeelapsed = date.getUTCDate() + '/' + month + '/' + date.getUTCFullYear()
+    } else {
+      timeelapsed = '0 minutes ago'
     }
     if ('<%=user.username%>' == `${message.name}`) {
       $("#messages").append(`<article class="msg-container msg-self" id="msg-0">

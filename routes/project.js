@@ -229,6 +229,7 @@ router.post('/showproject', isLoggedIn, (req, res) => {
             completed: completed,
             late: late
           });
+          console.log(memberscore)
         });
         res.render('project_page', {
           memberscore: memberscore,
@@ -385,7 +386,9 @@ router.post('/randomassignment', (req, res) => {
       req.body.assigntasks.forEach(assignedtask => {
         var useridarray = []
         project.teammates.forEach(mate => {
-          useridarray.push(String(mate.user_id))
+          if(mate.status == true){
+            useridarray.push(String(mate.user_id))
+          }
         })
         useridarray.push(String(project.leader))
         project.tasks.forEach(task => {
