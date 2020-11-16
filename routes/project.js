@@ -487,23 +487,49 @@ router.post('/leave', isLoggedIn, (req, res) => {
       console.log('done2')
     });
   } else {
-    User.updateMany({}, {
-      $pull: {
-        managing: projectId,
-        asmember: {
-          project_id: projectId
+    if (userId == String(req.user._id)) {
+      User.updateMany({}, {
+        $pull: {
+          managing: projectId,
+          asmember: {
+            project_id: projectId
+          }
         }
-      }
-    }, {
-      multi: true
-    }, (err, done) => {
-      console.log('done3')
-    });
-    Project.deleteOne({
-      _id: projectId
-    }, (err) => {
-      console.log('done4')
-    });
+      }, {
+        multi: true
+      }, (err, done) => {
+        console.log('done3')
+      });
+      Project.deleteOne({
+        _id: projectId
+      }, (err) => {
+        console.log('done4')
+      });
+    } else {
+      Project.update({
+        _id: projectId
+      }, {
+        $pull: {
+          teammates: {
+            user_id: userId
+          }
+        }
+      }, (err, done) => {
+        console.log('done1')
+      });
+      User.update({
+        _id: userId
+      }, {
+        $pull: {
+          asmember: {
+            project_id: projectId
+          }
+        }
+      }, (err, done) => {
+        console.log('done2')
+      });
+    }
+
   }
   res.redirect('/dashboard');
 });
