@@ -41,19 +41,31 @@ router.post('/create', isLoggedIn, (req, res) => {
     // leader: req.body.leader,
   });
   var team = [];
-  req.body.teammates.forEach(teammate => {
-    team.push({user_id: teammate, status: false});
-  });
-  User.find({
-    _id: {
-      $in: req.body.teammates
-    }
-  }, (err, users) => {
-    users.forEach(user => {
-      user.asmember.push({project_id: project._id, status: false});
-      user.save();
+  if (typeof req.body.teammates != 'string') {
+    req.body.teammates.forEach(teammate => {
+      team.push({user_id: teammate, status: false});
     });
-  });
+    User.find({
+      _id: {
+        $in: req.body.teammates
+      }
+    }, (err, users) => {
+      users.forEach(user => {
+        user.asmember.push({project_id: project._id, status: false});
+        user.save();
+      });
+    });
+  } else {
+    team.push({user_id: req.body.teammates, status: false});
+    User.find({
+      _id: req.body.teammates
+    }, (err, users) => {
+      users.forEach(user => {
+        user.asmember.push({project_id: project._id, status: false});
+        user.save();
+      });
+    });
+  }
   project.teammates = team;
   project.save();
   user_id = req.body.leader;
@@ -223,7 +235,7 @@ router.post('/showproject', isLoggedIn, (req, res) => {
             }
           });
           memberscore.push({
-            memId:member._id,
+            memId: member._id,
             name: member.FirstName + ' ' + member.LastName,
             pending: pending,
             completed: completed,
@@ -386,7 +398,7 @@ router.post('/randomassignment', (req, res) => {
       req.body.assigntasks.forEach(assignedtask => {
         var useridarray = []
         project.teammates.forEach(mate => {
-          if(mate.status == true){
+          if (mate.status == true) {
             useridarray.push(String(mate.user_id))
           }
         })
@@ -451,7 +463,49 @@ router.post('/randomassignment', (req, res) => {
 router.post('/leave', isLoggedIn, (req, res) => {
   var projectId = req.body.projectId;
   var userId = req.body.userId;
-    if (!req.user.managing.includes(projectId)) {
+  if (!req.user.managing.includes(projectId)) {
+    Project.update({
+      _id: projectId
+    }, {
+      $pull: {
+        teammates: {
+          user_id: userId
+        }
+      }
+    }, (err, done) => {
+      console.log('done1')
+    });
+    User.update({
+      _id: userId
+    }, {
+      $pull: {
+        asmember: {
+          project_id: projectId
+        }
+      }
+    }, (err, done) => {
+      console.log('done2')
+    });
+  } else {
+    if (userId == String(req.user._id)) {
+      User.updateMany({}, {
+        $pull: {
+          managing: projectId,
+          asmember: {
+            project_id: projectId
+          }
+        }
+      }, {
+        multi: true
+      }, (err, done) => {
+        console.log('done3')
+      });
+      Project.deleteOne({
+        _id: projectId
+      }, (err) => {
+        console.log('done4')
+      });
+    } else {
       Project.update({
         _id: projectId
       }, {
@@ -474,26 +528,10 @@ router.post('/leave', isLoggedIn, (req, res) => {
       }, (err, done) => {
         console.log('done2')
       });
-    } else {
-      User.updateMany({}, {
-        $pull: {
-          managing: projectId,
-          asmember: {
-            project_id: projectId
-          }
-        }
-      }, {
-        multi: true
-      }, (err, done) => {
-        console.log('done3')
-      });
-      Project.deleteOne({
-        _id: projectId
-      }, (err) => {
-        console.log('done4')
-      });
     }
-    res.redirect('/dashboard');
+
+  }
+  res.redirect('/dashboard');
 });
 
 function isLoggedIn(req, res, next) {
