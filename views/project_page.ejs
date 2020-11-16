@@ -278,7 +278,7 @@
                       <i class="material-icons">add_task</i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Task Name" id="task_name_random" name="task_name_random" required>
+                  <input type="text" class="form-control" placeholder="Task Name" id="task_name_random" name="task_name_random" >
                 </div>
               </div>
               <div class="form-group">
@@ -409,7 +409,7 @@
                     <td class="td-actions text-right">
                       <form action="/project/leave" method="POST" id="removeMember<%=member.memId%>">
                         <input type="text" name="projectId" value="<%=project._id%>" style="display: none;"/>
-                        <input type="text" name="userId" value="<%=user._id%>" style="display:none"/>
+                        <input type="text" name="userId" value="<%=member.memId%>" style="display:none"/>
                       </form>
                       <button type="button" class="btn btn-info" id="<%=member.memId%>" onclick="removeSingMember(this)">
                         <i class="material-icons">person</i>remove
@@ -725,15 +725,23 @@
 
   function randomAssignCount() {
     fcount = document.getElementById("numTask").value;
-   
+   if(fcount>=1)
+   {
     $('#TasksRandomlyCountModal').modal('hide');
     document.getElementById("RTaskHeader").innerHTML = "Task 1 of " + fcount;
     $('#TasksRandomlyAssignModal').modal('show');
+   }else{
+     alert("enter minimum one task");
+   }
   }
   count = 1;
 
   function randomAssign() {
-    var obj = {
+    if( document.getElementById("task_name_random").value==="" || document.getElementById("end_time_random").value===""){
+      alert("Please fill name of task and date");
+    }
+    else{
+      var obj = {
       "task_name": document.getElementById("task_name_random").value,
       "task_description": document.getElementById("task_description_random").value,
       "end_time": document.getElementById("end_time_random").value
@@ -756,6 +764,7 @@
         projectId: projId
       });
       window.location.replace("http://localhost:3000/dashboard");
+    }
     }
   }
   var a = []
