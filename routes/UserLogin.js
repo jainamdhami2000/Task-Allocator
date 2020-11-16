@@ -73,13 +73,47 @@ module.exports = function(app, passport) {
     res.render('login', {message: req.flash('loginMessage')});
   });
 
-  app.get('/profile_page',isLoggedIn, (req, res) => {
-    managing = req.app.locals.managing;
-    asmember = req.app.locals.asmember;
-    res.render('profile-page', {
-      user: req.user,
-      managing: managing,
-      asmember: asmember
+  app.get('/profile_page', isLoggedIn, (req, res) => {
+    var memberof = req.user.asmember;
+    var mid = [];
+    memberof.forEach(m => {
+      if (m.status == true) {
+        mid.push(String(m.project_id));
+      }
+    });
+    var leaderof = req.user.managing;
+    var merged = [
+      ...mid,
+      ...leaderof
+    ];
+    var managing = [];
+    var asmember = [];
+    var pending = [];
+    Project.find({
+      _id: {
+        $in: merged
+      }
+    }, (err, projects) => {
+      managing = projects.filter(project => {
+        return leaderof.includes(project._id);
+      });
+      asmember = projects.filter(project => {
+        return mid.includes(String(project._id));
+      });
+      projects.forEach(project => {
+        project.tasks.forEach(task => {
+          if (String(req.user._id) == String(task.assigned_to) && task.isDone == 0) {
+            pending.push({_id: project._id, project_name: project.project_name, task: task});
+          }
+        });
+      });
+      req.app.locals.managing = managing;
+      req.app.locals.asmember = asmember;
+      res.render('profile-page', {
+        user: req.user,
+        managing: managing,
+        asmember: asmember
+      });
     });
   });
 

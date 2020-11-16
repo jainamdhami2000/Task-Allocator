@@ -117,7 +117,7 @@ router.post('/createtask', isLoggedIn, (req, res) => {
         }
       });
       project.save();
-      res.redirect('/dashboard')
+      res.redirect('showproject/' + req.body.projectId)
     });
   } else {
     res.send('You are not team leader');
@@ -149,109 +149,143 @@ router.post('/addmembers', isLoggedIn, (req, res) => {
         user.save();
       });
     });
-    res.redirect('/dashboard');
+    res.redirect('showproject/' + req.body.projectId);
   } else {
     res.send('You are not team leader');
   }
 });
 
-router.post('/showproject', isLoggedIn, (req, res) => {
-  var managing = req.app.locals.managing;
-  var asmember = req.app.locals.asmember;
-  Project.findOne({
-    _id: req.body.projectId
-  }, async (err, project) => {
-    var tasks = [];
-    var task_user_ids = [];
-    var members_ids = [];
-    project.tasks.forEach(task => {
-      task_user_ids.push(task.assigned_to);
+router.get('/showproject/:projectId', isLoggedIn, (req, res) => {
+  var memberof = req.user.asmember;
+  var mid = [];
+  memberof.forEach(m => {
+    if (m.status == true) {
+      mid.push(String(m.project_id));
+    }
+  });
+  var leaderof = req.user.managing;
+  var merged = [
+    ...mid,
+    ...leaderof
+  ];
+  var managing = [];
+  var asmember = [];
+  var pending = [];
+  Project.find({
+    _id: {
+      $in: merged
+    }
+  }, (err, projects) => {
+    managing = projects.filter(project => {
+      return leaderof.includes(project._id);
     });
-    project.teammates.forEach(teammate => {
-      members_ids.push(teammate.user_id);
+    asmember = projects.filter(project => {
+      return mid.includes(String(project._id));
     });
-    members_ids.push(project.leader)
-    await User.find({
-      _id: {
-        $in: task_user_ids
-      }
-    }, (err, taskusers) => {
-      if (req.user.managing.includes(req.body.projectId)) {
-        project.tasks.forEach(task => {
-          taskusers.forEach(user => {
-            if (String(user._id) == String(task.assigned_to)) {
-              tasks.push({
-                _id: task._id,
-                task_name: task.task_name,
-                task_description: task.task_description,
-                assigned_to: task.assigned_to,
-                isDone: task.isDone,
-                start_time: task.start_time,
-                end_time: task.end_time,
-                name_of_user: user.FirstName + ' ' + user.LastName
-              });
-            }
-          });
-        });
-      } else {
-        tasks = project.tasks.filter(task => {
-          return String(task.assigned_to) == String(req.user._id);
-        });
-      }
-      var pendingtasks = tasks.filter(pending => {
-        return pending.isDone == 0
-      })
-      User.find({
-        _id: {
-          $in: members_ids
+    projects.forEach(project => {
+      project.tasks.forEach(task => {
+        if (String(req.user._id) == String(task.assigned_to) && task.isDone == 0) {
+          pending.push({_id: project._id, project_name: project.project_name, task: task});
         }
-      }, (err, membersList) => {
-        var lead;
-        membersList.forEach(member => {
-          if (String(member._id) == String(project.leader)) {
-            lead = {
-              name: member.FirstName + ' ' + member.LastName
-            }
-          }
-        })
-        var members = [];
-        members = membersList.filter(member => {
-          return String(member._id) != String(project.leader)
-        });
-        var memberscore = []
-        members.forEach(member => {
-          var completed = 0;
-          var pending = 0;
-          var late = 0;
+      });
+    });
+    req.app.locals.managing = managing;
+    req.app.locals.asmember = asmember;
+    Project.findOne({
+      _id: req.params.projectId
+    }, async (err, project) => {
+      var tasks = [];
+      var task_user_ids = [];
+      var members_ids = [];
+      project.tasks.forEach(task => {
+        task_user_ids.push(task.assigned_to);
+      });
+      project.teammates.forEach(teammate => {
+        members_ids.push(teammate.user_id);
+      });
+      members_ids.push(project.leader)
+      await User.find({
+        _id: {
+          $in: task_user_ids
+        }
+      }, (err, taskusers) => {
+        if (req.user.managing.includes(req.params.projectId)) {
           project.tasks.forEach(task => {
-            if (String(member._id) == String(task.assigned_to)) {
-              if (task.isDone == 0) {
-                pending++;
-              } else if (task.isDone == 1) {
-                completed++;
-              } else if (task.isDone == 2) {
-                late++;
+            taskusers.forEach(user => {
+              if (String(user._id) == String(task.assigned_to)) {
+                tasks.push({
+                  _id: task._id,
+                  task_name: task.task_name,
+                  task_description: task.task_description,
+                  assigned_to: task.assigned_to,
+                  isDone: task.isDone,
+                  start_time: task.start_time,
+                  end_time: task.end_time,
+                  name_of_user: user.FirstName + ' ' + user.LastName
+                });
+              }
+            });
+          });
+        } else {
+          tasks = project.tasks.filter(task => {
+            return String(task.assigned_to) == String(req.user._id);
+          });
+        }
+        var pendingtasks = tasks.filter(pending => {
+          return pending.isDone == 0
+        })
+        User.find({
+          _id: {
+            $in: members_ids
+          }
+        }, (err, membersList) => {
+          var lead;
+          membersList.forEach(member => {
+            if (String(member._id) == String(project.leader)) {
+              lead = {
+                name: member.FirstName + ' ' + member.LastName
               }
             }
+          })
+          var members = [];
+          members = membersList.filter(member => {
+            return String(member._id) != String(project.leader)
           });
-          memberscore.push({
-            memId: member._id,
-            name: member.FirstName + ' ' + member.LastName,
-            pending: pending,
-            completed: completed,
-            late: late
+          var memberscore = []
+          members.forEach(member => {
+            var completed = 0;
+            var pending = 0;
+            var late = 0;
+            project.tasks.forEach(task => {
+              if (String(member._id) == String(task.assigned_to)) {
+                if (task.isDone == 0) {
+                  pending++;
+                } else if (task.isDone == 1) {
+                  completed++;
+                } else if (task.isDone == 2) {
+                  late++;
+                }
+              }
+            });
+            memberscore.push({
+              memId: member._id,
+              name: member.FirstName + ' ' + member.LastName,
+              pending: pending,
+              completed: completed,
+              late: late
+            });
+            console.log(memberscore)
           });
-          console.log(memberscore)
-        });
-        res.render('project_page', {
-          memberscore: memberscore,
-          lead: lead,
-          project: project,
-          pendingtasks: pendingtasks,
-          managing: managing,
-          asmember: asmember,
-          tasks: tasks,
-          user: req.user
+          res.render('project_page', {
+            memberscore: memberscore,
+            lead: lead,
+            project: project,
+            pendingtasks: pendingtasks,
+            managing: managing,
+            asmember: asmember,
+            tasks: tasks,
+            user: req.user
+          });
         });
       });
     });
@@ -259,27 +293,61 @@ router.post('/showproject', isLoggedIn, (req, res) => {
 });
 
 router.get('/viewinvite', isLoggedIn, (req, res) => {
-  var managing = req.app.locals.managing;
-  var asmember = req.app.locals.asmember;
-  var invites = req.user.asmember.filter(invite => {
-    return invite.status == false;
+  var memberof = req.user.asmember;
+  var mid = [];
+  memberof.forEach(m => {
+    if (m.status == true) {
+      mid.push(String(m.project_id));
+    }
   });
-  var invitearray = [];
-  invites.forEach(i => {
-    invitearray.push(String(i.project_id));
-  });
+  var leaderof = req.user.managing;
+  var merged = [
+    ...mid,
+    ...leaderof
+  ];
+  var managing = [];
+  var asmember = [];
+  var pending = [];
   Project.find({
     _id: {
-      $in: invitearray
+      $in: merged
     }
-  }, (err, invitations) => {
-    res.render('invitespage', {
-      invites: invitations,
-      user: req.user,
-      asmember: asmember,
-      managing: managing
-    })
-  })
+  }, (err, projects) => {
+    managing = projects.filter(project => {
+      return leaderof.includes(project._id);
+    });
+    asmember = projects.filter(project => {
+      return mid.includes(String(project._id));
+    });
+    projects.forEach(project => {
+      project.tasks.forEach(task => {
+        if (String(req.user._id) == String(task.assigned_to) && task.isDone == 0) {
+          pending.push({_id: project._id, project_name: project.project_name, task: task});
+        }
+      });
+    });
+    req.app.locals.managing = managing;
+    req.app.locals.asmember = asmember;
+    var invites = req.user.asmember.filter(invite => {
+      return invite.status == false;
+    });
+    var invitearray = [];
+    invites.forEach(i => {
+      invitearray.push(String(i.project_id));
+    });
+    Project.find({
+      _id: {
+        $in: invitearray
+      }
+    }, (err, invitations) => {
+      res.render('invitespage', {
+        invites: invitations,
+        user: req.user,
+        asmember: asmember,
+        managing: managing
+      });
+    });
+  });
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {
@@ -322,7 +390,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
           req.user = user;
         }
       });
-      res.redirect('/dashboard');
+      res.redirect('viewinvite');
     });
   });
 });
@@ -353,7 +421,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
         project.save();
       }
     });
-    res.redirect('/dashboard');
+    res.redirect(req.get('referer'));
   });
 });
 
@@ -371,7 +439,7 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
     }
     project.save();
   });
-  res.redirect('/dashboard');
+  res.redirect(req.get('referer'));
 });
 
 router.post('/viewuploads', isLoggedIn, (req, res) => {
@@ -453,7 +521,7 @@ router.post('/randomassignment', (req, res) => {
 
       });
       project.save();
-      res.redirect('/dashboard');
+      res.redirect(req.get('referer'));
     });
   } else {
     res.send('You are not team leader');
@@ -531,7 +599,7 @@ router.post('/leave', isLoggedIn, (req, res) => {
     }
 
   }
-  res.redirect('/dashboard');
+  res.redirect(req.get('referer'));
 });
 
 function isLoggedIn(req, res, next) {
