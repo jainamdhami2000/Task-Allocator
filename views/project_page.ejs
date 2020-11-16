@@ -87,7 +87,7 @@
           </li>
           <li class="nav-item">
             <a href="/profile_page" class="nav-link">
-              HELLO! <%=user.username%> 
+              HELLO! <%=user.username%>
             </a>
           </li>
         </ul>
@@ -625,8 +625,8 @@
                   <p><%=task.task_description%></p>
                 </div>
                 <div class="tim-typo">
-                  <h6>Start Time : <%=task.start_time%></h6>
-                  <h6>End Time: <%=task.end_time%></h6>
+                  <h6>Start Time : <%=task.start_time.getUTCDate()%>/<%=task.start_time.getUTCMonth()+1%>/<%=task.start_time.getFullYear()%> <%=task.start_time.getHours()%>:<%=task.start_time.getMinutes()%>:<%=task.start_time.getSeconds()%></h6>
+                  <h6>End Time: <%=task.end_time.getUTCDate()%>/<%=task.end_time.getUTCMonth()+1%>/<%=task.end_time.getFullYear()%> <%=task.end_time.getHours()%>:<%=task.end_time.getMinutes()%>:<%=task.end_time.getSeconds()%></h6>
                 </div>
                 <form id="projtask<%=task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
                   <input name='projectId' style='display:none' value='<%=project._id%>'>
