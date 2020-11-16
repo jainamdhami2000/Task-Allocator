@@ -274,7 +274,6 @@ router.get('/showproject/:projectId', isLoggedIn, (req, res) => {
               completed: completed,
               late: late
             });
-            console.log(memberscore)
           });
           res.render('project_page', {
             memberscore: memberscore,
