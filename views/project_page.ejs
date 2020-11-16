@@ -249,7 +249,7 @@
             </div>
           </div>
           <div class="modal-body" style="padding-top: 35px;">
-            <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask" required>
+            <input type="number" class="" placeholder="Enter number of tasks" id="numTask" required="true">
             <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
@@ -407,7 +407,11 @@
                       </button>
                     </td>
                     <td class="td-actions text-right">
-                      <button type="button" class="btn btn-info ">
+                      <form action="/project/leave" method="POST" id="removeMember<%=member.memId%>">
+                        <input type="text" name="projectId" value="<%=project._id%>" style="display: none;"/>
+                        <input type="text" name="userId" value="<%=user._id%>" style="display:none"/>
+                      </form>
+                      <button type="button" class="btn btn-info" id="<%=member.memId%>" onclick="removeSingMember(this)">
                         <i class="material-icons">person</i>remove
                       </button>
                     </td>
@@ -721,6 +725,7 @@
 
   function randomAssignCount() {
     fcount = document.getElementById("numTask").value;
+   
     $('#TasksRandomlyCountModal').modal('hide');
     document.getElementById("RTaskHeader").innerHTML = "Task 1 of " + fcount;
     $('#TasksRandomlyAssignModal').modal('show');
@@ -805,6 +810,10 @@
 
   function checkprojtask(input) {
     document.getElementById("checkprojtask" + input.id).submit();
+  }
+  function removeSingMember(input) {
+    console.log("inside rem");
+    document.getElementById("removeMember" + input.id).submit();
   }
 </script>
 <%- include('partials/footer'); %>
