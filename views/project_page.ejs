@@ -227,7 +227,7 @@
                   </div>
                   <select class="form-control addteammates" name="teammates" id="addteammates" data-live-search='true' data-style="select-with-transition" multiple title="Add Members" required>
                   </select>
-                  <input type="submit" value="ADD!" style="margin-left: 5px;">
+                  <input type="submit" class="btn btn-info" value="ADD!" style="margin-left: 5px;">
                 </div>
               </div>
             </form>
@@ -249,7 +249,17 @@
             </div>
           </div>
           <div class="modal-body" style="padding-top: 35px;">
-            <input type="number" class="" placeholder="Enter number of tasks" id="numTask" required="true">
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">
+                    <!-- <i class="material-icons">add_task</i> -->
+                  </span>
+                </div>
+            <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask" required="true">
+              </div>
+            </div>
+
             <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
