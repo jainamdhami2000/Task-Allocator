@@ -619,14 +619,13 @@
                   <h3><%=task.task_name%></h3>
                 </div>
               </div>
-              <div class="modal-body">
-                <div class="tim-typo" style="background-color:#7F90A0; opacity: 0.8; color: #D4DEED;">
-                  <h3>DESCRIPTION:</h3>
-                  <p><%=task.task_description%></p>
-                </div>
-                <div class="tim-typo">
-                  <h6>Start Time : <%=task.start_time.getUTCDate()%>/<%=task.start_time.getUTCMonth()+1%>/<%=task.start_time.getFullYear()%> <%=task.start_time.getHours()%>:<%=task.start_time.getMinutes()%>:<%=task.start_time.getSeconds()%></h6>
-                  <h6>End Time: <%=task.end_time.getUTCDate()%>/<%=task.end_time.getUTCMonth()+1%>/<%=task.end_time.getFullYear()%> <%=task.end_time.getHours()%>:<%=task.end_time.getMinutes()%>:<%=task.end_time.getSeconds()%></h6>
+              <div class="modal-body" style="margin-left: 15px;margin-right:15px; margin-top: 25px; margin-bottom: 20px;">
+               <div>
+                  <span>DESCRIPTION:</span><%=task.task_description%>
+               </div>
+                <div >
+                  START DATE : <%=task.start_time.getUTCDate()%>/<%=task.start_time.getUTCMonth()+1%>/<%=task.start_time.getFullYear()%> <%=task.start_time.getHours()%>:<%=task.start_time.getMinutes()%>:<%=task.start_time.getSeconds()%>
+                  <br> END TIME: <%=task.end_time.getUTCDate()%>/<%=task.end_time.getUTCMonth()+1%>/<%=task.end_time.getFullYear()%> <%=task.end_time.getHours()%>:<%=task.end_time.getMinutes()%>:<%=task.end_time.getSeconds()%>
                 </div>
                 <form id="projtask<%=task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
                   <input name='projectId' style='display:none' value='<%=project._id%>'>
