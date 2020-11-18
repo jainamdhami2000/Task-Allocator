@@ -5,12 +5,13 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const router = express.Router();
 var User = require('../model/user');
+var sanitize = require('mongo-sanitize');
 
 router.use(express.static(path.join(__dirname + 'public')));
 
 router.post('/:project/:userid', function(req, res) {
   User.findOne({
-    _id: req.params.userid
+    _id: sanitize(req.params.userid)
   }, (err, user) => {
     res.render('index2.ejs', {
       user: user,

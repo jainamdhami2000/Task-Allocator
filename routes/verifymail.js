@@ -6,6 +6,7 @@ const router = express.Router();
 const jwt = require('jwt-simple');
 const mail = require('../utils/mailer');
 const User = require('../model/user');
+var sanitize = require('mongo-sanitize');
 
 //handling post request from signup page (registerandlogin.js)
 router.post('/verifyMail', function(req, res) {
@@ -13,7 +14,7 @@ router.post('/verifyMail', function(req, res) {
   //checking for existing mail in database
   if (req.body.email !== '') {
     User.findOne({
-      Email: req.body.email
+      Email: sanitize(req.body.email)
     }, function(err, result) {
       if (err) {
         console.log(err);

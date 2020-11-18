@@ -1,3 +1,30 @@
+<head>
+  <style>
+    .abc {
+      padding-top: 100px;
+      width: 100%;
+      min-height: 730px;
+      height: 100%;
+      background-image: url('/assets/img/backgroundimg.jpg');
+      background-size: 100%;
+      position: relative;
+    }
+
+    .abc:before {
+
+      content: "";
+      position: absolute;
+      top: 0%;
+      bottom: 0%;
+      left: 0%;
+      right: 0%;
+      opacity: 0.1;
+      z-index: -1;
+      background: whitesmoke;
+      background: linear-gradient(90deg, rgb(255, 255, 255), 13%, 100%);
+    }
+  </style>
+</head>
 <div class="row">
   <div class="col-md-3">
     <div class="wrapper d-flex">
@@ -17,57 +44,27 @@
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">LEADER</h4>
         <ul style="margin: 0px;">
           <% managing.forEach(leader=>{%>
-            <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
-            <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}else{%>
-            <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}%>
+          <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
+          <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a>
+          </li>
+          <%}else{%>
+          <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+          <%}%>
           <%})%>
         </ul>
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">MEMBER</h4>
         <ul>
           <% asmember.forEach(member=>{%>
-          <form id="project<%=member._id%>" method='POST' action="http://localhost:3000/project/showproject">
-            <input name='projectId' style='display:none' value='<%=member._id%>'>
-            <%if( (typeof(project)!='undefined') && String(member.project_name)===String(project.project_name)){%>
-            <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
-            <%}else{%>
-            <li id='<%=member._id%>' onclick='details(this)' style="padding: 0px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
-            <%}%>
-          </form>
+          <%if( (typeof(project)!='undefined') && String(member.project_name)===String(project.project_name)){%>
+          <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+          <%}else{%>
+          <li id='<%=member._id%>' onclick='details(this)' style="padding: 0px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+          <%}%>
           <%})%>
         </ul>
       </div>
     </div>
   </div>
-
-  <head>
-    <style>
-      .abc {
-        padding-top: 100px;
-        width: 100%;
-        min-height: 730px;
-        height: 100%;
-        background-image: url('/assets/img/backgroundimg.jpg');
-        background-size: 100%;
-        position: relative;
-      }
-
-      .abc:before {
-
-        content: "";
-        position: absolute;
-        top: 0%;
-        bottom: 0%;
-        left: 0%;
-        right: 0%;
-        opacity: 0.1;
-        z-index: -1;
-        background: whitesmoke;
-        background: linear-gradient(90deg, rgb(255, 255, 255), 13%, 100%);
-      }
-    </style>
-  </head>
   <div class="col-md-9 abc">
     <div class="container">
       <!-- //////////////////////////////////create team modal//////////////////////////////////////////////////////////// -->
@@ -120,13 +117,10 @@
         function details(input) {
           document.getElementById("project" + input.id).submit();
         }
-        var resarray = []
-
         $.ajax({
           url: "http://localhost:3000/project/users",
           method: "GET"
         }).done(function(data) {
-          window.resarray = data
           $('.teammates').selectpicker();
           data.users.forEach((item) => {
             $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');

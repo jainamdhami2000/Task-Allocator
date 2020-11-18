@@ -8,6 +8,7 @@ const User = require('../model/user');
 const Project = require('../model/project');
 const jwt = require('jwt-simple');
 const mail = require('../utils/mailer');
+var sanitize = require('mongo-sanitize');
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -47,7 +48,7 @@ router.post('/create', isLoggedIn, (req, res) => {
     });
     User.find({
       _id: {
-        $in: req.body.teammates
+        $in: sanitize(req.body.teammates)
       }
     }, (err, users) => {
       users.forEach(user => {
@@ -58,7 +59,7 @@ router.post('/create', isLoggedIn, (req, res) => {
   } else {
     team.push({user_id: req.body.teammates, status: false});
     User.find({
-      _id: req.body.teammates
+      _id: sanitize(req.body.teammates)
     }, (err, users) => {
       users.forEach(user => {
         user.asmember.push({project_id: project._id, status: false});
@@ -84,7 +85,7 @@ router.post('/create', isLoggedIn, (req, res) => {
 router.post('/createtask', isLoggedIn, (req, res) => {
   if (req.user.managing.includes(String(req.body.projectId))) {
     Project.findOne({
-      _id: req.body.projectId
+      _id: sanitize(req.body.projectId)
     }, (err, project) => {
       project.tasks.push({
         task_name: req.body.task_name,
@@ -97,7 +98,7 @@ router.post('/createtask', isLoggedIn, (req, res) => {
       var secret = process.env.email_secret;
       //checking for existing mail in database
       User.findOne({
-        _id: req.body.user_id
+        _id: sanitize(req.body.user_id)
       }, function(err, result) {
         if (err) {
           console.log(err);
@@ -125,11 +126,11 @@ router.post('/createtask', isLoggedIn, (req, res) => {
 });
 
 router.post('/addmembers', isLoggedIn, (req, res) => {
-  var teammates = req.body.teammates;
+  var teammates = sanitize(req.body.teammates);
   if (typeof teammates == 'string') {
     teammates = [req.body.teammates]
   }
-  var projectId = req.body.projectId;
+  var projectId = sanitize(req.body.projectId);
   if (req.user.managing.includes(String(req.body.projectId))) {
     Project.findOne({
       _id: projectId
@@ -192,7 +193,7 @@ router.get('/showproject/:projectId', isLoggedIn, (req, res) => {
     req.app.locals.managing = managing;
     req.app.locals.asmember = asmember;
     Project.findOne({
-      _id: req.params.projectId
+      _id: sanitize(req.params.projectId)
     }, async (err, project) => {
       var tasks = [];
       var task_user_ids = [];
@@ -350,7 +351,7 @@ router.get('/viewinvite', isLoggedIn, (req, res) => {
 });
 
 router.post('/checkinvite', isLoggedIn, (req, res) => {
-  var projectId = req.body.projectId;
+  var projectId = sanitize(req.body.projectId);
   var opt = req.body.opt;
   var user_id = req.user._id;
   // var user_id = req.body.user_id;
@@ -395,7 +396,7 @@ router.post('/checkinvite', isLoggedIn, (req, res) => {
 });
 
 router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
-  var projectId = req.body.projectId;
+  var projectId = sanitize(req.body.projectId);
   var task_id = req.body.task_id;
   Project.findOne({
     _id: projectId
@@ -425,7 +426,7 @@ router.post('/submittask', isLoggedIn, uploads.array('uploadedImages', 10), (req
 });
 
 router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (req, res) => {
-  var projectId = req.body.projectId;
+  var projectId = sanitize(req.body.projectId);
   Project.findOne({
     _id: projectId
   }, (err, project) => {
@@ -442,7 +443,7 @@ router.post('/uploadimages', isLoggedIn, uploads.array('uploadedImages', 10), (r
 });
 
 router.post('/viewuploads', isLoggedIn, (req, res) => {
-  var projectId = req.body.projectId;
+  var projectId = sanitize(req.body.projectId);
   var managing = req.app.locals.managing;
   var asmember = req.app.locals.asmember;
   Project.findOne({
@@ -460,7 +461,7 @@ router.post('/viewuploads', isLoggedIn, (req, res) => {
 router.post('/randomassignment', (req, res) => {
   if (req.user.managing.includes(String(req.body.projectId))) {
     Project.findOne({
-      _id: req.body.projectId
+      _id: sanitize(req.body.projectId)
     }, (err, project) => {
       req.body.assigntasks.forEach(assignedtask => {
         var useridarray = []
@@ -528,8 +529,8 @@ router.post('/randomassignment', (req, res) => {
 });
 
 router.post('/leave', isLoggedIn, (req, res) => {
-  var projectId = req.body.projectId;
-  var userId = req.body.userId;
+  var projectId = sanitize(req.body.projectId);
+  var userId = sanitize(req.body.userId);
   if (!req.user.managing.includes(projectId)) {
     Project.update({
       _id: projectId

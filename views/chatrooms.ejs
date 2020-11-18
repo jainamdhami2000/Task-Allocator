@@ -29,11 +29,12 @@
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">LEADER</h4>
         <ul style="margin: 0px;">
           <% managing.forEach(leader=>{%>
-            <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
-            <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}else{%>
-            <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}%>
+          <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
+          <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a>
+          </li>
+          <%}else{%>
+          <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+          <%}%>
           <%})%>
         </ul>
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">MEMBER</h4>
@@ -128,76 +129,49 @@
           </div>
         </div>
       </div>
-      <script type="text/javascript">
-        function details(input) {
-          document.getElementById("project" + input.id).submit();
+      <!--ADD TASK MODAL-->
+      <div class="tim-typo" style="padding-left: 50px; z-index: 0;">
+        <h2>MANAGING</h2>
+      </div>
+      <div class='row'>
+        <% managing.forEach(leader=>{%>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <div class="card-body ">
+              <h4 class="card-title"><%= leader.project_name  %></h4>
+              <form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
+                <input name='projectId' style='display:none' value='<%=leader._id%>'>
+                <button id='<%=leader._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+      <div class="tim-typo" style="padding-left: 50px; z-index: 0;">
+        <h2>MEMBER</h2>
+      </div>
+      <div class='row'>
+        <% asmember.forEach(member=>{%>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <div class="card-body ">
+              <h4 class="card-title"><%= member.project_name  %></h4>
+              <form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
+                <input name='projectId' style='display:none' value='<%=member._id%>'>
+                <button id='<%=member._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <%})%>
+      </div>
+      <!--END ADD TASK MODAL-->
+
+      <!--------------------->
+      <script>
+        function chat(input) {
+          document.getElementById("chat" + input.id).submit();
         }
-        var resarray = []
-
-        $.ajax({
-          url: "http://localhost:3000/project/users",
-          method: "GET"
-        }).done(function(data) {
-          window.resarray = data
-          $('.teammates').selectpicker();
-          data.users.forEach((item) => {
-            $('#teammates').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-          });
-          $('.teammate').selectpicker();
-          data.users.forEach((item) => {
-            $('#teammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-          })
-          $('.addteammate').selectpicker();
-          data.users.forEach((item) => {
-            $('#addteammate').append('<option value="' + item._id + '">' + item.FirstName + " " + item.LastName + '(' + item.username + ')' + '</option>');
-          });
-        });
       </script>
-
-<!--ADD TASK MODAL-->
-<div class="tim-typo" style="padding-left: 50px; z-index: 0;">
-  <h2>MANAGING</h2>
-</div>
-<div class='row'>
-  <% managing.forEach(leader=>{%>
-  <div class="col-md-4">
-    <div class="card card-profile">
-      <div class="card-body ">
-        <h4 class="card-title"><%= leader.project_name  %></h4>
-        <form id="chat<%=leader._id%>" method='POST' action="/chatrooms/<%=leader._id%>|<%=leader.project_name%>/<%=userid%>">
-          <input name='projectId' style='display:none' value='<%=leader._id%>'>
-          <button id='<%=leader._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <%})%>
-</div>
-<div class="tim-typo" style="padding-left: 50px; z-index: 0;">
-  <h2>MEMBER</h2>
-</div>
-<div class='row'>
-  <% asmember.forEach(member=>{%>
-  <div class="col-md-4">
-    <div class="card card-profile">
-      <div class="card-body ">
-        <h4 class="card-title"><%= member.project_name  %></h4>
-        <form id="chat<%=member._id%>" method='POST' action="/chatrooms/<%=member._id%>|<%=member.project_name%>/<%=userid%>">
-          <input name='projectId' style='display:none' value='<%=member._id%>'>
-          <button id='<%=member._id%>' class="btn btn-info btn-round" onclick='chat(this)'>CHAT</button>
-        </form>
-      </div>
-    </div>
-  </div>
-  <%})%>
-</div>
-<!--END ADD TASK MODAL-->
-
-<!--------------------->
-<script>
-  function chat(input) {
-    document.getElementById("chat" + input.id).submit();
-  }
-</script>
-</body>
-<%- include('partials/footer'); %>
+      <%- include('partials/footer'); %>

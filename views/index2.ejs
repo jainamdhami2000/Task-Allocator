@@ -132,7 +132,7 @@
       display: inline-block;
       font-size: 11pt;
       line-height: 13pt;
-      color:white;
+      color: white;
       margin: 0 0 4px 0;
     }
 
@@ -157,7 +157,7 @@
     }
 
     .msg-self .msg-box {
-      border-radius: 6px ;
+      border-radius: 6px;
       background: #94b3ee;
       float: right;
     }
@@ -206,11 +206,12 @@
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">LEADER</h4>
         <ul style="margin: 0px;">
           <% managing.forEach(leader=>{%>
-            <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
-            <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}else{%>
-            <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
-            <%}%>
+          <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
+          <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a>
+          </li>
+          <%}else{%>
+          <li id='<%=leader._id%>' onclick='details(this)' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+          <%}%>
           <%})%>
         </ul>
         <h4 class="px-3" style="padding-bottom: 4px; margin-left: 20px; color: #fff;">MEMBER</h4>
@@ -332,59 +333,59 @@
       </script>
 
 
-<section class="chatbox" style="height:600px">
-  <section class="chat-window">
-    <div id="messages">
+      <section class="chatbox" style="height:600px">
+        <section class="chat-window">
+          <div id="messages">
 
-    </div>
-  </section>
-  <div class="chat-input" onsubmit="return false;">
-    <input id="message" type="text" autocomplete="on" placeholder="Type a message" />
-    <button id="send">
-      <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-        <path fill="rgba(0,0,0,.38)"
-          d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
-      </svg>
-    </button>
-    <input type="text" id="userName" style="visibility:hidden" name="" value="<%= user.username %>">
-  </div>
-</section>
-<script>
-  var socket = io();
-  $(() => {
-    $("#send").click(() => {
-      if ($("#message").val() != '') {
-        sendMessage({
-          name: $("#userName").val(),
-          message: $("#message").val()
-        });
-        $("#message").val('')
-      } else {
-        alert('Type a message')
-      }
-    })
-    getMessages();
-  })
+          </div>
+        </section>
+        <div class="chat-input" onsubmit="return false;">
+          <input id="message" type="text" autocomplete="on" placeholder="Type a message" />
+          <button id="send">
+            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+              <path fill="rgba(0,0,0,.38)"
+                d="M17,12L12,17V14H8V10H12V7L17,12M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L5,8.09V15.91L12,19.85L19,15.91V8.09L12,4.15Z" />
+            </svg>
+          </button>
+          <input type="text" id="userName" style="visibility:hidden" name="" value="<%= user.username %>">
+        </div>
+      </section>
+      <script>
+        var socket = io();
+        $(() => {
+          $("#send").click(() => {
+            if ($("#message").val() != '') {
+              sendMessage({
+                name: $("#userName").val(),
+                message: $("#message").val()
+              });
+              $("#message").val('')
+            } else {
+              alert('Type a message')
+            }
+          })
+          getMessages();
+        })
 
-  socket.on('message', addMessages)
+        socket.on('message', addMessages)
 
-  function addMessages(message) {
-    console.log(Date.parse(message.msg_time))
-    var timeelapsed;
-    var dif = Date.now() - Date.parse(message.msg_time)
-    if (dif < 3600000) {
-      timeelapsed = Math.floor(dif / 60000) + ' minutes ago'
-    } else if (dif > 3600000 && dif < 86400000) {
-      timeelapsed = Math.floor(dif / 3600000) + ' hours ago'
-    } else if (dif > 86400000){
-      var date = new Date(message.msg_time)
-      month = date.getUTCMonth() + 1
-      timeelapsed = date.getUTCDate() + '/' + month + '/' + date.getUTCFullYear()
-    } else {
-      timeelapsed = '0 minutes ago'
-    }
-    if ('<%=user.username%>' == `${message.name}`) {
-      $("#messages").append(`<article class="msg-container msg-self" id="msg-0">
+        function addMessages(message) {
+          console.log(Date.parse(message.msg_time))
+          var timeelapsed;
+          var dif = Date.now() - Date.parse(message.msg_time)
+          if (dif < 3600000) {
+            timeelapsed = Math.floor(dif / 60000) + ' minutes ago'
+          } else if (dif > 3600000 && dif < 86400000) {
+            timeelapsed = Math.floor(dif / 3600000) + ' hours ago'
+          } else if (dif > 86400000) {
+            var date = new Date(message.msg_time)
+            month = date.getUTCMonth() + 1
+            timeelapsed = date.getUTCDate() + '/' + month + '/' + date.getUTCFullYear()
+          } else {
+            timeelapsed = '0 minutes ago'
+          }
+          if ('<%=user.username%>' == `${message.name}`) {
+            $("#messages").append(`<article class="msg-container msg-self" id="msg-0">
       				<div class="msg-box">
       					<div class="flr">
       						<div class="messages">
@@ -397,8 +398,8 @@
       					<img class="user-img" id="user-0" src="//gravatar.com/avatar/56234674574535734573000000000001?d=retro" />
       				</div>
       			</article>`)
-    } else {
-      $('#messages').append(`<article class="msg-container msg-remote" id="msg-0">
+          } else {
+            $('#messages').append(`<article class="msg-container msg-remote" id="msg-0">
       				<div class="msg-box">
       					<img class="user-img" id="user-0" src="//gravatar.com/avatar/00034587632094500000000000000000?d=retro" />
       					<div class="flr">
@@ -411,20 +412,20 @@
       					</div>
       				</div>
       			</article>`)
-    }
-  }
+          }
+        }
 
-  function getMessages() {
-    $.get('http://localhost:3001/messages/<%= project %>', (data) => {
-      data.forEach(addMessages);
-    })
-  }
+        function getMessages() {
+          $.get('http://localhost:3001/messages/<%= project %>', (data) => {
+            data.forEach(addMessages);
+          })
+        }
 
-  function sendMessage(message) {
-    $.post('http://localhost:3001/messages/<%= project %>', message)
-  }
-</script>
-</body>
+        function sendMessage(message) {
+          $.post('http://localhost:3001/messages/<%= project %>', message)
+        }
+      </script>
+      </body>
 
-</html>
-<%-include("partials/footer")-%>
+      </html>
+      <%-include("partials/footer")-%>

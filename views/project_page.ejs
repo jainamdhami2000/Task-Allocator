@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="icon" type="image/png" href="assets/img/icon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     ProjectHub
@@ -22,7 +21,6 @@
   <style>
     .nav-brand .nav-item {
       align-self: center;
-
       padding-bottom: 0px;
     }
 
@@ -187,7 +185,7 @@
               <div class="form-group form-file-upload form-file-multiple">
                 <input type="file" id="" name='uploadedImages' multiple="" class="inputFileHidden">
                 <div class="input-group">
-                  <input required type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple >
+                  <input required type="text" id="files" class="form-control inputFileVisible" placeholder="Upload neccessary files" multiple>
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-link btn-fab btn-info">
                       <i class="material-icons">layers</i>
@@ -256,7 +254,7 @@
                     <!-- <i class="material-icons">add_task</i> -->
                   </span>
                 </div>
-            <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask" required="true">
+                <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask" required="true">
               </div>
             </div>
 
@@ -288,7 +286,7 @@
                       <i class="material-icons">add_task</i>
                     </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="Task Name" id="task_name_random" name="task_name_random" >
+                  <input type="text" class="form-control" placeholder="Task Name" id="task_name_random" name="task_name_random">
                 </div>
               </div>
               <div class="form-group">
@@ -365,12 +363,13 @@
           </script>
           <%memberscore.forEach(member=>{%>
           <script>
-          if(!<%=member.completed%>+<%=member.pending%>+<%=member.late%>==0){
-            score = (4*<%=member.completed%>-1*<%=member.late%>)/(<%=member.completed%>+<%=member.pending%>+<%=member.late%>)
-            completed += <%= member.completed %>
-            late += <%= member.late %>
-            a.push(score)
-            names.push('<%=member.name%>')}
+            if (! < %= member.completed % > + < %= member.pending % > + < %= member.late % >= = 0) {
+              score = (4 * < %= member.completed % > -1 * < %= member.late % > ) / ( < %= member.completed % > + < %= member.pending % > + < %= member.late % > )
+              completed += < %= member.completed % >
+                late += < %= member.late % >
+                a.push(score)
+              names.push('<%=member.name%>')
+            }
           </script>
           <%})%>
           <script type="text/javascript">
@@ -418,8 +417,8 @@
                     </td>
                     <td class="td-actions text-right">
                       <form action="/project/leave" method="POST" id="removeMember<%=member.memId%>">
-                        <input type="text" name="projectId" value="<%=project._id%>" style="display: none;"/>
-                        <input type="text" name="userId" value="<%=member.memId%>" style="display:none"/>
+                        <input type="text" name="projectId" value="<%=project._id%>" style="display: none;" />
+                        <input type="text" name="userId" value="<%=member.memId%>" style="display:none" />
                       </form>
                       <button type="button" class="btn btn-info" id="<%=member.memId%>" onclick="removeSingMember(this)">
                         <i class="material-icons">person</i>remove
@@ -469,9 +468,9 @@
 
       var data = google.visualization.arrayToDataTable([
         ['Task', 'Count'],
-        ['Completed Tasks', <%= member.completed %> ],
-        ['Pending Tasks', <%= member.pending %> ],
-        ['Completed Late', <%= member.late %> ]
+        ['Completed Tasks', < %= member.completed % > ],
+        ['Pending Tasks', < %= member.pending % > ],
+        ['Completed Late', < %= member.late % > ]
       ]);
 
       // Optional; add a title and set the width and height of the chart
@@ -630,10 +629,10 @@
                 </div>
               </div>
               <div class="modal-body" style="margin-left: 15px;margin-right:15px; margin-top: 25px; margin-bottom: 20px;">
-               <div>
+                <div>
                   <span>DESCRIPTION:</span><%=task.task_description%>
-               </div>
-                <div >
+                </div>
+                <div>
                   START DATE : <%=task.start_time.getUTCDate()%>/<%=task.start_time.getUTCMonth()+1%>/<%=task.start_time.getFullYear()%> <%=task.start_time.getHours()%>:<%=task.start_time.getMinutes()%>:<%=task.start_time.getSeconds()%>
                   <br> END TIME: <%=task.end_time.getUTCDate()%>/<%=task.end_time.getUTCMonth()+1%>/<%=task.end_time.getFullYear()%> <%=task.end_time.getHours()%>:<%=task.end_time.getMinutes()%>:<%=task.end_time.getSeconds()%>
                 </div>
@@ -734,46 +733,44 @@
 
   function randomAssignCount() {
     fcount = document.getElementById("numTask").value;
-   if(fcount>=1)
-   {
-    $('#TasksRandomlyCountModal').modal('hide');
-    document.getElementById("RTaskHeader").innerHTML = "Task 1 of " + fcount;
-    $('#TasksRandomlyAssignModal').modal('show');
-   }else{
-     alert("enter minimum one task");
-   }
+    if (fcount >= 1) {
+      $('#TasksRandomlyCountModal').modal('hide');
+      document.getElementById("RTaskHeader").innerHTML = "Task 1 of " + fcount;
+      $('#TasksRandomlyAssignModal').modal('show');
+    } else {
+      alert("enter minimum one task");
+    }
   }
   count = 1;
 
   function randomAssign() {
-    if( document.getElementById("task_name_random").value==="" || document.getElementById("end_time_random").value===""){
+    if (document.getElementById("task_name_random").value === "" || document.getElementById("end_time_random").value === "") {
       alert("Please fill name of task and date");
-    }
-    else{
-      var obj = {
-      "task_name": document.getElementById("task_name_random").value,
-      "task_description": document.getElementById("task_description_random").value,
-      "end_time": document.getElementById("end_time_random").value
-    }
-    tasksObj.push(obj);
-    count++;
-    if (count <= fcount) {
-      document.getElementById("RTaskHeader").innerHTML = "Task" + count + " of " + fcount;
-      document.getElementById("listOfTasks").reset();
     } else {
-      var projId = document.getElementById("projectIdR").value;
-      $('#TasksRandomlyAssignModal').modal('hide');
-      count = 1;
-      atask = tasksObj;
-      tasksObj = [];
-      document.getElementById("scount").innerHTML = fcount;
-      $('#TasksAddedSuccessModal').modal('show');
-      $.post('/project/randomassignment', {
-        assigntasks: atask,
-        projectId: projId
-      });
-      window.location.replace("http://localhost:3000/dashboard");
-    }
+      var obj = {
+        "task_name": document.getElementById("task_name_random").value,
+        "task_description": document.getElementById("task_description_random").value,
+        "end_time": document.getElementById("end_time_random").value
+      }
+      tasksObj.push(obj);
+      count++;
+      if (count <= fcount) {
+        document.getElementById("RTaskHeader").innerHTML = "Task" + count + " of " + fcount;
+        document.getElementById("listOfTasks").reset();
+      } else {
+        var projId = document.getElementById("projectIdR").value;
+        $('#TasksRandomlyAssignModal').modal('hide');
+        count = 1;
+        atask = tasksObj;
+        tasksObj = [];
+        document.getElementById("scount").innerHTML = fcount;
+        $('#TasksAddedSuccessModal').modal('show');
+        $.post('/project/randomassignment', {
+          assigntasks: atask,
+          projectId: projId
+        });
+        window.location.replace("http://localhost:3000/dashboard");
+      }
     }
   }
   var a = []
@@ -782,7 +779,7 @@
 <script>
   a.push({
     userid: String('<%=teammate.user_id%>'),
-    status: <%= teammate.status %>
+    status: < %= teammate.status % >
   });
 </script>
 <%})%>
@@ -804,7 +801,7 @@
       if (found == false) {
         b.push(user);
       } else {
-        if (a[i].status==true)
+        if (a[i].status == true)
           c.push(user)
       }
     });
@@ -829,6 +826,7 @@
   function checkprojtask(input) {
     document.getElementById("checkprojtask" + input.id).submit();
   }
+
   function removeSingMember(input) {
     console.log("inside rem");
     document.getElementById("removeMember" + input.id).submit();

@@ -6,6 +6,7 @@ const path = require('path');
 const router = express.Router();
 var User = require('../model/user');
 var Project = require('../model/project');
+var sanitize = require('mongo-sanitize');
 
 router.use(express.static(path.join(__dirname + '/../public')));
 
@@ -15,7 +16,7 @@ router.get('/', isLoggedIn, (req, res) => {
 
 router.get('/:userid', (req, res) => {
   User.findOne({
-    _id: req.params.userid
+    _id: sanitize(req.params.userid)
   }, function(err, user) {
     var memberof = user.asmember;
     var mid = [];
