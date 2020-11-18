@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/png" href="assets/img/icon.png">
+  <link rel="icon" type="image/png" href="/assets/img/icon.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
@@ -72,8 +72,6 @@
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-->
   </nav>
-
-
   <%-include('partials/sidebar')%>
   <div style="margin-bottom: 90px;">
     <h2>Documents</h2>
@@ -99,16 +97,15 @@
         </div>
       </div>
     </div>
-
   </div>
   <%})%>
-
   <%});%>
-</body>
-<script>
-  function openfile(input) {
-    document.getElementById("projtask" + input.id).submit();
-  }
-</script>
-
-</html>
+  </div>
+  </div>
+  </div>
+  <script>
+    function openfile(input) {
+      document.getElementById("projtask" + input.id).submit();
+    }
+  </script>
+  <%-include('partials/footer')%>

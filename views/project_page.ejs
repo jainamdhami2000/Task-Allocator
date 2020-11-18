@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/png" href="assets/img/icon.png">
+  <link rel="icon" type="image/png" href="/assets/img/icon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
     ProjectHub
@@ -47,6 +47,10 @@
       font-weight: 300;
       font-size: 30px;
       line-height: 30px;
+    }
+
+    .profile-tabs .nav a:active {
+      background-color: #7F90A0;
     }
   </style>
 </head>
@@ -193,7 +197,6 @@
                   </span>
                 </div>
               </div>
-
           </div>
           <input type="submit" value="ADD!">
           </form>
@@ -251,13 +254,11 @@
               <div class="input-group">
                 <div class="input-group-prepend">
                   <span class="input-group-text">
-                    <!-- <i class="material-icons">add_task</i> -->
                   </span>
                 </div>
                 <input type="number" class="form-control" placeholder="Enter number of tasks" id="numTask" required="true">
               </div>
             </div>
-
             <center><button class="btn btn-info" onclick="randomAssignCount()" style="margin-bottom: 25px; margin-left:40px;">next</button></center>
           </div>
         </div>
@@ -511,34 +512,20 @@
     <div class="col-md-12 ml-auto mr-auto">
       <div class="profile-tabs" style="margin-top: 10px;">
         <ul class="nav  justify-content-center" role="tablist">
-          <li class=" btn btn-secondary" style="width: 33%; ">
-            <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#addMembersModal">
-              <i class="fa fa-users"></i> ADD MEMBERS
-            </a>
+          <li class=" btn btn-secondary" style="width: 33%;" role="tab" data-toggle="modal" data-target="#addMembersModal">
+            <i class="fa fa-users"></i> ADD MEMBERS
           </li>
 
-          <li class=" btn btn-secondary " id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
-            <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#createTaskModal">
-              <i class="fa fa-stack-overflow"></i> ADD TASK
-            </a>
+          <li class=" btn btn-secondary " id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;" role="tab" data-toggle="modal" data-target="#createTaskModal">
+            <i class="fa fa-stack-overflow"></i> ADD TASK
           </li>
-          <li class=" btn btn-secondary" style="width: 33%;">
-            <a class=" col-12 col-md-4" style="width: 100%; color: black;" href="#" role="tab" data-toggle="modal" data-target="#TasksRandomlyCountModal">
-              <i class="fa fa-stack-exchange"></i> ADD TASKS RANDOMLY
-            </a>
+          <li class=" btn btn-secondary" style="width: 33%;" role="tab" data-toggle="modal" data-target="#TasksRandomlyCountModal">
+            <i class="fa fa-stack-exchange"></i> ADD TASKS RANDOMLY
           </li>
 
         </ul>
       </div>
     </div>
-
-    <head>
-      <style>
-        .profile-tabs .nav a:active {
-          background-color: #7F90A0;
-        }
-      </style>
-    </head>
   </div>
   <%};%>
 
@@ -546,10 +533,8 @@
     <div class="col-md-12 ml-auto mr-auto">
       <div class="profile-tabs" style="margin-top: 0px; padding-top: 0px;">
         <ul class="nav  justify-content-center" role="tablist">
-          <li class=" btn btn-info" style="width: 33%; ">
-            <a class=" col-12 col-md-4" style="width: 100%; color: whitesmoke;" href="#" role="tab" data-toggle="modal" data-target="#uploadsModal">
-              <i class="fa fa-upload"></i> upload
-            </a>
+          <li class=" btn btn-info" style="width: 33%;" role="tab" data-toggle="modal" data-target="#uploadsModal">
+            <i class="fa fa-upload"></i> upload
           </li>
           <%if(String(user._id)===String(project.leader)){%>
           <li class=" btn btn-info " id="pt" style="width: 30%; margin-left: 5px; margin-right: 5px;">
@@ -566,14 +551,6 @@
         </ul>
       </div>
     </div>
-
-    <head>
-      <style>
-        .profile-tabs .nav a:active {
-          background-color: #7F90A0;
-        }
-      </style>
-    </head>
   </div>
 
   <div class="tab-content tab-space" style="margin-top: 0px; padding-top: 0px;">
@@ -608,7 +585,7 @@
             <div class="col-2">
             </div>
             <div class="col-2">
-              <button class="btn btn-block btn-round btn-info" data-toggle="modal" data-target="#DetailsModal">
+              <button class="btn btn-round btn-info" data-toggle="modal" data-target="#DetailsModal">
                 <i class="material-icons">account_circle</i>
                 DETAILS
               </button>
