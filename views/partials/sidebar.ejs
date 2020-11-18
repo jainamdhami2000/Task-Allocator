@@ -30,7 +30,7 @@
     <div class="wrapper d-flex">
       <div class="sidebar" style="padding-top: 75px;">
         <div id="sidebarButtons">
-          <a href="http://localhost:3000/project/viewinvite" class="btn btn-round" style="background-color:floralwhite; color: black; width: 75%; margin-left: 30px; ">
+          <a href="https://project-hub-2020.herokuapp.com/project/viewinvite" class="btn btn-round" style="background-color:floralwhite; color: black; width: 75%; margin-left: 30px; ">
             <i class="material-icons" style="color: black;">favorite</i> view invites
           </a>
           <button class="btn btn-round" data-toggle="modal" data-target="#createTeamModal" style="background-color: floralwhite; color: black; width: 75%; margin-left: 30px; ">
@@ -45,10 +45,10 @@
         <ul style="margin: 0px;">
           <% managing.forEach(leader=>{%>
           <%if( (typeof(project)!='undefined') && String(leader.project_name)===String(project.project_name)){%>
-          <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a>
+          <li id='<%=leader._id%>' style="padding: 2px; background-color: #000; margin: 0px;"><a aria-disabled href="https://project-hub-2020.herokuapp.com/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a>
           </li>
           <%}else{%>
-          <li id='<%=leader._id%>' style="padding: 2px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
+          <li id='<%=leader._id%>' style="padding: 2px; margin: 0px;"><a href="https://project-hub-2020.herokuapp.com/project/showproject/<%=leader._id%>" style="color: darkgrey; height: 100%;"><%= leader.project_name  %></a></li>
           <%}%>
           <%})%>
         </ul>
@@ -56,9 +56,9 @@
         <ul>
           <% asmember.forEach(member=>{%>
           <%if( (typeof(project)!='undefined') && String(member.project_name)===String(project.project_name)){%>
-          <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+          <li id='<%=member._id%>' style="padding: 0px; margin: 0px; background-color: #000;"><a href="https://project-hub-2020.herokuapp.com/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
           <%}else{%>
-          <li id='<%=member._id%>' style="padding: 0px; margin: 0px;"><a href="http://localhost:3000/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
+          <li id='<%=member._id%>' style="padding: 0px; margin: 0px;"><a href="https://project-hub-2020.herokuapp.com/project/showproject/<%=member._id%>" style="color: darkgray; height: 100%;"><%= member.project_name  %></a></li>
           <%}%>
           <%})%>
         </ul>
@@ -79,7 +79,7 @@
                 </div>
               </div>
               <div class="modal-body">
-                <form class="form" method="POST" action="http://localhost:3000/project/create">
+                <form class="form" method="POST" action="https://project-hub-2020.herokuapp.com/project/create">
                   <div class="card-body">
                     <div class="form-group">
                       <div class="input-group">
@@ -118,7 +118,7 @@
           document.getElementById("project" + input.id).submit();
         }
         $.ajax({
-          url: "http://localhost:3000/project/users",
+          url: "https://project-hub-2020.herokuapp.com/project/users",
           method: "GET"
         }).done(function(data) {
           $('.teammates').selectpicker();

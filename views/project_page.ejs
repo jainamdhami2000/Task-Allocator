@@ -60,7 +60,7 @@
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-translate">
-        <a class="navbar-brand" href="http://localhost:3000/dashboard">ProjectHub</a>
+        <a class="navbar-brand" href="https://project-hub-2020.herokuapp.com/dashboard">ProjectHub</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon"></span>
@@ -110,7 +110,7 @@
                 <h3 style="color: whitesmoke;">ADD TASK</h3>
               </div>
             </div>
-            <form method="POST" action="http://localhost:3000/project/createtask">
+            <form method="POST" action="https://project-hub-2020.herokuapp.com/project/createtask">
               <input style="display:none" name='projectId' value="<%=project._id%>">
               <div class="modal-body">
                 <div class="card-body">
@@ -184,7 +184,7 @@
             </div>
           </div>
           <div class="modal-body">
-            <form action="http://localhost:3000/project/uploadimages" enctype="multipart/form-data" method="POST">
+            <form action="https://project-hub-2020.herokuapp.com/project/uploadimages" enctype="multipart/form-data" method="POST">
               <input name='projectId' style='display:none' value='<%=project._id%>'>
               <div class="form-group form-file-upload form-file-multiple">
                 <input type="file" id="" name='uploadedImages' multiple="" class="inputFileHidden">
@@ -217,7 +217,7 @@
             </div>
           </div>
           <div class="modal-body" style="padding-top: 35px;">
-            <form action="http://localhost:3000/project/addmembers" method="POST">
+            <form action="https://project-hub-2020.herokuapp.com/project/addmembers" method="POST">
               <input name='projectId' style='display:none' value='<%=project._id%>'>
               <div class="form-group">
                 <div class="input-group">
@@ -746,7 +746,7 @@
           assigntasks: atask,
           projectId: projId
         });
-        window.location.replace("http://localhost:3000/dashboard");
+        window.location.replace("https://project-hub-2020.herokuapp.com/dashboard");
       }
     }
   }
@@ -762,7 +762,7 @@
 <%})%>
 <script>
   $.ajax({
-    url: "http://localhost:3000/project/users",
+    url: "https://project-hub-2020.herokuapp.com/project/users",
     method: "GET"
   }).done(function(data) {
     var b = []
