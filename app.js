@@ -21,9 +21,7 @@ const chat = require('./routes/chat');
 
 var app = express();
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.connect(configDB.url, {
   useNewUrlParser: true,
@@ -37,23 +35,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: false
-}));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized: false,
-  resave: false
-}));
+app.use(session({secret: process.env.SESSION_SECRET, saveUninitialized: false, resave: false}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -64,6 +54,6 @@ app.use('/verify', verifymail);
 app.use('/chat', chat);
 app.use('/project', project);
 
-app.listen(3000, function(err) {
+app.listen(process.env.PORT || 3000, function(err) {
   console.log('Server started on 3000');
 });
