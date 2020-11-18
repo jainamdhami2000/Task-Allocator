@@ -342,13 +342,13 @@
         }
 
         function getMessages() {
-          $.get('http://localhost:3001/messages/<%= project %>', (data) => {
+          $.get('https://project-hub-chat-2020.herokuapp.com/messages/<%= project %>', (data) => {
             data.forEach(addMessages);
           })
         }
 
         function sendMessage(message) {
-          $.post('http://localhost:3001/messages/<%= project %>', message)
+          $.post('https://project-hub-chat-2020.herokuapp.com/messages/<%= project %>', message)
         }
       </script>
       <%-include("partials/footer")-%>

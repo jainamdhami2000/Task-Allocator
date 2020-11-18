@@ -11,7 +11,7 @@ var sanitize = require('mongo-sanitize');
 router.use(express.static(path.join(__dirname + '/../public')));
 
 router.get('/', isLoggedIn, (req, res) => {
-  res.redirect('http://localhost:3001/chat/' + req.user._id);
+  res.redirect('https://project-hub-chat-2020.herokuapp.com/chat/' + req.user._id);
 });
 
 router.get('/:userid', (req, res) => {
