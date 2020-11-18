@@ -29,7 +29,7 @@
         <div class="col-4" style="padding-top: 10px;">
           <form action="/project/checkinvite" method="POST" id="checkinv<%=invitee._id%>">
             <input name='projectId' style='display:none' value='<%=invitee._id%>'>
-            <input name='opt' id="opt" style='display:none'>
+            <input name='opt' id="opt<%=invitee._id%>" style='display:none'>
             <button class="btn btn-success" id="<%=invitee._id%>" onclick="checkinv(this)" value="accept">accept</button>
             <button class="btn btn-danger " id="<%=invitee._id%>" onclick="checkinv(this)" value="reject">reject</button>
           </form>
@@ -45,9 +45,9 @@
 <script>
   function checkinv(input) {
     if (input.value === "accept") {
-      document.getElementById("opt").value = "accept";
+      document.getElementById("opt" + input.id).value = "accept";
     } else {
-      document.getElementById("opt").value = "reject";
+      document.getElementById("opt" + input.id).value = "reject";
     }
     document.getElementById("checkinv" + input.id).submit();
   }

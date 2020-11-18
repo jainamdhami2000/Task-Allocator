@@ -27,13 +27,13 @@
   <div class="card" id="<%= pendingtask.project_name %>+<%= pendingtask.task.task_name %>" style="background-color:white; opacity: 0.8; color: #D4DEED; margin-right: 150px;">
     <div class="card-body">
       <div class="row">
-        <form id="checktask<%=pendingtask._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
+        <form id="checktask<%=pendingtask.task._id%>" enctype="multipart/form-data" method='POST' action='/project/submittask'>
           <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
           <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
           <div class="col-1">
             <div class="form-check">
               <label style='margin-bottom:10px;color:#00bcd4' class="form-check-label">
-                <input id="<%=pendingtask._id%>" onclick="checktask(this)" class="form-check-input" type="checkbox" value="">
+                <input id="<%=pendingtask.task._id%>" onclick="checktask(this)" class="form-check-input" type="checkbox" value="">
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>
@@ -86,7 +86,7 @@
 
               <!-- <h4> <%=pendingtask.project_name%></h4> -->
             </div>
-            <form id="task<%=pendingtask._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
+            <form id="task<%=pendingtask.task._id%>" method='POST' enctype="multipart/form-data" action='/project/submittask'>
               <input name='projectId' style='display:none' value='<%=pendingtask._id%>'>
               <input name='task_id' style='display:none' value='<%=pendingtask.task._id%>'>
               <div class="form-group form-file-upload form-file-multiple">
@@ -106,7 +106,7 @@
               </div>
           </div>
           <div class="modal-footer justify-content-center">
-            <button id='<%=pendingtask._id%>' onclick="task(this)" class="btn btn-info btn-link btn-wd btn-lg">Task Finished!</button>
+            <button id='<%=pendingtask.task._id%>' onclick="task(this)" class="btn btn-info btn-link btn-wd btn-lg">Task Finished!</button>
           </div>
           </form>
         </div>
